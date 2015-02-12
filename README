@@ -1,0 +1,10 @@
+The official OpenEmbedded/Yocto BSP layer for Per Vices platforms.
+The source repository is located at: https://github.com/pervices/meta-pervices
+
+This layer depends on:
+
+URI: git://git.openembedded.org/openembedded-core
+branch: master
+revision: HEAD
+
+Maintainer: Howard Pang <howard.p@pervices.com>
