@@ -105,6 +105,7 @@ IMAGE_INSTALL += "\
 	nodejs \
         orc \
 	oprofile \
+	avrdude \
     	"
 
 ##
