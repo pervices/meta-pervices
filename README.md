@@ -10,34 +10,28 @@ The source repository is located at: https://github.com/pervices/meta-pervices
 git clone -b dora git://git.yoctoproject.org/poky.git
 pushd poky
 ```
-
 2. Clone the desired branch of the meta-altera layer.
 ```
 git clone -b angstrom-v2013.12-yocto1.5 git://git.rocketboards.org/meta-altera.git
 ```
-
 3. Clone the meta-angstrom layer that Altera uses since they have been using Angstrom prior to Poky, and remove broken package.
 ```
 git clone -b angstrom-v2013.12-yocto1.5  https://github.com/Angstrom-distribution/meta-angstrom.git
 rm -rf meta-altera/recipes-images/
 ```
-
 4. Clone the desired branch of the meta-pervices layer.
 ```
 git clone https://github.com/pervices/meta-pervices.git
 ```
-
 5. Clone the respective 1.5 Dora branch of the linaro OE layer.
 ```
 git clone -b dora git://git.linaro.org/openembedded/meta-linaro.git
 ```
-
 6. Clone the openembedded core
 ```
 git clone -b dora https://github.com/openembedded/meta-openembedded.git
 git clone -b dora git://git.openembedded.org/openembedded-core
 ```
-
 7. Source the Open embedded script for variables. Everything inside your ./build folder is the output of the build.
 Global configuration files and build settings are also located in here.
 ```
@@ -62,39 +56,32 @@ BBLAYERS ?= " \
 
 ## Modifying ./build/conf/local.conf
 All changes below pertain to modifying local.conf to include critical and useful compilation/architecture configurations. Some of these
-might already exist. In the case they do exist, just ensure that it is correct with the specified values shown below.
-
+might already exist. In the case they do exist, just ensure that it is correct with the specified values shown below.</br>
 First specify the FPGA.
 ```
 MACHINE = "socfgpa_arria5"
 ```
-
 We are building the poky distribution vs. the altera angstrom standard.
 ```
 DISTRO ?= "poky"
 ```
-
 Uncomment out the BB_NUMBER_THREADS and PARALLEL_MAKE to build faster
 ```
 BB_NUMBER_THREADS ?= "8"
 PARALLEL_MAKE ?= "-j 8"
 ```
-
 Specify the packager to use, IPK seems to error out when do_rootfs executes, so force to use RPM by uncommenting
 ```
 PACKAGE_CLASSES ?= "package_rpm"
 ```
-
 There further more seems to be some inode size issues when building the file system for .ext3, so only make tar.gz output
 ```
 IMAGE_FSTYPES = "tar.gz"
 ```
-
 Adds a bunch of required packages for systemd and usbhost.
 ```
 DISTRO_FEATURES_append = " systemd usbhost"
 ```
-
 Use the linaro toolchain that we included as a layer, that we pulled from Linaro's GIT.
 ```
 PREFERRED_VERSION_gcc                            ?= "linaro-4.8%"
@@ -170,7 +157,6 @@ Navigate the to the output directory at
 ```
 ./build/tmp/deploy/images/socfpga_arria5
 ```
-
 Extract the generated rootfs (file system)
 ```
 mkdir rootfs
@@ -178,17 +164,14 @@ cd rootfs
 sudo tar -zxf ../pervices-base-image-socfpga_arria5.tar.gz
 cd ../
 ```
-
 Make a new directory to store all the files you need to make the sdcard image
 ```
 mkdir 2015-03-17-1604
 ```
-
 Put all of those files in the folder you generated, and execute the following within that folder:
 ```
 sudo ./make_sdimage.py -f -P preloader-mkpimage.bin,u-boot-socfpga_arria5.img,num=3,format=raw,size=50M,type=A2 -P rootfs/*,num=2,format=ext3,size=2000M -P zImage,u-boot.scr,soc_system.rbf,socfpga.dtb,num=1,format=vfat,size=500M -s 4G -n sdcard.img
 ```
-
 Plug in your sdcard and determine the mount point /dev/sdX
 ```
 sudo dd if=sdcard.img of=/dev/sdX
