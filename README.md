@@ -5,34 +5,34 @@ Maintainer: Howard Pang <howard.p@pervices.com></br>
 The source repository is located at: https://github.com/pervices/meta-pervices
 
 ## Getting Sources
-1. get the 1.5 Dora branch of the Poky release from Yocto.
+Get the 1.5 Dora branch of the Poky release from Yocto.
 ```
 git clone -b dora git://git.yoctoproject.org/poky.git
 pushd poky
 ```
-2. Clone the desired branch of the meta-altera layer.
+Clone the desired branch of the meta-altera layer.
 ```
 git clone -b angstrom-v2013.12-yocto1.5 git://git.rocketboards.org/meta-altera.git
 ```
-3. Clone the meta-angstrom layer that Altera uses since they have been using Angstrom prior to Poky, and remove broken package.
+Clone the meta-angstrom layer that Altera uses since they have been using Angstrom prior to Poky, and remove broken package.
 ```
 git clone -b angstrom-v2013.12-yocto1.5  https://github.com/Angstrom-distribution/meta-angstrom.git
 rm -rf meta-altera/recipes-images/
 ```
-4. Clone the desired branch of the meta-pervices layer.
+Clone the desired branch of the meta-pervices layer.
 ```
 git clone https://github.com/pervices/meta-pervices.git
 ```
-5. Clone the respective 1.5 Dora branch of the linaro OE layer.
+Clone the respective 1.5 Dora branch of the linaro OE layer.
 ```
 git clone -b dora git://git.linaro.org/openembedded/meta-linaro.git
 ```
-6. Clone the openembedded core
+Clone the openembedded core
 ```
 git clone -b dora https://github.com/openembedded/meta-openembedded.git
 git clone -b dora git://git.openembedded.org/openembedded-core
 ```
-7. Source the Open embedded script for variables. Everything inside your ./build folder is the output of the build.
+Source the Open embedded script for variables. Everything inside your ./build folder is the output of the build.
 Global configuration files and build settings are also located in here.
 ```
 cd ../
