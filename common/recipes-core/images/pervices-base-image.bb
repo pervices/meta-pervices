@@ -59,8 +59,6 @@ IMAGE_INSTALL += "\
         libusb1 \
         libusb-compat \
         libxml2 \
-	lighttpd \
-	lighttpd-module-cgi \
         make \
         minicom \
         mtd-utils \
