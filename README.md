@@ -59,7 +59,7 @@ All changes below pertain to modifying local.conf to include critical and useful
 might already exist. In the case they do exist, just ensure that it is correct with the specified values shown below.</br>
 First specify the FPGA.
 ```
-MACHINE = "socfgpa_arria5"
+MACHINE = "socfpga_arria5"
 ```
 We are building the poky distribution vs. the altera angstrom standard.
 ```
