@@ -115,7 +115,7 @@ SRC_URI = "https://snapshots.linaro.org/openembedded/sources/gcc-${PV}-${RELEASE
 Build the bootloader
 
 1. `bitbake virtual/bootloader`
-2. Load and save the kernel .config file provided by Per Vices. 
+2. Load and save the kernel .config file provided by Per Vices, the current config file is located at ///releases/crimson/sdcard/kernel.config 
    `bitbake -c menuconfig virtual/kernel`
 3. `bitbake virtual/kernel`
 4. `bitbake pervices-base-image`
