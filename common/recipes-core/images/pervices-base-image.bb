@@ -39,6 +39,7 @@ IMAGE_INSTALL += "\
         ethtool \
         file \
         findutils \
+        fuse \
 	g++ \
         gator \
         gawk \
@@ -49,6 +50,7 @@ IMAGE_INSTALL += "\
 	gnutls \
         grep \
         gzip \
+        init-ifupdown \
         initscripts \
 	iproute2 \
 	iptables \
@@ -59,11 +61,12 @@ IMAGE_INSTALL += "\
         libusb1 \
         libusb-compat \
         libxml2 \
+        lshw \
         make \
+        memtester \
         minicom \
         mtd-utils \
 	net-tools \
-	nfs-utils-client \
 	openssh \
         openssh-sftp \
         openssh-sftp-server \
@@ -76,6 +79,7 @@ IMAGE_INSTALL += "\
         screen \
         sed \
         setserial \
+        sshfs-fuse \
         strace \
 	subversion \
 	systemd \
@@ -84,6 +88,7 @@ IMAGE_INSTALL += "\
         tar \
 	tcl \
 	tcpdump \
+	tzdata \
 	udev \
         usbutils \
         util-linux \
@@ -116,7 +121,6 @@ CORE_IMAGE_EXTRA_INSTALL += "\
         python-argparse \
 	python-cheetah \
         python-modules \
-        sshfs-fuse \
 	"
 
 inherit core-image
