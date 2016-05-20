@@ -49,8 +49,9 @@ PARALLEL_MAKE ?= "-j 8"
 #MACHINE ?= "routerstationpro"
 #
 # This sets the default machine to be qemux86 if no other machine is selected:
-MACHINE = "socfpga_arria5"
 #MACHINE ??= "qemux86"
+
+MACHINE = "socfpga_arria5"
 
 #
 # Where to place downloads
@@ -102,7 +103,6 @@ MACHINE = "socfpga_arria5"
 # these defaults.
 #
 DISTRO ?= "poky"
-#DISTRO ?= "angstrom"
 # As an example of a subclass there is a "bleeding" edge policy configuration
 # where many versions are set to the absolute latest code from the upstream 
 # source control systems. This is just mentioned here as an example, its not
@@ -237,11 +237,7 @@ BB_DISKMON_DIRS = "\
 CONF_VERSION = "1"
 
 IMAGE_FSTYPES = "tar.gz"
-
-DEFAULTTUNE = "cortexa9hf-neon"
-
 DISTRO_FEATURES_append = " systemd usbhost"
-
 PREFERRED_VERSION_gcc                            ?= "linaro-4.8%"
 PREFERRED_VERSION_gcc-cross                      ?= "linaro-4.8%"
 PREFERRED_VERSION_gcc-cross-initial              ?= "linaro-4.8%"
@@ -255,4 +251,8 @@ PREFERRED_VERSION_nativesdk-gcc-runtime          ?= "linaro-4.8%"
 PREFERRED_VERSION_libgcc                         ?= "linaro-4.8%"
 PREFERRED_VERSION_nativesdk-libgcc               ?= "linaro-4.8%"
 PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "linaro-4.8%"
+DEFAULTTUNE = "cortexa9hf-neon"
 
+MIRRORS =+ "\
+http://.*/.*     http://snapshots.linaro.org/openembedded/sources/ \n \
+https://.*/.*    https://snapshots.linaro.org/openembedded/sources/ \n"

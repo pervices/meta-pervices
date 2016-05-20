@@ -6,16 +6,17 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
-  /home/hpang/yocto/poky/meta \
-  /home/hpang/yocto/poky/meta-yocto \
-  /home/hpang/yocto/poky/meta-yocto-bsp \
-  /home/hpang/yocto/poky/meta-altera \
-  /home/hpang/yocto/poky/meta-linaro/meta-linaro-toolchain \
-  /home/hpang/yocto/poky/meta-pervices/common \
-  /home/hpang/yocto/poky/meta-openembedded/meta-oe \
+  path-to-poky/poky/meta \
+  path-to-poky/poky/meta-yocto \
+  path-to-poky/poky/meta-yocto-bsp \
+  path-to-poky/poky/meta-altera \
+  path-to-poky/poky/meta-linaro/meta-linaro-toolchain \
+  path-to-poky/poky/meta-pervices/common \
+  path-to-poky/poky/meta-openembedded/meta-oe \
+  path-to-poky/poky/meta-openembedded/meta-filesystems \
+  path-to-poky/poky/meta-openembedded/meta-networking \
   "
-
 BBLAYERS_NON_REMOVABLE ?= " \
-  /home/hpang/yocto/poky/meta \
-  /home/hpang/yocto/poky/meta-yocto \
+  /path-to-poky/poky/meta \
+  /path-to-poky/poky/meta-yocto \
   "
