@@ -17,6 +17,6 @@ BBLAYERS ?= " \
   path-to-poky/poky/meta-openembedded/meta-networking \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
-  /path-to-poky/poky/meta \
-  /path-to-poky/poky/meta-yocto \
+  path-to-poky/poky/meta \
+  path-to-poky/poky/meta-yocto \
   "
