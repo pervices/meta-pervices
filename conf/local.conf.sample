@@ -51,7 +51,7 @@ PARALLEL_MAKE ?= "-j 8"
 # This sets the default machine to be qemux86 if no other machine is selected:
 #MACHINE ??= "qemux86"
 
-MACHINE = "socfpga_arria5"
+MACHINE = "arria5"
 
 #
 # Where to place downloads
@@ -154,7 +154,7 @@ PACKAGE_CLASSES ?= "package_ipk"
 # There are other application targets that can be used here too, see
 # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
 # We default to enabling the debugging tweaks.
-EXTRA_IMAGE_FEATURES = "debug-tweaks"
+EXTRA_IMAGE_FEATURES = "debug-tweaks tools-profile"
 
 #
 # Additional image features
@@ -238,19 +238,9 @@ CONF_VERSION = "1"
 
 IMAGE_FSTYPES = "tar.gz"
 DISTRO_FEATURES_append = " systemd usbhost"
-PREFERRED_VERSION_gcc                            ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-cross                      ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-cross-initial              ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-cross-intermediate         ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-cross-canadian             ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-crosssdk                   ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-crosssdk-initial           ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-crosssdk-intermediate      ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-runtime                    ?= "linaro-4.8%"
-PREFERRED_VERSION_nativesdk-gcc-runtime          ?= "linaro-4.8%"
-PREFERRED_VERSION_libgcc                         ?= "linaro-4.8%"
-PREFERRED_VERSION_nativesdk-libgcc               ?= "linaro-4.8%"
-PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "linaro-4.8%"
+PREFERRED_VERSION_valgrind ?= "3.10%"
+KERNEL_PROVIDER = "linux-altera"
+PREFERRED_VERSION_linux-altera = "4.0%"
 DEFAULTTUNE = "cortexa9hf-neon"
 
 MIRRORS =+ "\
