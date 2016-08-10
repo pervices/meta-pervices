@@ -35,7 +35,7 @@ IMAGE_INSTALL += "\
         dtc \
         e2fsprogs \ 
         elfutils \
-	eglibc \
+	glibc \
         ethtool \
         file \
         findutils \
