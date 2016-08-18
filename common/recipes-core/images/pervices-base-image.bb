@@ -41,7 +41,6 @@ IMAGE_INSTALL += "\
         findutils \
         fuse \
 	g++ \
-        gator \
         gawk \
         gcc \
         gdb \
@@ -106,6 +105,7 @@ IMAGE_INSTALL += "\
 	netbase \
 	neon \
 	nodejs \
+	nmap \
         orc \
 	oprofile \
 	avrdude \
