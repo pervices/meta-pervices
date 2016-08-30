@@ -23,104 +23,117 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
 ##
 IMAGE_INSTALL += "\
 	autoconf \
-        base-files \
-        base-passwd \
-        bash \
-        bison \
-        boost \
-        busybox \
-        cmake \
+	base-files \
+	base-passwd \
+	bash \
+	bison \
+	boost \
+	busybox \
+	cmake \
 	coreutils \
-        diffutils \
-        dtc \
-        e2fsprogs \ 
-        elfutils \
+	diffutils \
+	dtc \
+	e2fsprogs \ 
+	elfutils \
 	glibc \
-        ethtool \
-        file \
-        findutils \
-        fuse \
+	ethtool \
+	file \
+	findutils \
+	fuse \
 	g++ \
-        gawk \
-        gcc \
-        gdb \
-        gdbserver \
-        git \
+	gawk \
+	gcc \
+	gdb \
+	gdbserver \
+	git \
 	gnutls \
-        grep \
-        gzip \
-        init-ifupdown \
-        initscripts \
+	grep \
+	gzip \
+	init-ifupdown \
+	initscripts \
 	iproute2 \
 	iptables \
-        iputils \
-        kernel-modules \
-        libpcap \
-        libudev \
-        libusb1 \
-        libusb-compat \
-        libxml2 \
-        lshw \
-        make \
-        memtester \
-        minicom \
-        mtd-utils \
+	iputils \
+	kernel-modules \
+	libpcap \
+	libudev \
+	libusb1 \
+	libusb-compat \
+	libxml2 \
+	lshw \
+	make \
+	memtester \
+	minicom \
+	mtd-utils \
 	net-tools \
 	openssh \
-        openssh-sftp \
-        openssh-sftp-server \
-        openssl \
+	openssh-sftp \
+	openssh-sftp-server \
+	openssl \
 	patch \
-        pciutils \
-        perl \
-        portmap \
-        python-core \
-        screen \
-        sed \
-        setserial \
-        sshfs-fuse \
-        strace \
+	pciutils \
+	perl \
+	portmap \
+	python-core \
+	resolvconf \
+	screen \
+	sed \
+	setserial \
+	sshfs-fuse \
+	strace \
 	subversion \
 	systemd \
-        sysfsutils \
-        sysvinit \
-        tar \
+	sysfsutils \
+	sysvinit \
+	tar \
 	tcl \
 	tcpdump \
 	tzdata \
 	udev \
-        usbutils \
-        util-linux \
+	usbutils \
+	util-linux \
 	valgrind \
-        vim \
-        vim-vimrc \
-        wget \
-        zlib \
-        flashrom \
+	vim \
+	vim-vimrc \
+	wget \
+	zlib \
+	flashrom \
 	gnupg \
-        i2c-tools \
-        iperf \
+	i2c-tools \
+	iperf \
 	liba52 \
 	libgcrypt \
+	lmsensors-fancontrol \
+	lmsensors-libsensors \
+	lmsensors-pwmconfig \
+	lmsensors-sensord \
+	lmsensors-sensors \
+	lmsensors-sensorsconfconvert \
+	lmsensors-sensorsdetect \
+	lmsensors-config-libsensors \
+	lmsensors-config-sensord \
+	lmsensors-config-fancontrol \
+	lmsensors-config-cgi \
+	fcgi \
 	netbase \
 	neon \
 	nodejs \
 	nmap \
-        orc \
+	orc \
 	oprofile \
 	avrdude \
 	crimson-tools \
-    	"
+	"
 
 ##
 # OPTIONAL
 ##
 CORE_IMAGE_EXTRA_INSTALL += "\
-        glibc \
-        ntpdate \
-        python-argparse \
+	glibc \
+	ntpdate \
+	python-argparse \
 	python-cheetah \
-        python-modules \
+	python-modules \
 	"
 
 inherit core-image
