@@ -82,6 +82,7 @@ IMAGE_INSTALL += "\
 	setserial \
 	sshfs-fuse \
 	strace \
+	spitools \
 	subversion \
 	systemd \
 	sysfsutils \
