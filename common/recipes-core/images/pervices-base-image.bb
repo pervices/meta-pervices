@@ -31,6 +31,7 @@ IMAGE_INSTALL += "\
 	busybox \
 	cmake \
 	coreutils \
+	crimson-firmware \
 	diffutils \
 	dtc \
 	e2fsprogs \ 
@@ -122,7 +123,6 @@ IMAGE_INSTALL += "\
 	orc \
 	oprofile \
 	avrdude \
-	crimson-tools \
 	"
 
 ##
