@@ -115,8 +115,6 @@ IMAGE_INSTALL += "\
 	lmsensors-config-libsensors \
 	lmsensors-config-sensord \
 	lmsensors-config-fancontrol \
-	lmsensors-config-cgi \
-	fcgi \
 	netbase \
 	neon \
 	nodejs \
