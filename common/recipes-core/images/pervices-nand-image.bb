@@ -81,7 +81,6 @@ IMAGE_INSTALL += "\
 	setserial \
 	sshfs-fuse \
 	strace \
-	spitools \
 	subversion \
 	systemd \
 	sysfsutils \
@@ -104,16 +103,6 @@ IMAGE_INSTALL += "\
 	iperf \
 	liba52 \
 	libgcrypt \
-	lmsensors-fancontrol \
-	lmsensors-libsensors \
-	lmsensors-pwmconfig \
-	lmsensors-sensord \
-	lmsensors-sensors \
-	lmsensors-sensorsconfconvert \
-	lmsensors-sensorsdetect \
-	lmsensors-config-libsensors \
-	lmsensors-config-sensord \
-	lmsensors-config-fancontrol \
 	netbase \
 	neon \
 	nodejs \
