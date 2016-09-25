@@ -124,4 +124,4 @@ CORE_IMAGE_EXTRA_INSTALL += "\
 
 inherit core-image
 
-export IMAGE_BASENAME = "pervices-base-image"
+export IMAGE_BASENAME = "pervices-nand-image"
