@@ -6,19 +6,19 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-yocto \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-yocto-bsp \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-altera \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-linaro/meta-linaro-toolchain \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-pervices/common \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-openembedded/meta-oe \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-openembedded/meta-webserver \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-openembedded/meta-filesystems \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-openembedded/meta-networking \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-openembedded/meta-python \
+  path-to-poky/poky/meta \
+  path-to-poky/poky/meta-yocto \
+  path-to-poky/poky/meta-yocto-bsp \
+  path-to-poky/poky/meta-altera \
+  path-to-poky/poky/meta-linaro/meta-linaro-toolchain \
+  path-to-poky/poky/meta-pervices/common \
+  path-to-poky/poky/meta-openembedded/meta-oe \
+  path-to-poky/poky/meta-openembedded/meta-webserver \
+  path-to-poky/poky/meta-openembedded/meta-filesystems \
+  path-to-poky/poky/meta-openembedded/meta-networking \
+  path-to-poky/poky/meta-openembedded/meta-python \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta \
-  /home/sfeng/pv/vaunt/release/src/yocto-dizzy-2016-08-12-15-56/poky/meta-yocto \
+  path-to-poky/poky/meta \
+  path-to-poky/poky/meta-yocto \
   "
