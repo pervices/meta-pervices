@@ -112,6 +112,7 @@ IMAGE_INSTALL += "\
 	avrdude \
 	crimson-webserver \
 	crimson-firmware \
+	crimson-filesystem \
 	"
 
 ##

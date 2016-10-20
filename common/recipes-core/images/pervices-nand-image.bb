@@ -109,6 +109,9 @@ IMAGE_INSTALL += "\
 	orc \
 	oprofile \
 	avrdude \
+	crimson-webserver \
+	crimson-firmware \
+	crimson-filesystem \
 	"
 
 ##
