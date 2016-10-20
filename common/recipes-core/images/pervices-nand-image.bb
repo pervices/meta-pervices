@@ -112,6 +112,7 @@ IMAGE_INSTALL += "\
 	crimson-webserver \
 	crimson-firmware \
 	crimson-filesystem \
+	crimson-mcu \
 	"
 
 ##
