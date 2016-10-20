@@ -7,8 +7,8 @@ DEPENDS = ""
 
 SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master"
 SRCREV = "ba14ea77d1f91d6d93d80d67f2c983bfda8b75f8"
-INSANE_SKIP_${PN} = "ldflags"
 INSANE_SKIP_${PN} = "arch"
+FILES_${PN} = "home/root/pv_web/"
 
 do_install() {
 	install -d -m 0755 ${D}/home/root/pv_web/
@@ -16,4 +16,3 @@ do_install() {
 	find ${D}/home/root/pv_web -type f -exec chmod 644 {} \;
 	find ${D}/home/root/pv_web -type d -exec chmod 755 {} \;
 }
-FILES_${PN} = "home/root/pv_web/"

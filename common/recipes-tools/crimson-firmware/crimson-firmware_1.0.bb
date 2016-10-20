@@ -8,6 +8,7 @@ DEPENDS = ""
 SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master"
 SRCREV = "68089bcf55bf31d24270e3425f9e9ea17125593b"
 INSANE_SKIP_${PN} = "ldflags"
+FILES_${PN} = "${bindir}"
 
 do_compile() {
 	make -C ${WORKDIR}/git all
