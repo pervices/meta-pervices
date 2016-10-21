@@ -1,4 +1,4 @@
-DESCRIPTION = "Pervices webserver and GUI code"
+DESCRIPTION = "Pervices mcu hex files"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"
