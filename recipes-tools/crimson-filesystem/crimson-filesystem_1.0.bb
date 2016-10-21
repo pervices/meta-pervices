@@ -10,10 +10,7 @@ SRC_URI = "file://99-local.rules \
            file://crimson-networking.service \
            file://crimson-server.service \
            file://crimson-website.service \
-           file://hostname \
-           file://interfaces \
            file://logging \
-           file://networking \
            file://udp_recvbuff.conf \
 	   "
 FILES_${PN} = "${sysconfdir} ${systemd_unitdir}/system"
@@ -21,7 +18,6 @@ FILES_${PN} = "${sysconfdir} ${systemd_unitdir}/system"
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system
 	install -d -m 0755 ${D}${sysconfdir}/init.d
-	install -d -m 0755 ${D}${sysconfdir}/network
 	install -d -m 0755 ${D}${sysconfdir}/systemd/system/multi-user.target.wants
 	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d
@@ -29,10 +25,7 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/crimson-server.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-website.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-networking.service ${D}${systemd_unitdir}/system
-	install -m 0644 -D ${WORKDIR}/interfaces ${D}${sysconfdir}/network
-	install -m 0644 -D ${WORKDIR}/hostname ${D}${sysconfdir}
 	install -m 0755 -D ${WORKDIR}/logging ${D}${sysconfdir}/init.d
-	install -m 0755 -D ${WORKDIR}/networking ${D}${sysconfdir}/init.d
 	install -m 0644 -D ${WORKDIR}/99-local.rules ${D}${sysconfdir}/udev/rules.d
 	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d
 }
