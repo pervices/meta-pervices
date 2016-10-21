@@ -11,7 +11,7 @@ BBLAYERS ?= " \
   path-to-poky/poky/meta-yocto-bsp \
   path-to-poky/poky/meta-altera \
   path-to-poky/poky/meta-linaro/meta-linaro-toolchain \
-  path-to-poky/poky/meta-pervices/common \
+  path-to-poky/poky/meta-pervices \
   path-to-poky/poky/meta-openembedded/meta-oe \
   path-to-poky/poky/meta-openembedded/meta-webserver \
   path-to-poky/poky/meta-openembedded/meta-filesystems \
