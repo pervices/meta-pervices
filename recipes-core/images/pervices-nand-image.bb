@@ -109,7 +109,7 @@ IMAGE_INSTALL += "\
 	orc \
 	oprofile \
 	avrdude \
-	crimson-webserver \
+	crimson-website \
 	crimson-firmware \
 	crimson-filesystem \
 	crimson-mcu \
