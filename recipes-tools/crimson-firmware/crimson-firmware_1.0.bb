@@ -5,8 +5,8 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS = ""
 
-SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master"
-SRCREV = "68089bcf55bf31d24270e3425f9e9ea17125593b"
+SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing"
+SRCREV = "b64660f447904641ad7b9bffd9bc8a02412a3c6c"
 INSANE_SKIP_${PN} = "ldflags"
 FILES_${PN} = "${bindir}"
 
