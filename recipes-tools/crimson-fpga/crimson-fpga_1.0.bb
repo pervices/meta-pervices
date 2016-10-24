@@ -1,4 +1,4 @@
-DESCRIPTION = "Pervices mcu hex files"
+DESCRIPTION = "Pervices Crimson TNG FPGA image"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"
