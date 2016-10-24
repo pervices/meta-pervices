@@ -1,4 +1,4 @@
-DESCRIPTION = "Pervices webserver and GUI source code"
+DESCRIPTION = "Pervices Crimson TNG webserver and GUI source code"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"

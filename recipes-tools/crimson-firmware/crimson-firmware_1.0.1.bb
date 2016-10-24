@@ -1,4 +1,4 @@
-DESCRIPTION = "Pervices firmware source code"
+DESCRIPTION = "Pervices Crimson TNG firmware source code"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"

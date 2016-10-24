@@ -1,4 +1,4 @@
-DESCRIPTION = "Pervices custom configuration files"
+DESCRIPTION = "Pervices Crimson TNG custom configuration files"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"
