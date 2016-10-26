@@ -11,7 +11,7 @@ SRC_URI = "file://make_sdimage.py \
            file://u-boot.scr \
 	  "
 
-FILES_${PN} = "home/root/pv_Miscellaneous/"
+FILES_${PN} = "home/root/pv_miscellaneous/"
 
 do_install() {
 	install -d -m 0755 ${D}/home/root/pv_Miscellaneous/
