@@ -14,9 +14,9 @@ SRC_URI = "file://make_sdimage.py \
 FILES_${PN} = "home/root/pv_miscellaneous/"
 
 do_install() {
-	install -d -m 0755 ${D}/home/root/pv_Miscellaneous/
-	install -m 0644 -D ${WORKDIR}/make_sdimage.py ${D}/home/root/pv_Miscellaneous/
-	install -m 0644 -D ${WORKDIR}/preloader-mkpimage.bin ${D}/home/root/pv_Miscellaneous/
-	install -m 0644 -D ${WORKDIR}/socfpga.dtb ${D}/home/root/pv_Miscellaneous/
-	install -m 0644 -D ${WORKDIR}/u-boot.scr ${D}/home/root/pv_Miscellaneous/
+	install -d -m 0755 ${D}/home/root/pv_miscellaneous/
+	install -m 0644 -D ${WORKDIR}/make_sdimage.py ${D}/home/root/pv_miscellaneous/
+	install -m 0644 -D ${WORKDIR}/preloader-mkpimage.bin ${D}/home/root/pv_miscellaneous/
+	install -m 0644 -D ${WORKDIR}/socfpga.dtb ${D}/home/root/pv_miscellaneous/
+	install -m 0644 -D ${WORKDIR}/u-boot.scr ${D}/home/root/pv_miscellaneous/
 }
