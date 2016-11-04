@@ -11,7 +11,6 @@ SRC_URI = "file://99-local.rules \
            file://crimson-server.service \
            file://crimson-website.service \
            file://logging \
-           file://networking \
            file://udp_recvbuff.conf \
 	   "
 FILES_${PN} = "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
@@ -21,13 +20,11 @@ do_install() {
 	install -d -m 0755 ${D}${sysconfdir}/systemd/system/multi-user.target.wants
 	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d
-	install -d -m 0755 ${D}${base_libdir}/firmware
 	install -m 0644 -D ${WORKDIR}/crimson-log.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-server.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-website.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-networking.service ${D}${systemd_unitdir}/system
 	install -m 0755 -D ${WORKDIR}/logging ${D}${sysconfdir}/init.d
-	install -m 0755 -D ${WORKDIR}/networking ${D}${sysconfdir}/init.d
 	install -m 0644 -D ${WORKDIR}/99-local.rules ${D}${sysconfdir}/udev/rules.d
 	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d
 }
@@ -37,6 +34,4 @@ do_install_append() {
 	ln -s /lib/systemd/system/crimson-networking.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-networking.service
 	ln -s /lib/systemd/system/crimson-server.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-server.service
 	ln -s /lib/systemd/system/crimson-website.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-website.service
-	ln -s /home/root/pv_fpga/soc_system.rbf ${D}${base_libdir}/firmware/soc_system.rbf
-	ln -s /home/root/pv_fpga/update.dtb ${D}${base_libdir}/firmware/update.dtb
 }
