@@ -11,6 +11,7 @@ SRC_URI = "file://99-local.rules \
            file://crimson-server.service \
            file://crimson-website.service \
            file://logging \
+           file://package-manager \
            file://udp_recvbuff.conf \
 	   "
 FILES_${PN} = "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
@@ -25,6 +26,7 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/crimson-website.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-networking.service ${D}${systemd_unitdir}/system
 	install -m 0755 -D ${WORKDIR}/logging ${D}${sysconfdir}/init.d
+	install -m 0755 -D ${WORKDIR}/package-manager ${D}${sysconfdir}/init.d
 	install -m 0644 -D ${WORKDIR}/99-local.rules ${D}${sysconfdir}/udev/rules.d
 	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d
 }

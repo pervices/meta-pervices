@@ -12,8 +12,8 @@ SYMLINK=notExist
 mkdir -p /home/root/history/log && cd $_
 if [ ! -e crimson-configured.txt ];
 then
-	touch crimson-configured.txt
-	echo "First time configure crimson..." > crimson-configured.txt
+	touch crimson-configuration
+	echo "The first time Crimson was boot was on $NOW" >> crimson-configuration
 fi
 until [ $EXIST -eq 1 ]; do
 	if [ ! -e crimson-tng-$COUNT.log ]; then
