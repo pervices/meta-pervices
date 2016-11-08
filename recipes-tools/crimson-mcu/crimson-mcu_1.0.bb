@@ -14,10 +14,12 @@ SRC_URI = "file://flash.sh \
            file://SYNTH-xboot-boot.hex \
            "
 
-FILES_${PN} = "home/root/pv_mcu/"
+FILES_${PN} = "home/root/pv_mcu/ ${sysconfdir}"
+RDEPENDS_${PN} = "bash"
 
 do_install() {
 	install -d -m 0755 ${D}/home/root/pv_mcu/
+	install -d -m 0755 ${D}${sysconfdir}/version
 	install -m 0755 -D ${WORKDIR}/flash.sh ${D}/home/root/pv_mcu/
 	install -m 0644 -D ${WORKDIR}/rx.hex ${D}/home/root/pv_mcu/
 	install -m 0644 -D ${WORKDIR}/tx.hex ${D}/home/root/pv_mcu/
@@ -25,4 +27,8 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/RX-xboot-boot.hex ${D}/home/root/pv_mcu/
 	install -m 0644 -D ${WORKDIR}/TX-xboot-boot.hex ${D}/home/root/pv_mcu/
 	install -m 0644 -D ${WORKDIR}/SYNTH-xboot-boot.hex ${D}/home/root/pv_mcu/
+}
+
+do_install_append() {
+	echo "shipped-${PV}" > ${D}${sysconfdir}/version/${PN}
 }
