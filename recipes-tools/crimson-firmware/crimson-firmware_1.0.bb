@@ -21,5 +21,5 @@ do_install() {
 }
 
 do_install_append() {
-	echo "installed-${PV}" > ${D}${sysconfdir}/version/${PN}
+	echo "installed-${PV}" >> ${D}${sysconfdir}/version/${PN}
 }

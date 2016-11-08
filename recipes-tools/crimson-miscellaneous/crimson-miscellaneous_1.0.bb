@@ -24,5 +24,5 @@ do_install() {
 }
 
 do_install_append() {
-	echo "shipped-${PV}" > ${D}${sysconfdir}/version/${PN}
+	echo "shipped-${PV}" >> ${D}${sysconfdir}/version/${PN}
 }

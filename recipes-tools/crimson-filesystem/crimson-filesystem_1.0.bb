@@ -39,5 +39,5 @@ do_install_append() {
 	ln -s /lib/systemd/system/crimson-networking.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-networking.service
 	ln -s /lib/systemd/system/crimson-server.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-server.service
 	ln -s /lib/systemd/system/crimson-website.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-website.service
-	echo "installed-${PV}" > ${D}${sysconfdir}/version/${PN}
+	echo "installed-${PV}" >> ${D}${sysconfdir}/version/${PN}
 }

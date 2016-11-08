@@ -24,5 +24,5 @@ do_install() {
 do_install_append() {
 	ln -s /home/root/pv_fpga/soc_system.rbf ${D}${base_libdir}/firmware/soc_system.rbf
 	ln -s /home/root/pv_fpga/update.dtb ${D}${base_libdir}/firmware/update.dtb
-	echo "shipped-${PV}" > ${D}${sysconfdir}/version/${PN}
+	echo "shipped-${PV}" >> ${D}${sysconfdir}/version/${PN}
 }
