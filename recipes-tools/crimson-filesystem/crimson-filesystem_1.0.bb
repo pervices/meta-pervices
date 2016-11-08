@@ -15,12 +15,15 @@ SRC_URI = "file://99-local.rules \
            file://udp_recvbuff.conf \
 	   "
 FILES_${PN} = "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
+RDEPENDS_${PN} = "bash"
+
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system
 	install -d -m 0755 ${D}${sysconfdir}/init.d
 	install -d -m 0755 ${D}${sysconfdir}/systemd/system/multi-user.target.wants
 	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d
+	install -d -m 0755 ${D}${sysconfdir}/version
 	install -m 0644 -D ${WORKDIR}/crimson-log.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-server.service ${D}${systemd_unitdir}/system
 	install -m 0644 -D ${WORKDIR}/crimson-website.service ${D}${systemd_unitdir}/system
@@ -36,4 +39,5 @@ do_install_append() {
 	ln -s /lib/systemd/system/crimson-networking.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-networking.service
 	ln -s /lib/systemd/system/crimson-server.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-server.service
 	ln -s /lib/systemd/system/crimson-website.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-website.service
+	echo "installed-${PV}" > ${D}${sysconfdir}/version/${PN}
 }
