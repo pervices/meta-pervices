@@ -94,6 +94,7 @@ soft)
 			echo -e "[$green   OK   $normal] Done Cleaning up"
 		fi
 	fi
+	echo "temp-installed-${version}" >> /etc/version/crimson-fpga
 	echo "[        ] Restarting service..."
 	systemctl start crimson-website
 	rc10=$?
