@@ -31,7 +31,6 @@ IMAGE_INSTALL += "\
 	busybox \
 	cmake \
 	coreutils \
-	crimson-firmware \
 	diffutils \
 	dtc \
 	e2fsprogs \ 
