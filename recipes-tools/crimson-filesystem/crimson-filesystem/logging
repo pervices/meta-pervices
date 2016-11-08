@@ -10,7 +10,7 @@ ACTUAL_FILE=notExist
 NEXT_NUM=0
 SYMLINK=notExist
 mkdir -p /home/root/history/log && cd $_
-if [ ! -e crimson-configured.txt ];
+if [ ! -e crimson-configuration ];
 then
 	touch crimson-configuration
 	echo "The first time Crimson was boot was on $NOW" >> crimson-configuration
