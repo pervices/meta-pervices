@@ -11,12 +11,12 @@ SRC_URI = "file://preloader-mkpimage.bin \
            file://update.sh \
 	  "
 
-FILES_${PN} = "home/root/pv_miscellaneous/ ${sysconfdir}"
+FILES_${PN} += "home/root/pv_miscellaneous/ ${sysconfdir}/crimson-version"
 RDEPENDS_${PN} = "bash"
 
 do_install() {
 	install -d -m 0755 ${D}/home/root/pv_miscellaneous/
-	install -d -m 0755 ${D}${sysconfdir}/version
+	install -d -m 0755 ${D}${sysconfdir}/crimson-version/
 	install -m 0644 -D ${WORKDIR}/preloader-mkpimage.bin ${D}/home/root/pv_miscellaneous/
 	install -m 0644 -D ${WORKDIR}/socfpga.dtb ${D}/home/root/pv_miscellaneous/
 	install -m 0644 -D ${WORKDIR}/u-boot.scr ${D}/home/root/pv_miscellaneous/
@@ -24,5 +24,5 @@ do_install() {
 }
 
 do_install_append() {
-	echo "shipped-${PV}" >> ${D}${sysconfdir}/version/${PN}
+	echo "shipped-${PV}" >> ${D}${sysconfdir}/crimson-version/${PN}
 }
