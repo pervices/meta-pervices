@@ -1,5 +1,5 @@
 #!/bin/bash
-version=$(head -1 /etc/version/crimson-mcu | cut -d '-' -f2)
+version=$(tail -1 /etc/version/crimson-mcu | cut -d '-' -f2)
 
 if [ $# -lt 1 ]
 then
@@ -24,7 +24,7 @@ then
 	avrdude -c avr109 -B 8 -p x256a3u -P /dev/ttycrimson-time -b 115200 -e -U flash:w:synth.hex &&
 	echo -e "exit\r" > /dev/ttycrimson-time &&
 	echo "- Done programming." &&
-	echo "synth-installed-${version}" >> /etc/version/crimson-mcu &&
+	echo "installed-${version}-synth" >> /etc/version/crimson-mcu &&
 	usleep 300000
 fi
 
@@ -37,7 +37,7 @@ then
 	avrdude -c avr109 -B 8 -p x256a3u -P /dev/ttycrimson-rx -b 115200 -e -U flash:w:rx.hex &&
 	echo -e "exit\r" > /dev/ttycrimson-rx &&
 	echo "- Done programming." &&
-	echo "rx-installed-${version}" >> /etc/version/crimson-mcu &&
+	echo "installed-${version}-rx" >> /etc/version/crimson-mcu &&
 	usleep 4000000
 fi
 
@@ -50,6 +50,6 @@ then
 	avrdude -c avr109 -B 8 -p x256a3u -P /dev/ttycrimson-tx -b 115200 -e -U flash:w:tx.hex &&
 	echo -e "exit\r" > /dev/ttycrimson-tx &&
 	echo "- Done programming." &&
-	echo "tx-installed-${version}" >> /etc/version/crimson-mcu &&
+	echo "installed-${version}-rx" >> /etc/version/crimson-mcu &&
 	usleep 300000
 fi

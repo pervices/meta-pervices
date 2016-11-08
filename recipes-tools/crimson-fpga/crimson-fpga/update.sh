@@ -6,7 +6,7 @@ green='\e[1;32m'
 bold='\e[1m'
 fpga="/lib/firmware/soc_system.rbf"
 overlay="/lib/firmware/update.dtb"
-
+version=$(tail -1 /etc/version/crimson-fpga| cut -d '-' -f2)
 case "$1" in
 soft)
 	echo "[        ] Verifying Source files..."
@@ -109,7 +109,6 @@ soft)
 	;;
 hard)
 	./$0 soft
-	version=$(head -1 /etc/version/crimson-fpga| cut -d '-' -f2)
 	echo -e "[        ] Updating FPGA image on SD card"
 	mkdir -p tmp
 	rc11=$?
