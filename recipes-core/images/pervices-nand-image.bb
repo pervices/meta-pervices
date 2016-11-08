@@ -113,6 +113,7 @@ IMAGE_INSTALL += "\
 	crimson-firmware \
 	crimson-filesystem \
 	crimson-mcu \
+	crimson-fpga \
 	"
 
 ##
