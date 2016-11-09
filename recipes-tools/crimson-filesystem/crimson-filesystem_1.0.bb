@@ -14,13 +14,14 @@ SRC_URI = "file://99-local.rules \
            file://package-manager \
            file://udp_recvbuff.conf \
 	   "
+inherit systemd
 FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
 RDEPENDS_${PN} = "bash"
+SYSTEMD_SERVICE_${PN} = "crimson-log.service crimson-website.service crimson-server.service crimson-networking.service"
 
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -d -m 0755 ${D}${sysconfdir}/init.d/
-	install -d -m 0755 ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
 	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d/
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
 	install -d -m 0755 ${D}${sysconfdir}/crimson-version/
@@ -35,9 +36,5 @@ do_install() {
 }
 
 do_install_append() {
-	ln -s /lib/systemd/system/crimson-log.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-log.service
-	ln -s /lib/systemd/system/crimson-networking.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-networking.service
-	ln -s /lib/systemd/system/crimson-server.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-server.service
-	ln -s /lib/systemd/system/crimson-website.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/crimson-website.service
 	echo "installed-${PV}" >> ${D}${sysconfdir}/crimson-version/${PN}
 }
