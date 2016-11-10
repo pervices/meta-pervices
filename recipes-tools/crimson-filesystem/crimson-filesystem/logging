@@ -9,7 +9,7 @@ RM_COUNT=0
 ACTUAL_FILE=notExist
 NEXT_NUM=0
 SYMLINK=notExist
-sed -i '/temp/d' /etc/crimson-version/crimson-fpga
+sed -i '/temp/d' /etc/crimson/crimson-fpga
 mkdir -p /home/root/history/log && cd $_
 if [ ! -e crimson-configuration ];
 then

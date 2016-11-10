@@ -8,16 +8,16 @@ DEPENDS = ""
 SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master-testing"
 SRCREV = "8b8eefe90bb5c8e33d4ddd52cc8c9199fdc65c0d"
 INSANE_SKIP_${PN} = "arch"
-FILES_${PN} = "home/root/pv_web/ ${sysconfdir}/crimson-version/"
+FILES_${PN} = "home/root/pv_web/ ${sysconfdir}/crimson/"
 
 do_install() {
 	install -d -m 0755 ${D}/home/root/pv_web/
-	install -d -m 0755 ${D}${sysconfdir}/crimson-version/
+	install -d -m 0755 ${D}${sysconfdir}/crimson/
 	cp -r ${WORKDIR}/git/* ${D}/home/root/pv_web/
 	find ${D}/home/root/pv_web -type f -exec chmod 644 {} \;
 	find ${D}/home/root/pv_web -type d -exec chmod 755 {} \;
 }
 
 do_install_append() {
-	echo "installed-${PV}" >> ${D}${sysconfdir}/crimson-version/${PN}
+	echo "installed-${PV}" >> ${D}${sysconfdir}/crimson/${PN}
 }
