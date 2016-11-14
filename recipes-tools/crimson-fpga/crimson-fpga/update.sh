@@ -10,6 +10,7 @@ failed="[$red FAILED $normal]"
 warning="[$yellow WARNING$normal]"
 mountfolder="/config"
 sd_mountfolder="/media/card"
+fpga_image_location="/dev/mmcblk0p1"
 fpga="/lib/firmware/soc_system.rbf"
 overlay="/lib/firmware/update.dtb"
 version_path="/etc/crimson"
@@ -20,6 +21,7 @@ fpga2hps="/sys/class/fpga_bridge/br2"
 fpga2sdram="/sys/class/fpga_bridge/br3"
 fpga_manager="/sys/class/fpga_manager"
 fpga_update="/device-tree/overlays/fpga-update"
+
 case "$1" in
 soft)
 	echo "[        ] Verifying Source files..."
@@ -180,7 +182,7 @@ hard)
 		then
 			if [[ $(ls -A $sd_mountfolder) ]]
 			then
-				echo -e "$warning /dev/mmcblk0p1 is not mounted at $sd_mountfolder. However, $sd_mountfolder is NOT empty"
+				echo -e "$warning $fpga_image_location is not mounted at $sd_mountfolder. However, $sd_mountfolder is NOT empty"
 				echo -e "$warning Will use $sd_mountfolder-tmp instead"
 				sd_mountfolder='/home/root/pv_fpga/sdcard-tmp'
 				if [[ -d $sd_mountfolder ]]
@@ -188,7 +190,7 @@ hard)
 					echo -e "$failed /home/root/pv_fpga/sdcard-tmp is also being used please clean up, exiting..."
 					exit 1
 				fi
-				mkdir -p -m 777 $sd_mountfolder
+				mkdir $sd_mountfolder
 				echo -e "$warning Consider cleaning up /home/root/pv_fpga/sdcard"
 			fi
 		else
@@ -198,40 +200,44 @@ hard)
 	else
 		mkdir $sd_mountfolder
 	fi
-	mount --rw /dev/mmcblk0p1 $sd_mountfolder
+	mount -t vfat --rw $fpga_image_location $sd_mountfolder
 	rc11=$?
 	if [[ $rc11 != 0 ]]; then
-		echo -e "$failed Failed to mount /dev/mmcblk0p1, exiting..."
+		echo -e "$failed Failed to mount $fpga_image_location, exiting..."
 		exit $rc11
 	fi
-	cp $sd_mountfolder/soc_system.rbf soc_system_prev.rbf
+	sync
+	scp $sd_mountfolder/soc_system.rbf soc_system_prev.rbf
 	rc12=$?
 	if [[ $rc12 != 0 ]]; then
 		echo -e "$warning Failed to backup current FPGA image"
 	fi
-	cp /home/root/pv_fpga/soc_system.rbf $sd_mountfolder/
+	sync
+	scp /home/root/pv_fpga/soc_system.rbf $sd_mountfolder/
 	rc13=$?
 	if [[ $rc13 != 0 ]]; then
 		echo -e "$failed Failed to update the new FPGA image, exiting..."
 		exit $rc13
 	fi
+	sync
 	echo "$version" > $sd_mountfolder/curr_version
 	rc14=$?
 	if [[ $rc14 != 0 ]]; then
-		echo -e "$warning Failed to update FPGA version file on /dev/mmcblk0p1"
+		echo -e "$warning Failed to update FPGA version file on $fpga_image_location"
 	fi
+	sync
 	echo "installed-${version}" >> $version_path/crimson-fpga
 	rc15=$?
 	if [[ $rc15 != 0 ]]; then
 		echo -e "$warning Failed to update FPGA version in $version_path/crimson-fpga"
 	fi
-	sync && sync && sync
+	sync
 	umount -l $sd_mountfolder
 	rc16=$?
 	if [[ $rc16 != 0 ]]; then
-		echo -e "$warning Failed to unmount /dev/mmcblk0p1"
+		echo -e "$warning Failed to unmount $fpga_image_location"
 	else
-		rm -rf $sd_mountfolder
+		rmdir $sd_mountfolder
 	fi
 	if [[ $rc12 != 0 || $rc14 != 0 || $rc15 != 0 || $rc16 != 0 ]]; then
 		echo -e "$warning Updated FPGA image on SD card with warnings shown above"
