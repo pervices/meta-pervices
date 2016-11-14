@@ -236,6 +236,9 @@ BB_DISKMON_DIRS = "\
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
 
+PRSERV_HOST = "localhost:0"
+INHERIT += "buildhistory"
+BUILDHISTORY_COMMIT = "1"
 IMAGE_FSTYPES = "tar.gz"
 DISTRO_FEATURES_append = " systemd usbhost"
 VIRTUAL-RUNTIME_init_manager = "systemd"
