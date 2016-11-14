@@ -18,7 +18,7 @@ do_install() {
 	install -d -m 0755 ${D}${base_libdir}/firmware/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/soc_system.rbf ${D}/home/root/pv_fpga/
-	install -m 0755 -D ${WORKDIR}/update.sh ${D}/home/root/pv_fpga/
+	install -m 0744 -D ${WORKDIR}/update.sh ${D}/home/root/pv_fpga/
 	install -m 0644 -D ${WORKDIR}/update.dtb ${D}/home/root/pv_fpga/
 }
 

@@ -20,7 +20,7 @@ RDEPENDS_${PN} = "bash"
 do_install() {
 	install -d -m 0755 ${D}/home/root/pv_mcu/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
-	install -m 0755 -D ${WORKDIR}/flash.sh ${D}/home/root/pv_mcu/
+	install -m 0744 -D ${WORKDIR}/flash.sh ${D}/home/root/pv_mcu/
 	install -m 0644 -D ${WORKDIR}/rx.hex ${D}/home/root/pv_mcu/
 	install -m 0644 -D ${WORKDIR}/tx.hex ${D}/home/root/pv_mcu/
 	install -m 0644 -D ${WORKDIR}/synth.hex ${D}/home/root/pv_mcu/
