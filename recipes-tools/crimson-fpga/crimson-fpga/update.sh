@@ -232,7 +232,7 @@ hard)
 		echo -e "$warning Failed to update FPGA version in $version_path/crimson-fpga"
 	fi
 	sync
-	umount -l $sd_mountfolder
+	umount $sd_mountfolder
 	rc16=$?
 	if [[ $rc16 != 0 ]]; then
 		echo -e "$warning Failed to unmount $fpga_image_location"
