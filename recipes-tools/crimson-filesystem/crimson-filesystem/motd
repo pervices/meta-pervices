@@ -27,9 +27,9 @@ BCyan='\e[1;36m'        # Cyan
 BWhite='\e[1;37m'       # White
 BBold='\e[1m'           # Bold
 
+# Reset
 NC='\e[m'               # Color Reset
 
-ALERT=${BWhite}${On_Red} # Bold White on red background'
 
 echo -e "#=============================================================#"
 echo -e "           Welcome to $HOSTNAME"
