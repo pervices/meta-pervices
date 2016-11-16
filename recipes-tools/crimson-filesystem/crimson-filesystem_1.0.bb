@@ -14,11 +14,11 @@ SRC_URI = "file://99-local.rules \
            file://package-manager \
            file://motd \
            file://udp_recvbuff.conf \
-           file://crimson.bashrc \
-           file://crimson.bash_profile \
+           file://root.bashrc \
+           file://root.bash_profile \
 	   "
 inherit systemd
-FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir} home/root/"
+FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir} home/root/ home/admin"
 RDEPENDS_${PN} = "bash"
 SYSTEMD_SERVICE_${PN} = "crimson-log.service crimson-website.service crimson-server.service crimson-networking.service"
 
@@ -37,8 +37,11 @@ do_install() {
 	install -m 0755 -D ${WORKDIR}/motd ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/99-local.rules ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d/
-	install -m 0644 -D ${WORKDIR}/crimson.bash_profile ${D}/home/root/.bash_profile
-	install -m 0644 -D ${WORKDIR}/crimson.bashrc ${D}/home/root/.bashrc
+	install -m 0644 -D ${WORKDIR}/root.bash_profile ${D}/home/root/.bash_profile
+	install -m 0644 -D ${WORKDIR}/root.bashrc ${D}/home/root/.bashrc
+	install -m 0644 -D ${WORKDIR}/root.bash_profile ${D}/home/admin/.bash_profile
+	install -m 0644 -D ${WORKDIR}/root.bashrc ${D}/home/admin/.bashrc
+	sed -i 's/1;32m/1;34m/g' ${D}/home/admin/.bashrc
 }
 
 do_install_append() {

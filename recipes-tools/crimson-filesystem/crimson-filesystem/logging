@@ -1,6 +1,6 @@
 #! /bin/bash -e
 # crimson tng logging script
-NOW=$(date '+%Y%m%d%H%M')
+NOW=$(date '+%Y-%m-%d-%H-%M')
 FREESPACE=$(df -P . | awk 'NR==2 {print $4}')
 FREESPACE_H=$(df -BM -P . | awk 'NR==2 {print $4}')
 EXIST=0
@@ -21,15 +21,15 @@ then
 	echo "The first time Crimson was boot was on $NOW" >> crimson-configuration
 fi
 until [ $EXIST -eq 1 ]; do
-	if [ ! -e crimson-tng-$COUNT.log ]; then
+	if [ ! -e $COUNT.log ]; then
 		let EXIST=1
 		RM_COUNT=$(( COUNT-1 ))
-		ln -s crimson-tng-$NOW.log crimson-tng-$COUNT.log
-		rm -f crimson-tng-last.log
-		ln -s crimson-tng-$COUNT.log crimson-tng-last.log
+		ln -sf $NOW.log $COUNT.log
+		rm -f last.log
+		ln -sf $COUNT.log last.log
 		rm -f tmp-$RM_COUNT.log
 		if [ $COUNT -eq 0 ]; then
-			ln -s crimson-tng-$COUNT.log crimson-tng-first.log
+			ln -sf $COUNT.log first.log
 		fi
 	else
 		let COUNT=COUNT+1
@@ -42,16 +42,16 @@ while true; do
 	if [ $FREESPACE -lt 2048 ]; then
 		echo "[WARNING] current free space is less than 2MB, older log(s) will be deleted"
 		until [ $FREESPACE -ge 2048 ]; do
-			SYMLINK=$(readlink crimson-tng-first.log)
+			SYMLINK=$(readlink first.log)
 			ACTUAL_FILE=$(readlink $SYMLINK)
-			NEXT_NUM=$(readlink crimson-tng-first.log | tr -dc '0-9' )
+			NEXT_NUM=$(readlink first.log | tr -dc '0-9' )
 			let NEXT_NUM=NEXT_NUM+1
-			rm crimson-tng-first.log $ACTUAL_FILE $SYMLINK
-			ln -s crimson-tng-$NEXT_NUM.log crimson-tng-first.log
+			rm first.log $ACTUAL_FILE $SYMLINK
+			ln -sf $NEXT_NUM.log first.log
 		done
 	fi
 	journalctl > tmp-$COUNT.log
-	cp tmp-$COUNT.log crimson-tng-$NOW.log
+	cp tmp-$COUNT.log $NOW.log
 	if [ $(wc -c tmp-$COUNT.log | awk '{print $1}' | tr -dc '0-9') -ge 1048576 ]; then
 		echo "[INFO] log file size exceeds 1MB, the current free space is $FREESPACE_H"
 		rm tmp-$COUNT.log

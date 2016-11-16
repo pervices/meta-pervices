@@ -114,6 +114,8 @@ IMAGE_INSTALL += "\
 	crimson-filesystem \
 	crimson-mcu \
 	crimson-fpga \
+	sudo \
+	resolvconf \
 	"
 
 ##
@@ -128,5 +130,12 @@ CORE_IMAGE_EXTRA_INSTALL += "\
 	"
 
 inherit core-image
+inherit extrausers
+EXTRA_USERS_PARAMS = "\
+	usermod -P root root; \
+	usermod -s /bin/bash root; \
+	useradd -P admin admin; \
+	usermod -s /bin/bash admin; \
+	"
 
 export IMAGE_BASENAME = "pervices-sd-image"
