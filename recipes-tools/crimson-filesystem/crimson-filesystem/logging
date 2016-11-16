@@ -9,6 +9,10 @@ RM_COUNT=0
 ACTUAL_FILE=notExist
 NEXT_NUM=0
 SYMLINK=notExist
+
+touch /var/log/lastlog
+chgrp utmp /var/log/lastlog
+chmod 0644 /var/log/lastlog
 sed -i '/temp/d' /etc/crimson/crimson-fpga
 mkdir -p /home/root/history/log && cd $_
 if [ ! -e crimson-configuration ];
