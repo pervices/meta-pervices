@@ -113,6 +113,9 @@ IMAGE_INSTALL += "\
 	crimson-filesystem \
 	crimson-mcu \
 	crimson-fpga \
+	sudo \
+	resolvconf \
+	watchdog \
 	"
 
 ##
@@ -127,5 +130,12 @@ CORE_IMAGE_EXTRA_INSTALL += "\
 	"
 
 inherit core-image
+inherit extrausers
+EXTRA_USERS_PARAMS = "\
+	usermod -P root root; \
+	usermod -s /bin/bash root; \
+	useradd -P dev dev; \
+	usermod -s /bin/bash dev; \
+	"
 
 export IMAGE_BASENAME = "pervices-nand-image"
