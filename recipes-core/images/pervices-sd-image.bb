@@ -116,6 +116,7 @@ IMAGE_INSTALL += "\
 	crimson-fpga \
 	sudo \
 	resolvconf \
+	watchdog \
 	"
 
 ##
@@ -134,8 +135,8 @@ inherit extrausers
 EXTRA_USERS_PARAMS = "\
 	usermod -P root root; \
 	usermod -s /bin/bash root; \
-	useradd -P admin admin; \
-	usermod -s /bin/bash admin; \
+	useradd -P dev dev; \
+	usermod -s /bin/bash dev; \
 	"
 
 export IMAGE_BASENAME = "pervices-sd-image"

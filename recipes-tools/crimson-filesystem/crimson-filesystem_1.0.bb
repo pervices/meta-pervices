@@ -39,9 +39,9 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d/
 	install -m 0644 -D ${WORKDIR}/root.bash_profile ${D}/home/root/.bash_profile
 	install -m 0644 -D ${WORKDIR}/root.bashrc ${D}/home/root/.bashrc
-	install -m 0644 -D ${WORKDIR}/root.bash_profile ${D}/home/admin/.bash_profile
-	install -m 0644 -D ${WORKDIR}/root.bashrc ${D}/home/admin/.bashrc
-	sed -i 's/1;32m/1;34m/g' ${D}/home/admin/.bashrc
+	install -m 0644 -D ${WORKDIR}/root.bash_profile ${D}/home/dev/.bash_profile
+	install -m 0644 -D ${WORKDIR}/root.bashrc ${D}/home/dev/.bashrc
+	sed -i 's/1;32m/1;34m/g' ${D}/home/dev/.bashrc
 }
 
 do_install_append() {
