@@ -22,6 +22,7 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
 ##
 IMAGE_INSTALL += "\
 	autoconf \
+	avrdude \
 	base-files \
 	base-passwd \
 	bash \
@@ -30,14 +31,19 @@ IMAGE_INSTALL += "\
 	busybox \
 	cmake \
 	coreutils \
+	crimson-filesystem \
+	crimson-firmware \
+	crimson-fpga \
+	crimson-mcu \
+	crimson-website \
 	diffutils \
 	dtc \
 	e2fsprogs \ 
 	elfutils \
-	glibc \
 	ethtool \
 	file \
 	findutils \
+	flashrom \
 	fuse \
 	g++ \
 	gawk \
@@ -45,15 +51,22 @@ IMAGE_INSTALL += "\
 	gdb \
 	gdbserver \
 	git \
+	glibc \
+	gnupg \
 	gnutls \
 	grep \
 	gzip \
+	i2c-tools \
 	init-ifupdown \
 	initscripts \
+	iperf \
 	iproute2 \
 	iptables \
 	iputils \
 	kernel-modules \
+	liba52 \
+	libftdi \
+	libgcrypt \
 	libpcap \
 	libudev \
 	libusb1 \
@@ -64,24 +77,32 @@ IMAGE_INSTALL += "\
 	memtester \
 	minicom \
 	mtd-utils \
+	neon \
+	netbase \
 	net-tools \
+	nmap \
+	nodejs \
 	openssh \
 	openssh-sftp \
 	openssh-sftp-server \
 	openssl \
+	oprofile \
+	orc \
 	patch \
 	pciutils \
 	perl \
 	portmap \
 	python-core \
+	resolvconf \
 	screen \
 	sed \
 	setserial \
 	sshfs-fuse \
 	strace \
 	subversion \
-	systemd \
+	sudo \
 	sysfsutils \
+	systemd \
 	sysvinit \
 	tar \
 	tcl \
@@ -93,29 +114,9 @@ IMAGE_INSTALL += "\
 	valgrind \
 	vim \
 	vim-vimrc \
+	watchdog \
 	wget \
 	zlib \
-	flashrom \
-	gnupg \
-	i2c-tools \
-	iperf \
-	liba52 \
-	libgcrypt \
-	netbase \
-	neon \
-	nodejs \
-	nmap \
-	orc \
-	oprofile \
-	avrdude \
-	crimson-website \
-	crimson-firmware \
-	crimson-filesystem \
-	crimson-mcu \
-	crimson-fpga \
-	sudo \
-	resolvconf \
-	watchdog \
 	"
 
 ##
