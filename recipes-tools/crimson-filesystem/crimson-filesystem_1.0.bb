@@ -14,6 +14,7 @@ SRC_URI = "file://99-local.rules \
            file://package-manager \
            file://motd \
            file://udp_recvbuff.conf \
+           file://issue.net \
 	   "
 inherit systemd
 FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
@@ -32,6 +33,7 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/logging ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/package-manager ${D}${sysconfdir}/crimson/
 	install -m 0755 -D ${WORKDIR}/motd ${D}${sysconfdir}/crimson/
+	install -m 0644 -D ${WORKDIR}/issue.net ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/99-local.rules ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d/
 }
