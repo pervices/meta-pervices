@@ -3,7 +3,6 @@ of hardware peripherals. This image inherits from Altera's GSRD image with addit
 to support SDR features."
 
 IMAGE_FEATURES += " \
-        debug-tweaks \
         dev-pkgs \
 	tools-sdk \
         "
@@ -109,6 +108,7 @@ IMAGE_INSTALL += "\
 	tcpdump \
 	tzdata \
 	udev \
+	useradd-dev0 \
 	usbutils \
 	util-linux \
 	valgrind \
