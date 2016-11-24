@@ -2,7 +2,7 @@
 
 #target information
 HOSTNAME=`uname -n | awk '{print toupper($0)}'`
-KERNEL=`uname -r`
+KERNEL=`uname -r | cut -f-5 -d "-"`
 DATE=`date`
 ARCH=`uname -m`
 USER_NAME=`echo $USER | awk '{print toupper($0)}'`
