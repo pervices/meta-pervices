@@ -5,16 +5,16 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS_${PN} = "bash"
 RDEPENDS_${PN} = "bash"
-SRC_URI = "file://99-local.rules \
-           file://crimson-log.service \
-           file://crimson-networking.service \
-           file://crimson-server.service \
-           file://crimson-website.service \
-           file://logging \
-           file://package-manager \
-           file://motd \
-           file://udp_recvbuff.conf \
-           file://issue.net \
+SRC_URI = "file://etc/udev/rules.d/99-local.rules \
+           file://lib/systemd/system/crimson-log.service \
+           file://lib/systemd/system/crimson-networking.service \
+           file://lib/systemd/system/crimson-server.service \
+           file://lib/systemd/system/crimson-website.service \
+           file://etc/crimson/logging \
+           file://etc/crimson/package-manager \
+           file://etc/crimson/motd \
+           file://etc/sysctl.d/udp_recvbuff.conf \
+           file://etc/crimson/issue.net \
 	   "
 inherit systemd
 FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
@@ -26,16 +26,10 @@ do_install() {
 	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d/
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
 
-	install -m 0644 -D ${WORKDIR}/crimson-log.service ${D}${systemd_unitdir}/system/
-	install -m 0644 -D ${WORKDIR}/crimson-server.service ${D}${systemd_unitdir}/system/
-	install -m 0644 -D ${WORKDIR}/crimson-website.service ${D}${systemd_unitdir}/system/
-	install -m 0644 -D ${WORKDIR}/crimson-networking.service ${D}${systemd_unitdir}/system/
-	install -m 0744 -D ${WORKDIR}/logging ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/package-manager ${D}${sysconfdir}/crimson/
-	install -m 0755 -D ${WORKDIR}/motd ${D}${sysconfdir}/crimson/
-	install -m 0644 -D ${WORKDIR}/issue.net ${D}${sysconfdir}/crimson/
-	install -m 0644 -D ${WORKDIR}/99-local.rules ${D}${sysconfdir}/udev/rules.d/
-	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d/
+	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
+	install -m 0744 -D ${WORKDIR}/etc/crimson/* ${D}${sysconfdir}/crimson/
+	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
+	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }
 
 do_install_append() {
