@@ -21,110 +21,188 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
 # REQUIRED
 ##
 IMAGE_INSTALL += "\
+	at \
+	at-doc \
 	autoconf \
+	autoconf-doc \
 	avrdude \
+	avrdude-doc \
 	base-files \
 	base-passwd \
+	base-passwd-doc \
 	bash \
+	bash-doc \
 	bison \
+	bison-doc \
 	boost \
 	busybox \
 	cmake \
+	cmake-doc \
 	coreutils \
+	coreutils-doc \
 	crimson-filesystem \
 	crimson-firmware \
 	crimson-fpga \
 	crimson-mcu \
 	crimson-website \
+	cronie \
+	cronie-doc \
+	cups \
+	cups-doc \
 	diffutils \
+	diffutils-doc \
 	dtc \
-	e2fsprogs \ 
+	e2fsprogs \
+	e2fsprogs-doc \
 	elfutils \
 	ethtool \
+	ethtool-doc \
 	file \
+	file-doc \
 	findutils \
+	findutils-doc \
 	flashrom \
+	flashrom-doc \
 	fuse \
+	fuse-doc \
 	g++ \
 	gawk \
+	gawk-doc \
 	gcc \
+	gcc-doc \
 	gdb \
+	gdb-doc \
 	gdbserver \
 	git \
+	git-doc \
 	glibc \
+	glibc-doc \
 	gnupg \
+	gnupg-doc \
 	gnutls \
+	gnutls-doc \
 	grep \
+	grep-doc \
 	gzip \
+	gzip-doc \
 	i2c-tools \
+	i2c-tools-doc \
 	init-ifupdown \
 	initscripts \
 	iperf \
+	iperf-doc \
 	iproute2 \
+	iproute2-doc \
 	iptables \
+	iptables-doc \
 	iputils \
-	kernel-modules \
+	iputils-doc \
+	kmod \
 	liba52 \
 	libftdi \
 	libgcrypt \
+	libgcrypt-doc \
+	libpam \
+	libpam-doc \
 	libpcap \
+	libpcap-doc \
 	libudev \
 	libusb1 \
 	libusb-compat \
 	libxml2 \
+	libxml2-doc \
 	lshw \
+	lshw-doc \
 	make \
+	make-doc \
 	memtester \
+	memtester-doc \
 	minicom \
+	minicom-doc \
 	mtd-utils \
+	mtd-utils-doc \
 	neon \
+	neon-doc \
 	netbase \
+	netbase-doc \
 	net-tools \
+	net-tools-doc \
 	nmap \
+	nmap-doc \
 	nodejs \
+	nodejs-doc \
 	openssh \
+	openssh-doc \
 	openssh-sftp \
 	openssh-sftp-server \
 	openssl \
+	openssl-doc \
 	oprofile \
+	oprofile-doc \
 	orc \
+	orc-doc \
 	patch \
+	patch-doc \
 	pciutils \
+	pciutils-doc \
 	perl \
+	perl-doc \
+	polkit \
 	portmap \
+	portmap-doc \
 	python-core \
 	resolvconf \
 	screen \
+	screen-doc \
 	sed \
+	sed-doc \
 	setserial \
+	setserial-doc \
+	shadow \
+	shadow-doc \
 	sshfs-fuse \
+	sshfs-fuse-doc \
 	strace \
+	strace-doc \
 	subversion \
+	subversion-doc \
 	sudo \
+	sudo-doc \
 	sysfsutils \
+	sysfsutils-doc \
 	systemd \
+	systemd-doc \
 	sysvinit \
+	sysvinit-doc \
 	tar \
+	tar-doc \
 	tcl \
+	tcl-doc \
 	tcpdump \
+	tcpdump-doc \
 	tzdata \
 	udev \
 	useradd-dev0 \
 	usbutils \
+	usbutils-doc \
 	util-linux \
+	util-linux-doc \
 	valgrind \
 	vim \
+	vim-doc \
 	vim-vimrc \
 	watchdog \
+	watchdog-doc \
 	wget \
+	wget-doc \
 	zlib \
+	zlib-doc \
 	"
 
 ##
 # OPTIONAL
 ##
 CORE_IMAGE_EXTRA_INSTALL += "\
-	glibc \
 	ntpdate \
 	python-argparse \
 	python-cheetah \
