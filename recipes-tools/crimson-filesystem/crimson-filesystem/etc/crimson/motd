@@ -1,11 +1,10 @@
 #! /bin/bash -e
 
 #target information
-HOSTNAME=`uname -n | awk '{print toupper($0)}'`
+HOSTNAME=`uname -n`
 KERNEL=`uname -r | cut -f-5 -d "-"`
 DATE=`date`
 ARCH=`uname -m`
-USER_NAME=`echo $USER | awk '{print toupper($0)}'`
 
 # Normal Colors
 Black='\e[0;30m'        # Black
@@ -34,8 +33,8 @@ NC='\e[m'               # Color Reset
 
 echo -e "#=============================================================#"
 echo -e "           Welcome to $BBold$HOSTNAME$NC"
-echo -e "           USER   : $BGreen$USER_NAME$NC"
-echo -e "           ARCH   : $ARCH"
-echo -e "           KERNEL : ${KERNEL:0:-6}"
-echo -e "           DATE   : $DATE"
+echo -e "           USER NAME      : $BGreen$USER$NC"
+echo -e "           ARCHITECTURE   : $ARCH"
+echo -e "           KERNEL         : $KERNEL"
+echo -e "           DATE           : $DATE"
 echo -e "#=============================================================#"
