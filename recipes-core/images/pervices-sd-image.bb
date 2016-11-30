@@ -117,6 +117,8 @@ IMAGE_INSTALL += "\
 	make-doc \
 	memtester \
 	memtester-doc \
+	man \
+	man-doc \
 	minicom \
 	minicom-doc \
 	mtd-utils \
