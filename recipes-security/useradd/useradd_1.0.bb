@@ -10,25 +10,34 @@ SRC_URI = "file://default.bashrc \
           "
 
 S = "${WORKDIR}"
-PACKAGES =+ "${PN}-dev0"
+PACKAGES =+ "${PN}-client"
 inherit useradd
-USERADD_PACKAGES = "${PN}-dev0"
-USERADD_PARAM_${PN}-dev0 = "-u 1200 -d /home/dev0 -r -s /bin/bash -P 'dev0' dev0"
-GROUPADD_PARAM_${PN}-dev0 = "-g 880 devs"
+USERADD_PACKAGES = "${PN} ${PN}-client"
+USERADD_PARAM_${PN} = "-u 1200 -d /home/dev0 -r -s /bin/bash -P 'dev0' dev0"
+GROUPADD_PARAM_${PN} = "-g 880 dev-grp0"
+USERADD_PARAM_${PN}-client = "-u 1201 -d /home/client -r -s /bin/bash -P 'client' client"
+GROUPADD_PARAM_${PN}-client = "-g 890 cli-grp0"
 do_install () {
 	install -d -m 0755 ${D}/home/dev0
+	install -d -m 0755 ${D}/home/client
 	install -d -m 0755 ${D}/home/root
 
 	install -p -m 0644 default.bashrc ${D}/home/dev0/.bashrc
 	install -p -m 0644 default.bash_profile ${D}/home/dev0/.bash_profile
 
+	install -p -m 0644 default.bashrc ${D}/home/client/.bashrc
+	install -p -m 0644 default.bash_profile ${D}/home/client/.bash_profile
+
 	install -p -m 0644 default.bashrc ${D}/home/root/.bashrc
 	install -p -m 0644 default.bash_profile ${D}/home/root/.bash_profile
 
 	chown -R dev0 ${D}/home/dev0/
-	chgrp -R devs ${D}/home/dev0/
+	chgrp -R dev-grp0 ${D}/home/dev0/
+
+	chown -R client ${D}/home/client/
+	chgrp -R cli-grp0 ${D}/home/client/
 }
 
-FILES_${PN}-dev0 = "/home/dev0/ /home/root/"
-
+FILES_${PN} = "/home/dev0/ /home/root/"
+FILES_${PN}-client = "/home/client/"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"

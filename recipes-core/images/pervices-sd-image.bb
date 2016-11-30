@@ -184,7 +184,8 @@ IMAGE_INSTALL += "\
 	tcpdump-doc \
 	tzdata \
 	udev \
-	useradd-dev0 \
+	useradd \
+	useradd-client \
 	usbutils \
 	usbutils-doc \
 	util-linux \
