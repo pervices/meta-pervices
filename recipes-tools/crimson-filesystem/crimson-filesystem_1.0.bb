@@ -15,8 +15,35 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/crimson/motd \
            file://etc/sysctl.d/udp_recvbuff.conf \
            file://etc/crimson/issue.net \
-	   "
-inherit systemd
+          "
+PAM_PLUGINS = "libpam-runtime \
+               pam-plugin-access \
+               pam-plugin-cracklib \
+               pam-plugin-debug \
+               pam-plugin-echo \
+               pam-plugin-exec \
+               pam-plugin-filter \
+               pam-plugin-ftp \
+               pam-plugin-issue \
+               pam-plugin-listfile \
+               pam-plugin-localuser \
+               pam-plugin-mkhomedir \
+               pam-plugin-namespace \
+               pam-plugin-pwhistory \
+               pam-plugin-rhosts \
+               pam-plugin-stress \
+               pam-plugin-succeed-if \
+               pam-plugin-tally \
+               pam-plugin-tally2 \
+               pam-plugin-time \
+               pam-plugin-timestamp \
+               pam-plugin-umask \
+               pam-plugin-wheel \
+               pam-plugin-xauth \
+              "
+PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
+inherit systemd autotools
 FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
 SYSTEMD_SERVICE_${PN} = "crimson-log.service crimson-website.service crimson-server.service crimson-networking.service"
 
@@ -28,6 +55,7 @@ do_install() {
 
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/* ${D}${sysconfdir}/crimson/
+	chmod go+x ${D}${sysconfdir}/crimson/motd
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }
