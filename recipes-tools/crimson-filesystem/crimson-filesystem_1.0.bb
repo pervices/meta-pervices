@@ -56,6 +56,7 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/* ${D}${sysconfdir}/crimson/
 	chmod go+x ${D}${sysconfdir}/crimson/motd
+	chmod ugo-x ${D}${sysconfdir}/crimson/issue.net
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }
