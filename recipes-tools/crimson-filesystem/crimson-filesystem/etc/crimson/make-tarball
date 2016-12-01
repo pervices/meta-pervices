@@ -1,0 +1,26 @@
+#! /bin/bash -e
+# This script is used to help creating a tarball to bundle all the logs
+# Enter ./make-tarball.sh to execute, the tarball is called log.tar.gz
+SERVER_LOG=NULL
+GENERAL_LOG=NULL
+if [ -e /home/root/crimson.log ];
+then
+	SERVER_LOG=1
+else
+	echo "Missing server logs"
+	SERVER_LOG=0
+fi
+if [ "$(ls -A  /home/root/history/log)" ];
+then
+	GENERAL_LOG=1
+else
+	echo "Missing general logs"
+	GENERAL_LOG=0
+fi
+if [ $SERVER_LOG -eq 0 -a $GENERAL_LOG -eq 0 ];
+then
+	echo "Nothing to pack"
+	exit 0
+else
+	cd /home/root/ && sync && tar -zcf log.tar.gz history/log/* crimson.log && echo "Packing successful" || echo "Packing unsuccessful"
+fi

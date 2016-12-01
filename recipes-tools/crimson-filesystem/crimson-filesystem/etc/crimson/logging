@@ -14,6 +14,12 @@ touch /var/log/lastlog
 chgrp utmp /var/log/lastlog
 chmod 0644 /var/log/lastlog
 sed -i '/temp/d' /etc/crimson/crimson-fpga
+
+cd /home/root/
+if [ ! -e make-tarball ];
+then
+	ln -s /etc/crimson/make-tarball
+fi
 mkdir -p /home/root/history/log && cd $_
 if [ ! -e crimson-configuration ];
 then
@@ -56,6 +62,5 @@ while true; do
 		echo "[INFO] log file size exceeds 1MB, the current free space is $FREESPACE_H"
 		rm tmp-$COUNT.log
 	fi
-	cd /home/root/ && tar -zcf log.tar.gz history/log/* crimson.log && cd history/log/
 	sleep 10
 done
