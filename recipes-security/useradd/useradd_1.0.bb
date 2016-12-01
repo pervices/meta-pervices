@@ -30,6 +30,7 @@ do_install () {
 
 	install -p -m 0644 default.bashrc ${D}/home/root/.bashrc
 	install -p -m 0644 default.bash_profile ${D}/home/root/.bash_profile
+	sed -i 's/1;32m/1;33m/g' ${D}/home/root/.bashrc
 
 	chown -R dev0 ${D}/home/dev0/
 	chgrp -R dev-grp0 ${D}/home/dev0/
