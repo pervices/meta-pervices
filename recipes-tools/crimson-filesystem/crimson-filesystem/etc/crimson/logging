@@ -56,6 +56,6 @@ while true; do
 		echo "[INFO] log file size exceeds 1MB, the current free space is $FREESPACE_H"
 		rm tmp-$COUNT.log
 	fi
-	pushd . && cd /home/root/ && tar -zcf log.tar.gz history/log/* crimson.log && popd
+	cd /home/root/ && tar -zcf log.tar.gz history/log/* crimson.log && cd history/log/
 	sleep 10
 done
