@@ -30,11 +30,25 @@ BBold='\e[1m'           # Bold
 # Reset
 NC='\e[m'               # Color Reset
 
-
-echo -e "#=============================================================#"
-echo -e "           Welcome to $BBold$HOSTNAME$NC"
-echo -e "           USER NAME      : $BGreen$USER$NC"
-echo -e "           ARCHITECTURE   : $ARCH"
-echo -e "           KERNEL         : $KERNEL"
-echo -e "           DATE           : $DATE"
-echo -e "#=============================================================#"
+if [ $USER == 'root' ]; then
+	echo -e "*------------------------------------------------------------------*"
+	echo -e "|          Welcome to $BBold$HOSTNAME$NC                                      |"
+	echo -e "|          USER NAME      : $BYellow$USER$NC                                   |"
+	echo -e "|          ARCHITECTURE   : $ARCH                                 |"
+	echo -e "|          KERNEL         : $KERNEL       |"
+	echo -e "|          DATE           : $DATE           |"
+	echo -e "*------------------------------------------------------------------*"
+	echo -e "        \   ^__^ "
+	echo -e "         \  (oo)\_______"
+	echo -e "            (__)\       )\/\ "
+	echo -e "                ||----w | "
+	echo -e "                ||     || "
+else
+	echo -e "#==================================================================#"
+	echo -e "|          Welcome to $BBold$HOSTNAME$NC                                      |"
+	echo -e "|          USER NAME      : $BGreen$USER$NC                                   |"
+	echo -e "|          ARCHITECTURE   : $ARCH                                 |"
+	echo -e "|          KERNEL         : $KERNEL       |"
+	echo -e "|          DATE           : $DATE           |"
+	echo -e "#==================================================================#"
+fi
