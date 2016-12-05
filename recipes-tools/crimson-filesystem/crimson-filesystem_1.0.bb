@@ -10,12 +10,14 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/crimson-networking.service \
            file://lib/systemd/system/crimson-server.service \
            file://lib/systemd/system/crimson-website.service \
+           file://lib/systemd/system/crimson-startup.service \
            file://etc/crimson/logging \
            file://etc/crimson/package-manager \
            file://etc/crimson/motd \
            file://etc/sysctl.d/udp_recvbuff.conf \
            file://etc/crimson/issue.net \
            file://etc/crimson/make-tarball \
+           file://etc/crimson/startup \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
@@ -46,7 +48,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "crimson-log.service crimson-website.service crimson-server.service crimson-networking.service"
+SYSTEMD_SERVICE_${PN} = "crimson-startup.service crimson-website.service crimson-server.service crimson-networking.service"
 
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
@@ -60,6 +62,7 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/crimson/logging ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/package-manager ${D}${sysconfdir}/crimson/
 	install -m 0755 -D ${WORKDIR}/etc/crimson/make-tarball ${D}${sysconfdir}/crimson/
+	install -m 0744 -D ${WORKDIR}/etc/crimson/startup ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }

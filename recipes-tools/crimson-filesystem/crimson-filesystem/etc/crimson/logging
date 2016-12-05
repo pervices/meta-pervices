@@ -10,11 +10,13 @@ ACTUAL_FILE=notExist
 NEXT_NUM=0
 SYMLINK=notExist
 
-touch /var/log/lastlog
-chgrp utmp /var/log/lastlog
-chmod 0644 /var/log/lastlog
+if [ ! -e /var/log/lastlog ];
+then
+	touch /var/log/lastlog
+	chgrp utmp /var/log/lastlog
+	chmod 0644 /var/log/lastlog
+fi
 sed -i '/temp/d' /etc/crimson/crimson-fpga
-
 cd /home/root/
 if [ ! -e make-tarball ];
 then

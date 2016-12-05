@@ -2,30 +2,31 @@
 # This script is used to help creating a tarball to bundle all the logs
 # Enter ./make-tarball.sh to execute, the tarball is called log.tar.gz
 SERVER_LOG=NULL
-GENERAL_LOG=NULL
+JOURNAL_LOG=NULL
 HOME_DIR=/home/root
+JOURNAL_DIR=/var/log/journal
 if [ -e $HOME_DIR/crimson.log ];
 then
 	SERVER_LOG=1
 else
 	SERVER_LOG=0
 fi
-if [ "$(ls -A  $HOME_DIR/history/log)" ];
+if [ "$(ls -A $JOURNAL_DIR)" ];
 then
-	GENERAL_LOG=1
+	JOURNAL_LOG=1
 else
-	GENERAL_LOG=0
+	JOURNAL_LOG=0
 fi
-if [ $SERVER_LOG -eq 0 -a $GENERAL_LOG -eq 0 ];
+if [ $SERVER_LOG -eq 0 -a $JOURNAL_LOG -eq 0 ];
 then
 	echo "Nothing to pack"
 	exit 0
 elif [ $SERVER_LOG -eq 0 ];
 then
-	cd $HOME_DIR && sync && tar -zcf log.tar.gz history/log/* && echo "Packed general logs in history/log/, missing crimson.log" || echo "Packing unsuccessful"
-elif [ $GENERAL_LOG -eq 0 ];
+	cd $HOME_DIR && sync && sudo tar -zcf log.tar.gz -P $JOURNAL_DIR && echo "Packed general logs in /var/log/journal, missing crimson.log" || echo "Packing unsuccessful"
+elif [ $JOURNAL_LOG -eq 0 ];
 then
-	cd $HOME_DIR && sync && tar -zcf log.tar.gz crimson.log && echo "Packed crimson.log, missing general logs in history/log/" || echo "Packing unsuccessful"
+	cd $HOME_DIR && sync && tar -zcf log.tar.gz crimson.log && echo "Packed crimson.log, missing general logs in /var/log/journal" || echo "Packing unsuccessful"
 else
-	cd $HOME_DIR && sync && tar -zcf log.tar.gz history/log/* crimson.log && echo "Packing successful" || echo "Packing unsuccessful"
+	cd $HOME_DIR && sync && tar -zcf log.tar.gz -P $JOURNAL_DIR crimson.log && echo "Packing successful" || echo "Packing unsuccessful"
 fi

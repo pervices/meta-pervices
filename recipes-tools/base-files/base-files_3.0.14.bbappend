@@ -5,4 +5,8 @@ do_install_append () {
 	rm ${D}${localstatedir}/log
 	rm ${D}${localstatedir}/tmp
 	install -d -m 1777 ${D}${localstatedir}/tmp
+	install -d -m 0755 ${D}${localstatedir}/log
+	touch ${D}${localstatedir}/log/lastlog
+	chgrp utmp ${D}${localstatedir}/log/lastlog
+	chmod 0644 ${D}${localstatedir}/log/lastlog
 }

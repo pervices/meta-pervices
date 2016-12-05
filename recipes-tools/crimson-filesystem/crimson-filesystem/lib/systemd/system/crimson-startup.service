@@ -1,0 +1,12 @@
+[Unit]
+Description=Crimson startup service
+Before=getty@tty1.service
+After=dev-tty1.device
+
+[Service]
+ExecStart=/etc/crimson/startup
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
