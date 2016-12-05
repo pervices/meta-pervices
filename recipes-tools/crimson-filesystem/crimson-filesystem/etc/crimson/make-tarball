@@ -3,24 +3,29 @@
 # Enter ./make-tarball.sh to execute, the tarball is called log.tar.gz
 SERVER_LOG=NULL
 GENERAL_LOG=NULL
-if [ -e /home/root/crimson.log ];
+HOME_DIR=/home/root
+if [ -e $HOME_DIR/crimson.log ];
 then
 	SERVER_LOG=1
 else
-	echo "Missing server logs"
 	SERVER_LOG=0
 fi
-if [ "$(ls -A  /home/root/history/log)" ];
+if [ "$(ls -A  $HOME_DIR/history/log)" ];
 then
 	GENERAL_LOG=1
 else
-	echo "Missing general logs"
 	GENERAL_LOG=0
 fi
 if [ $SERVER_LOG -eq 0 -a $GENERAL_LOG -eq 0 ];
 then
 	echo "Nothing to pack"
 	exit 0
+elif [ $SERVER_LOG -eq 0 ];
+then
+	cd $HOME_DIR && sync && tar -zcf log.tar.gz history/log/* && echo "Packed general logs in history/log/, missing crimson.log" || echo "Packing unsuccessful"
+elif [ $GENERAL_LOG -eq 0 ];
+then
+	cd $HOME_DIR && sync && tar -zcf log.tar.gz crimson.log && echo "Packed crimson.log, missing general logs in history/log/" || echo "Packing unsuccessful"
 else
-	cd /home/root/ && sync && tar -zcf log.tar.gz history/log/* crimson.log && echo "Packing successful" || echo "Packing unsuccessful"
+	cd $HOME_DIR && sync && tar -zcf log.tar.gz history/log/* crimson.log && echo "Packing successful" || echo "Packing unsuccessful"
 fi
