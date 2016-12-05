@@ -249,6 +249,7 @@ PREFERRED_VERSION_valgrind ?= "3.10%"
 KERNEL_PROVIDER = "linux-altera"
 PREFERRED_VERSION_linux-altera = "4.6%"
 DEFAULTTUNE = "cortexa9hf-neon"
+FILESYSTEM_PERMS_TABLES = "fs-perms-pv.txt"
 
 MIRRORS =+ "\
 http://.*/.*     http://snapshots.linaro.org/openembedded/sources/ \n \
