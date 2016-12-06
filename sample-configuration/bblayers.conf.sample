@@ -6,19 +6,19 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
-  path-to-poky/poky/meta \
-  path-to-poky/poky/meta-yocto \
-  path-to-poky/poky/meta-yocto-bsp \
-  path-to-poky/poky/meta-altera \
-  path-to-poky/poky/meta-linaro/meta-linaro-toolchain \
-  path-to-poky/poky/meta-pervices \
-  path-to-poky/poky/meta-openembedded/meta-oe \
-  path-to-poky/poky/meta-openembedded/meta-webserver \
-  path-to-poky/poky/meta-openembedded/meta-filesystems \
-  path-to-poky/poky/meta-openembedded/meta-networking \
-  path-to-poky/poky/meta-openembedded/meta-python \
+  ${TOPDIR}/../poky/meta \
+  ${TOPDIR}/../poky/meta-yocto \
+  ${TOPDIR}/../poky/meta-yocto-bsp \
+  ${TOPDIR}/../poky/meta-altera \
+  ${TOPDIR}/../poky/meta-linaro/meta-linaro-toolchain \
+  ${TOPDIR}/../poky/meta-pervices \
+  ${TOPDIR}/../poky/meta-openembedded/meta-oe \
+  ${TOPDIR}/../poky/meta-openembedded/meta-webserver \
+  ${TOPDIR}/../poky/meta-openembedded/meta-filesystems \
+  ${TOPDIR}/../poky/meta-openembedded/meta-networking \
+  ${TOPDIR}/../poky/meta-openembedded/meta-python \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
-  path-to-poky/poky/meta \
-  path-to-poky/poky/meta-yocto \
+  ${TOPDIR}/../poky/meta \
+  ${TOPDIR}/../poky/meta-yocto \
   "
