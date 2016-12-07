@@ -4,7 +4,7 @@ Requires=crimson-server.service
 After=crimson-server.service
 
 [Service]
-WorkingDirectory=/home/root/pv_web
+WorkingDirectory=/usr/lib/node_modules/crimson_server
 ExecStart=/usr/bin/node server.js
 Type=simple
 Restart=always
