@@ -1,7 +1,7 @@
 #! /bin/bash -e
 NOW=$(date '+%Y%m%d%H%M')
 LOCATION="/home/root/history/log/crimson-configuration"
-STRING="The first time package manager was setup was on"
+STRING="The package manager was setup on"
 red='\e[1;31m'
 normal='\e[0m'
 green='\e[1;32m'
@@ -18,19 +18,19 @@ setup)
 	if [[ $ADD =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 		for i in `seq 1 4`; do
 			if [ $(echo "$ADD" | cut -d. -f$i) -gt 255 ]; then
-				echo -e "[$red FAILED $normal] Invalid ip address input, please try again"
+				echo -e "[$red FAILED $normal] Invalid ip address, please try again"
 				exit 1
 			fi
 		done
-		echo "Attempting to setup package manager's server ip address to $ADD on $NOW" >> /home/root/history/log/crimson-configuration
-		echo "[        ] Attempting to setup package manager's server ip address to $ADD on $NOW"
+		echo "Attempting to setup package manager's server ip addres to $ADD on $NOW" >> /home/root/history/log/crimson-configuration
+		echo "[        ] Attempting to setup package manager's server ip address..."
 		smart channel --yes --add all type=rpm-md name=all baseurl=http://$ADD/crimson/all > /dev/null
 		smart channel --yes --add cortexa9hf_vfp_neon type=rpm-md name=cortexa9hf_vfp_neon baseurl=http://$ADD/crimson/cortexa9hf_vfp_neon > /dev/null
 		smart channel --yes --add arria5 type=rpm-md name=arria5 baseurl=http://$ADD/crimson/arria5 > /dev/null
-		echo "The first time package manager was setup was on $NOW and the server ip address was set to $ADD" >> /home/root/history/log/crimson-configuration
-		echo -e "[$green   OK   $normal] Successfully setup the package manager's server ip address to $ADD"
+		echo "The package manager was setup on $NOW with the server ip address set to $ADD" >> /home/root/history/log/crimson-configuration
+		echo -e "[$green   OK   $normal] Successfully setup the package manager's server ip address"
 	else
-		echo -e "[$red FAILED $normal] Invalid ip address input, please try again"
+		echo -e "[$red FAILED $normal] Invalid ip address, please try again"
 		exit 1
 	fi
 	;;
@@ -39,20 +39,20 @@ update)
 	if [[ $NEW_ADD =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 		for i in `seq 1 4`; do
 			if [ $(echo "$NEW_ADD" | cut -d. -f$i) -gt 255 ]; then
-				echo -e "[$red FAILED $normal] Invalid ip address input, please try again"
+				echo -e "[$red FAILED $normal] Invalid ip address, please try again"
 				exit 1
 			fi
 		done
 		echo "Attempting to update package manager's server ip address to $NEW_ADD on $NOW" >> /home/root/history/log/crimson-configuration
-		echo "[        ] Attempting to update package manager's server ip address to $NEW_ADD on $NOW"
+		echo "[        ] Attempting to update package manager's server ip address..."
 		smart channel --yes --remove-all > /dev/null
 		smart channel --yes --add all type=rpm-md name=all baseurl=http://$NEW_ADD/crimson/all > /dev/null
 		smart channel --yes --add cortexa9hf_vfp_neon type=rpm-md name=cortexa9hf_vfp_neon baseurl=http://$NEW_ADD/crimson/cortexa9hf_vfp_neon > /dev/null
 		smart channel --yes --add arria5 type=rpm-md name=arria5 baseurl=http://$NEW_ADD/crimson/arria5 > /dev/null
-		echo "The package manager's server ip address was updated on $NOW and the server ip address was set to $NEW_ADD" >> /home/root/history/log/crimson-configuration
-		echo -e "[$green   OK   $normal] Successfully updated the package manager's server ip address to $NEW_ADD"
+		echo "The package manager was updated on $NOW with the server ip address set to $NEW_ADD" >> /home/root/history/log/crimson-configuration
+		echo -e "[$green   OK   $normal] Successfully updated the package manager's server ip address"
 	else
-		echo -e "[$red FAILED $normal] Invalid ip address input, please try again"
+		echo -e "[$red FAILED $normal] Invalid ip address, please try again"
 		exit 1
 	fi
 	;;
