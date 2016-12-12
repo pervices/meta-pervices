@@ -5,10 +5,19 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS_${PN} = ""
 RDEPENDS_${PN} = ""
-SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing"
+SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing \
+           file://lib/systemd/system/crimson-server.service \
+          "
 SRCREV = "b64660f447904641ad7b9bffd9bc8a02412a3c6c"
+
+inherit systemd
+
 INSANE_SKIP_${PN} = "ldflags"
-FILES_${PN} += "${bindir} ${sysconfdir}/crimson"
+
+FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system "
+
+SYSTEMD_SERVICE_${PN} = "crimson-server.service \
+                        "
 
 do_compile() {
 	make -C ${WORKDIR}/git all
@@ -21,5 +30,7 @@ do_install() {
 }
 
 do_install_append() {
+	install -d -m 0755 ${D}${systemd_unitdir}/system/
+	install -m 0644 -D ${WORKDIR}/lib/systemd/system/crimson-server.service ${D}${systemd_unitdir}/system/
 	echo "installed-${PV}" >> ${D}${sysconfdir}/crimson/${PN}
 }

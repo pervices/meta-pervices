@@ -8,8 +8,6 @@ RDEPENDS_${PN} = "bash"
 SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/crimson-log.service \
            file://lib/systemd/system/crimson-networking.service \
-           file://lib/systemd/system/crimson-server.service \
-           file://lib/systemd/system/crimson-website.service \
            file://lib/systemd/system/crimson-startup.service \
            file://etc/crimson/logging \
            file://etc/crimson/package-manager \
@@ -48,7 +46,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "crimson-startup.service crimson-website.service crimson-server.service crimson-networking.service"
+SYSTEMD_SERVICE_${PN} = "crimson-startup.service crimson-networking.service"
 
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
