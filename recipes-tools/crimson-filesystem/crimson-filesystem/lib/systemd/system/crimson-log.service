@@ -4,6 +4,8 @@ Before=getty@tty1.service
 After=dev-tty1.device
 
 [Service]
+User=root
+Group=root
 ExecStart=/etc/crimson/logging
 Type=simple
 Restart=always

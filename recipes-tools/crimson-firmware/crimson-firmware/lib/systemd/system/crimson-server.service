@@ -5,6 +5,8 @@ Before=crimson-website.service
 After=network-online.target
 
 [Service]
+User=root
+Group=root
 ExecStart=/usr/bin/server -d
 Type=simple
 Restart=always

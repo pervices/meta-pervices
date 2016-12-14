@@ -4,6 +4,8 @@ Before=getty@tty1.service crimson-server.service
 After=dev-tty1.device
 
 [Service]
+User=root
+Group=root
 ExecStartPre=/etc/init.d/networking start
 ExecStart=/etc/init.d/networking check
 ExecReload=/etc/init.d/networking restart
