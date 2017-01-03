@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master-testing \
            file://lib/systemd/system/crimson-website.service \
           "
-SRCREV = "db6a1beb86e091fcb69f1e6e73c3ca1d1aa7a807"
+SRCREV = "a72c2e839469269850b58497f14178e487c6497d"
 
 S = "${WORKDIR}/git"
 
