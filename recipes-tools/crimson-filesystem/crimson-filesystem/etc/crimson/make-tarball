@@ -3,7 +3,7 @@
 # Enter ./make-tarball.sh to execute, the tarball is called log.tar.gz
 SERVER_LOG=NULL
 JOURNAL_LOG=NULL
-HOME_DIR=/home/root
+HOME_DIR=/var/crimson
 JOURNAL_DIR=/var/log/journal
 if [ -e $HOME_DIR/crimson.log ];
 then

@@ -1,6 +1,6 @@
 #! /bin/bash -e
 NOW=$(date '+%Y%m%d%H%M')
-LOCATION="/home/root/history/log/crimson-configuration"
+LOCATION="/var/crimson/history/log/crimson-configuration"
 STRING="The package manager was setup on"
 red='\e[1;31m'
 normal='\e[0m'
@@ -22,12 +22,12 @@ setup)
 				exit 1
 			fi
 		done
-		echo "Attempting to setup package manager's server ip addres to $ADD on $NOW" >> /home/root/history/log/crimson-configuration
+		echo "Attempting to setup package manager's server ip addres to $ADD on $NOW" >> $LOCATION
 		echo "[        ] Attempting to setup package manager's server ip address..."
 		smart channel --yes --add all type=rpm-md name=all baseurl=http://$ADD/crimson/all > /dev/null
 		smart channel --yes --add cortexa9hf_vfp_neon type=rpm-md name=cortexa9hf_vfp_neon baseurl=http://$ADD/crimson/cortexa9hf_vfp_neon > /dev/null
 		smart channel --yes --add arria5 type=rpm-md name=arria5 baseurl=http://$ADD/crimson/arria5 > /dev/null
-		echo "The package manager was setup on $NOW with the server ip address set to $ADD" >> /home/root/history/log/crimson-configuration
+		echo "The package manager was setup on $NOW with the server ip address set to $ADD" >> $LOCATION
 		echo -e "[$green   OK   $normal] Successfully setup the package manager's server ip address"
 	else
 		echo -e "[$red FAILED $normal] Invalid ip address, please try again"
@@ -43,13 +43,13 @@ update)
 				exit 1
 			fi
 		done
-		echo "Attempting to update package manager's server ip address to $NEW_ADD on $NOW" >> /home/root/history/log/crimson-configuration
+		echo "Attempting to update package manager's server ip address to $NEW_ADD on $NOW" >> $LOCATION
 		echo "[        ] Attempting to update package manager's server ip address..."
 		smart channel --yes --remove-all > /dev/null
 		smart channel --yes --add all type=rpm-md name=all baseurl=http://$NEW_ADD/crimson/all > /dev/null
 		smart channel --yes --add cortexa9hf_vfp_neon type=rpm-md name=cortexa9hf_vfp_neon baseurl=http://$NEW_ADD/crimson/cortexa9hf_vfp_neon > /dev/null
 		smart channel --yes --add arria5 type=rpm-md name=arria5 baseurl=http://$NEW_ADD/crimson/arria5 > /dev/null
-		echo "The package manager was updated on $NOW with the server ip address set to $NEW_ADD" >> /home/root/history/log/crimson-configuration
+		echo "The package manager was updated on $NOW with the server ip address set to $NEW_ADD" >> $LOCATION
 		echo -e "[$green   OK   $normal] Successfully updated the package manager's server ip address"
 	else
 		echo -e "[$red FAILED $normal] Invalid ip address, please try again"

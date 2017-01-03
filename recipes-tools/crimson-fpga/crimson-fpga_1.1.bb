@@ -9,23 +9,20 @@ SRC_URI = "file://soc_system.rbf \
 	   file://update.sh \
 	   file://update.dtb \
           "
-FILES_${PN} += "/home/root/pv_fpga/ ${base_libdir} ${sysconfdir}/crimson"
+FILES_${PN} += "${base_libdir}/firmware/ ${sysconfdir}/crimson"
 
 do_install() {
-	install -d -m 0755 ${D}/home/root/pv_fpga/
 	install -d -m 0755 ${D}${base_libdir}/firmware/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 
-	install -m 0644 -D ${WORKDIR}/soc_system.rbf ${D}/home/root/pv_fpga/
-	install -m 0744 -D ${WORKDIR}/update.sh ${D}/home/root/pv_fpga/
-	install -m 0644 -D ${WORKDIR}/update.dtb ${D}/home/root/pv_fpga/
+	install -m 0644 -D ${WORKDIR}/soc_system.rbf ${D}${base_libdir}/firmware/
+	install -m 0744 -D ${WORKDIR}/update.sh ${D}${base_libdir}/firmware/
+	install -m 0644 -D ${WORKDIR}/update.dtb ${D}${base_libdir}/firmware/
 
-	chown -R root ${D}/home/root
-        chgrp -R root ${D}/home/root
+	chown -R root ${D}${base_libdir}/firmware
+	chgrp -R 880 ${D}${base_libdir}/firmware
 }
 
 do_install_append() {
-	ln -sf /home/root/pv_fpga/soc_system.rbf ${D}${base_libdir}/firmware/soc_system.rbf
-	ln -sf /home/root/pv_fpga/update.dtb ${D}${base_libdir}/firmware/update.dtb
 	echo "shipped-${PV}" >> ${D}${sysconfdir}/crimson/${PN}
 }

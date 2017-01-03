@@ -13,22 +13,22 @@ SRC_URI = "file://flash.sh \
            file://synth.hex \
            file://SYNTH-xboot-boot.hex \
            "
-FILES_${PN} += "/home/root/pv_mcu/ ${sysconfdir}/crimson/"
+FILES_${PN} += "${base_libdir}/mcu/ ${sysconfdir}/crimson/"
 
 do_install() {
-	install -d -m 0755 ${D}/home/root/pv_mcu/
+	install -d -m 0755 ${D}${base_libdir}/mcu/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 
-	install -m 0744 -D ${WORKDIR}/flash.sh ${D}/home/root/pv_mcu/
-	install -m 0644 -D ${WORKDIR}/rx.hex ${D}/home/root/pv_mcu/
-	install -m 0644 -D ${WORKDIR}/tx.hex ${D}/home/root/pv_mcu/
-	install -m 0644 -D ${WORKDIR}/synth.hex ${D}/home/root/pv_mcu/
-	install -m 0644 -D ${WORKDIR}/RX-xboot-boot.hex ${D}/home/root/pv_mcu/
-	install -m 0644 -D ${WORKDIR}/TX-xboot-boot.hex ${D}/home/root/pv_mcu/
-	install -m 0644 -D ${WORKDIR}/SYNTH-xboot-boot.hex ${D}/home/root/pv_mcu/
+	install -m 0744 -D ${WORKDIR}/flash.sh ${D}${base_libdir}/mcu/
+	install -m 0644 -D ${WORKDIR}/rx.hex ${D}${base_libdir}/mcu/
+	install -m 0644 -D ${WORKDIR}/tx.hex ${D}${base_libdir}/mcu/
+	install -m 0644 -D ${WORKDIR}/synth.hex ${D}${base_libdir}/mcu/
+	install -m 0644 -D ${WORKDIR}/RX-xboot-boot.hex ${D}${base_libdir}/mcu/
+	install -m 0644 -D ${WORKDIR}/TX-xboot-boot.hex ${D}${base_libdir}/mcu/
+	install -m 0644 -D ${WORKDIR}/SYNTH-xboot-boot.hex ${D}${base_libdir}/mcu/
 
-	chown -R root ${D}/home/root
-	chgrp -R root ${D}/home/root
+	chown -R root ${D}${base_libdir}/mcu
+	chgrp -R 880 ${D}${base_libdir}/mcu
 }
 
 do_install_append() {

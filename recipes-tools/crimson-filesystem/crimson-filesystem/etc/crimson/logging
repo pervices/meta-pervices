@@ -16,13 +16,7 @@ then
 	chgrp utmp /var/log/lastlog
 	chmod 0644 /var/log/lastlog
 fi
-sed -i '/temp/d' /etc/crimson/crimson-fpga
-cd /home/root/
-if [ ! -e make-tarball ];
-then
-	ln -s /etc/crimson/make-tarball
-fi
-mkdir -p /home/root/history/log && cd $_
+mkdir -p /var/crimson/history/log && cd $_
 if [ ! -e crimson-configuration ];
 then
 	touch crimson-configuration
