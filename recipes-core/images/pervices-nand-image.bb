@@ -135,6 +135,8 @@ inherit extrausers
 EXTRA_USERS_PARAMS = "\
 	usermod -P root root; \
 	usermod -s /bin/bash root; \
+	usermod -a -G dev-grp0 dev0; \
+	usermod -a -G cli-grp0 client; \
 	"
 
 export IMAGE_BASENAME = "pervices-nand-image"
