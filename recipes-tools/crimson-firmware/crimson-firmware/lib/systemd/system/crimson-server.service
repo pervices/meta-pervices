@@ -6,7 +6,7 @@ After=network-online.target
 
 [Service]
 User=root
-Group=root
+Group=dev-grp0
 ExecStart=/usr/bin/server -d
 Type=simple
 Restart=always

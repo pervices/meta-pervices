@@ -59,7 +59,7 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/etc/crimson/issue.net ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/logging ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/package-manager ${D}${sysconfdir}/crimson/
-	install -m 0755 -D ${WORKDIR}/etc/crimson/make-tarball ${D}${sysconfdir}/crimson/
+	install -m 0744 -D ${WORKDIR}/etc/crimson/make-tarball ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/startup ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/

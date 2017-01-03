@@ -5,7 +5,7 @@ After=dev-tty1.device
 
 [Service]
 User=root
-Group=root
+Group=dev-grp0
 ExecStartPre=/etc/init.d/networking start
 ExecStart=/etc/init.d/networking check
 ExecReload=/etc/init.d/networking restart
