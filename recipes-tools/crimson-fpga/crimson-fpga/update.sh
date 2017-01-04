@@ -184,14 +184,14 @@ hard)
 			then
 				echo -e "$warning $fpga_image_location is not mounted at $sd_mountfolder. However, $sd_mountfolder is NOT empty"
 				echo -e "$warning Will use $sd_mountfolder-tmp instead"
-				sd_mountfolder='/home/root/pv_fpga/sdcard-tmp'
+				sd_mountfolder='/media/card-tmp'
 				if [[ -d $sd_mountfolder ]]
 				then
-					echo -e "$failed /home/root/pv_fpga/sdcard-tmp is also being used please clean up, exiting..."
+					echo -e "$failed /media/card-tmp is also being used please clean up, exiting..."
 					exit 1
 				fi
 				mkdir $sd_mountfolder
-				echo -e "$warning Consider cleaning up /home/root/pv_fpga/sdcard"
+				echo -e "$warning Consider cleaning up /media/card"
 			fi
 		else
 			echo -e "$failed $sd_mountfolder is being mounted, exiting..."
@@ -213,7 +213,7 @@ hard)
 		echo -e "$warning Failed to backup current FPGA image"
 	fi
 	sync
-	scp /home/root/pv_fpga/soc_system.rbf $sd_mountfolder/
+	scp /lib/firmware/soc_system.rbf $sd_mountfolder/
 	rc13=$?
 	if [[ $rc13 != 0 ]]; then
 		echo -e "$failed Failed to update the new FPGA image, exiting..."
