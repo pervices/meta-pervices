@@ -20,6 +20,7 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
 # REQUIRED
 ##
 IMAGE_INSTALL += "\
+	at \
 	autoconf \
 	avrdude \
 	base-files \
@@ -35,9 +36,11 @@ IMAGE_INSTALL += "\
 	crimson-fpga \
 	crimson-mcu \
 	crimson-website \
+	cronie \
+	cups \
 	diffutils \
 	dtc \
-	e2fsprogs \ 
+	e2fsprogs \
 	elfutils \
 	ethtool \
 	file \
@@ -62,10 +65,11 @@ IMAGE_INSTALL += "\
 	iproute2 \
 	iptables \
 	iputils \
-	kernel-modules \
+	kmod \
 	liba52 \
 	libftdi \
 	libgcrypt \
+	libpam \
 	libpcap \
 	libudev \
 	libusb1 \
@@ -74,6 +78,7 @@ IMAGE_INSTALL += "\
 	lshw \
 	make \
 	memtester \
+	man \
 	minicom \
 	mtd-utils \
 	neon \
@@ -90,12 +95,14 @@ IMAGE_INSTALL += "\
 	patch \
 	pciutils \
 	perl \
+	polkit \
 	portmap \
 	python-core \
 	resolvconf \
 	screen \
 	sed \
 	setserial \
+	shadow \
 	sshfs-fuse \
 	strace \
 	subversion \
@@ -108,7 +115,8 @@ IMAGE_INSTALL += "\
 	tcpdump \
 	tzdata \
 	udev \
-	useradd-dev0 \
+	useradd \
+	useradd-client \
 	usbutils \
 	util-linux \
 	valgrind \
@@ -123,7 +131,6 @@ IMAGE_INSTALL += "\
 # OPTIONAL
 ##
 CORE_IMAGE_EXTRA_INSTALL += "\
-	glibc \
 	ntpdate \
 	python-argparse \
 	python-cheetah \
