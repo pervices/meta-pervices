@@ -248,6 +248,7 @@ SDKGCCVERSION = "linaro-4.9%"
 PREFERRED_VERSION_valgrind ?= "3.10%"
 KERNEL_PROVIDER = "linux-altera"
 PREFERRED_VERSION_linux-altera = "4.6%"
+PREFERRED_VERSION_nodejs = "0.12.1%"
 DEFAULTTUNE = "cortexa9hf-neon"
 FILESYSTEM_PERMS_TABLES = "fs-perms-pv.txt"
 
