@@ -38,11 +38,6 @@ if [ $USER == 'root' ]; then
 	echo -e "|          KERNEL         : $KERNEL       |"
 	echo -e "|          DATE           : $DATE           |"
 	echo -e "*------------------------------------------------------------------*"
-	echo -e "        \   ^__^ "
-	echo -e "         \  (oo)\_______"
-	echo -e "            (__)\       )\/\ "
-	echo -e "                ||----w | "
-	echo -e "                ||     || "
 else
 	echo -e "#==================================================================#"
 	echo -e "|          Welcome to $BBold$HOSTNAME$NC                                      |"
