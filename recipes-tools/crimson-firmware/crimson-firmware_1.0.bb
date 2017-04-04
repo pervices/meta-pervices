@@ -8,7 +8,7 @@ RDEPENDS_${PN} = ""
 SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing \
            file://lib/systemd/system/crimson-server.service \
           "
-SRCREV = "7ca223894798ae28b232c0431e052807185fc625"
+SRCREV = "759942ef2d65f18ea4aaaae9096414e0a91a7529"
 
 inherit systemd
 
