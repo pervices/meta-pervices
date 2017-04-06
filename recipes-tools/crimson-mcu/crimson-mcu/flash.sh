@@ -26,6 +26,8 @@ then
 		state=1
 	fi
 	echo -e "boot -e\r" > /dev/ttycrimson-time
+	while [[ $(head -n 1 /dev/ttycrimson-time) != *"T"* ]];do :; done
+	echo "Entering Synth Bootloader"
 	usleep 6050000
 	echo -e "abcdefghijklmnopqrstuvwxyz\r" > /dev/ttycrimson-time
 	avrdude -c avr109 -B 8 -p x256a3u -P /dev/ttycrimson-time -b 115200 -e -U flash:w:synth.hex
@@ -49,6 +51,8 @@ then
 		state=1
 	fi
 	echo -e "boot -e\r" > /dev/ttycrimson-rx
+	while [[ $(head -n 1 /dev/ttycrimson-rx) != *"T"* ]];do :; done
+	echo "Entering RX Bootloader"
 	usleep 6050000
 	echo -e "abcdefghijklmnopqrstuvwxyz\r" > /dev/ttycrimson-rx
 	avrdude -c avr109 -B 8 -p x256a3u -P /dev/ttycrimson-rx -b 115200 -e -U flash:w:rx.hex
@@ -72,6 +76,8 @@ then
 		state=1
 	fi
 	echo -e "boot -e\r" > /dev/ttycrimson-tx
+	while [[ $(head -n 1 /dev/ttycrimson-tx) != *"T"* ]];do :; done
+	echo "Entering TX Bootloader"
 	usleep 6010000
 	echo -e "abcdefghijklmnopqrstuvwxyz\r" > /dev/ttycrimson-tx
 	avrdude -c avr109 -B 8 -p x256a3u -P /dev/ttycrimson-tx -b 115200 -e -U flash:w:tx.hex
