@@ -97,6 +97,7 @@ IMAGE_INSTALL += "\
 	iptables-doc \
 	iputils \
 	iputils-doc \
+	kernel-modules \
 	kmod \
 	liba52 \
 	libftdi \
