@@ -17,6 +17,8 @@ inherit systemd npm-install-global
 
 FILES_${PN} += "${systemd_unitdir}/system \
                "
+SYSTEMD_SERVICE_${PN} = "crimson-website.service \
+                        "
 
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
