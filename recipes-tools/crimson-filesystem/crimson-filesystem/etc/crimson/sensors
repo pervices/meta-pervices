@@ -1,0 +1,79 @@
+#!/bin/bash
+VOLTAGE=/sys/class/i2c-dev/i2c-0/device/0-004b
+PWR_TMP=/sys/class/i2c-dev/i2c-0/device/0-0048
+DIG_TMP=/sys/class/i2c-dev/i2c-0/device/0-0049
+
+VOLTAGE_5V3=in4_input
+VOLTAGE_5V5=in5_input
+VOLTAGE_3V6=in6_input
+VOLTAGE_5V3=in7_input
+
+TEMP_5V3_V=in4_input
+TEMP_5V5_V=in5_input
+TEMP_3V6_V=in6_input
+TEMP_3V3_V=in7_input
+
+MAX_TEMP=1549 #80 degree C
+MIN_TEMP=2637 #0 degree C
+
+# formula to calculate temp: temp = (Voltage-2637mV)/(-13.6mV/C), thus 2637mV -> 0 degree C
+# higher temp -> lower voltage
+# lower temp -> higher voltage
+
+TEMP_DIG1=in4_input
+TEMP_DIG2=in5_input
+
+CONST1=2637
+CONST2=13.6
+
+while true
+do
+	if [[ "$(cat $VOLTAGE/$VOLTAGE_5V3)" -gt "2750" ]]; then
+		wall -n "OVER-VOLTAGE: 5300mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_5V3)mV"
+	elif [[ "$(cat $VOLTAGE/$VOLTAGE_5V3)" -lt "2550" ]]; then
+		wall -n "UNDER-VOLTAGE: 5300mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_5V3)mV"
+	fi
+	
+	if [[ "$(cat $VOLTAGE/$VOLTAGE_5V5)" -gt "2850" ]]; then
+		wall -n "OVER-VOLTAGE: 5500mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_5V5)mV"
+	elif [[ "$(cat $VOLTAGE/$VOLTAGE_5V5)" -lt "2650" ]]; then
+		wall -n "UNDER-VOLTAGE: 5500mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_5V5)mV"
+	fi
+	
+	if [[ "$(cat $VOLTAGE/$VOLTAGE_3V6)" -gt "1850" ]]; then
+		wall -n "OVER-VOLTAGE: 3600mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_3V6)mV"
+	elif [[ "$(cat $VOLTAGE/$VOLTAGE_3V6)" -lt "1750" ]]; then
+		wall -n "UNDER-VOLTAGE: 3600mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_3V6)mV"
+	fi
+	
+	if [[ "$(cat $VOLTAGE/$VOLTAGE_3V3)" -gt "1700" ]]; then
+		wall -n "OVER-VOLTAGE: 3300mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_3V3)mV"
+	elif [[ "$(cat $VOLTAGE/$VOLTAGE_3V3)" -lt "1600" ]]; then
+		wall -n "UNDER-VOLTAGE: 3300mV LINE IS NOW at $(cat $VOLTAGE/$VOLTAGE_3V3)mV"
+	fi
+	
+	if [[ "$(cat $PWR_TMP/$TEMP_5V3)" -lt $MAX_TEMP ]]; then
+		wall -n "OVER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_5V3))/$CONST2") ON 5.3V RAIL"
+	elif [[ "$(cat $PWR_TMP/$TEMP_5V3)" -gt $MIN_TEMP ]]; then
+		wall -n "UNDER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_5V3))/$CONST2") ON 5.3V RAIL"
+	fi
+	
+	if [[ "$(cat $PWR_TMP/$TEMP_5V5)" -lt $MAX_TEMP ]]; then
+		wall -n "OVER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_5V5))/$CONST2") ON 5.5V RAIL"
+	elif [[ "$(cat $PWR_TMP/$TEMP_5V5)" -gt $MIN_TEMP ]]; then
+		wall -n "UNDER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_5V5))/$CONST2") ON 5.5V RAIL"
+	fi
+
+	if [[ "$(cat $PWR_TMP/$TEMP_3V6)" -lt $MAX_TEMP ]]; then
+		wall -n "OVER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_3V6))/$CONST2") ON 3.6V RAIL"
+	elif [[ "$(cat $PWR_TMP/$TEMP_3V6)" -gt $MIN_TEMP ]]; then
+		wall -n "UNDER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_3V6))/$CONST2") ON 3.6V RAIL"
+	fi
+
+	if [[ "$(cat $PWR_TMP/$TEMP_3V3)" -lt $MAX_TEMP ]]; then
+		wall -n "OVER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_3V3))/$CONST2") ON 3.3V RAIL"
+	elif [[ "$(cat $PWR_TMP/$TEMP_3V3)" -gt $MIN_TEMP ]]; then
+		wall -n "UNDER-TEMPERATURE: CURRENT TEMPERATURE IS $(bc <<<"scale=2;($CONST1-$(cat $PWR_TMP/$TEMP_3V3))/$CONST2") ON 3.3V RAIL"
+	fi
+	sleep 5
+done
