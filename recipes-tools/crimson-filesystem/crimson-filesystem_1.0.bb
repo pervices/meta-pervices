@@ -45,7 +45,7 @@ PAM_PLUGINS = "libpam-runtime \
 PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
-FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
+FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
 SYSTEMD_SERVICE_${PN} = "crimson-startup.service crimson-networking.service"
 
 do_install() {
@@ -53,6 +53,7 @@ do_install() {
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d/
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
+	install -d -m 0755 ${D}${bindir}/
 	
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
 	install -m 0755 -D ${WORKDIR}/etc/crimson/motd ${D}${sysconfdir}/crimson/
