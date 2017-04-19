@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-tes
            file://lib/systemd/system/crimson-server.service \
            file://usr/src/debug/${PN}/update.sh \
           "
-SRCREV = "e068c3be9c38f5afef5007e87600e8db15194201"
+SRCREV = "ccb108ab122cea422dd7b5850f4898e98c285dac"
 
 inherit systemd
 
@@ -19,17 +19,16 @@ FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${
 
 SYSTEMD_SERVICE_${PN} = "crimson-server.service "
 
-#do_compile() {
-#	make -C ${WORKDIR}/git all
-#}
+do_compile() {
+	make -C ${WORKDIR}/git all
+}
 
 do_install() {
-	#install -d -m 0755 ${D}${bindir}
+	install -d -m 0755 ${D}${bindir}
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
-	#install -m 0755 -D ${WORKDIR}/git/out/bin/* ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/out/bin/* ${D}${bindir}
 	install -d -m 0755 ${D}${prefix}/src/debug/${PN}
 	install -m 0755 -D ${WORKDIR}/usr/src/debug/${PN}/update.sh ${D}${prefix}/src/debug/${PN}/
-	cp -r ${WORKDIR}/git/* ${D}${prefix}/src/debug/${PN}/
 }
 
 do_install_append() {
