@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 DEPENDS_${PN} = "bash"
 RDEPENDS_${PN} = "bash"
 SRC_URI = "file://flash.sh \
+           file://burn-on-host-only.sh \
            file://rx.hex \
            file://RX-xboot-boot.hex \
            file://tx.hex \
@@ -20,6 +21,7 @@ do_install() {
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 
 	install -m 0744 -D ${WORKDIR}/flash.sh ${D}${base_libdir}/mcu/
+	install -m 0744 -D ${WORKDIR}/burn-on-host-only.sh ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/rx.hex ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/tx.hex ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/synth.hex ${D}${base_libdir}/mcu/
