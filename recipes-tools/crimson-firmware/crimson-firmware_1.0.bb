@@ -15,7 +15,7 @@ inherit systemd
 
 INSANE_SKIP_${PN} = "ldflags"
 
-FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN} "
+FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
 SYSTEMD_SERVICE_${PN} = "crimson-server.service "
 
@@ -27,8 +27,8 @@ do_install() {
 	install -d -m 0755 ${D}${bindir}
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 	install -m 0755 -D ${WORKDIR}/git/out/bin/* ${D}${bindir}
-	install -d -m 0755 ${D}${prefix}/src/debug/${PN}
-	install -m 0755 -D ${WORKDIR}/usr/src/debug/${PN}/update.sh ${D}${prefix}/src/debug/${PN}/
+	install -d -m 0755 ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git
+	install -m 0755 -D ${WORKDIR}/usr/src/debug/${PN}/update.sh ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git/
 }
 
 do_install_append() {
