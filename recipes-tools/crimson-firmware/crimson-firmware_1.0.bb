@@ -28,6 +28,7 @@ do_install() {
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 	install -m 0755 -D ${WORKDIR}/git/out/bin/* ${D}${bindir}
 	install -d -m 0755 ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git
+	cp -r ${WORKDIR}/git/.git ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git/
 	install -m 0755 -D ${WORKDIR}/usr/src/debug/${PN}/update.sh ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git/
 }
 

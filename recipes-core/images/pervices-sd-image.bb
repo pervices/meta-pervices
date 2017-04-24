@@ -136,6 +136,7 @@ IMAGE_INSTALL += "\
 	nodejs-doc \
 	openssh \
 	openssh-doc \
+	openssh-misc \
 	openssh-sftp \
 	openssh-sftp-server \
 	openssl \
