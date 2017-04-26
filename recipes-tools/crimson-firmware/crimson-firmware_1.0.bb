@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-tes
            file://lib/systemd/system/crimson-server.service \
            file://usr/src/debug/${PN}/update.sh \
           "
-SRCREV = "ccb108ab122cea422dd7b5850f4898e98c285dac"
+SRCREV = "cb9d7b6a659cceaf460182ca9bfdf202668b5eb6"
 
 inherit systemd
 
