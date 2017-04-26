@@ -7,6 +7,7 @@ DEPENDS = ""
 
 SRC_URI = "file://default.bashrc \
            file://default.bash_profile \
+           file://.ssh/authorized_keys \
           "
 
 S = "${WORKDIR}"
@@ -18,18 +19,22 @@ GROUPADD_PARAM_${PN} = "-g 880 dev-grp0"
 USERADD_PARAM_${PN}-client = "-u 1201 -d /home/client -r -s /bin/bash -P 'client' client"
 GROUPADD_PARAM_${PN}-client = "-g 890 cli-grp0"
 do_install () {
+	install -d -m 0755 ${D}/home/dev0/.ssh
 	install -d -m 0755 ${D}/home/dev0
 	install -d -m 0755 ${D}/home/client
+	install -d -m 0755 ${D}/home/root/.ssh
 	install -d -m 0755 ${D}/home/root
 
 	install -p -m 0644 default.bashrc ${D}/home/dev0/.bashrc
 	install -p -m 0644 default.bash_profile ${D}/home/dev0/.bash_profile
+	install -p -m 0600 .ssh/authorized_keys ${D}/home/dev0/.ssh/authorized_keys
 
 	install -p -m 0644 default.bashrc ${D}/home/client/.bashrc
 	install -p -m 0644 default.bash_profile ${D}/home/client/.bash_profile
 
 	install -p -m 0644 default.bashrc ${D}/home/root/.bashrc
 	install -p -m 0644 default.bash_profile ${D}/home/root/.bash_profile
+	install -p -m 0600 .ssh/authorized_keys ${D}/home/root/.ssh/authorized_keys
 	sed -i 's/1;32m/1;33m/g' ${D}/home/root/.bashrc
 
 	chown -R dev0 ${D}/home/dev0/
