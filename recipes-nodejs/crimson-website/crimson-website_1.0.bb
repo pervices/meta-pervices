@@ -8,6 +8,7 @@ SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master-te
            file://lib/systemd/system/crimson-website.service \
           "
 SRCREV = "1aa775024abdff7481f973279959baa787b4f461"
+BRANCH = "master-testing"
 
 S = "${WORKDIR}/git"
 
@@ -15,14 +16,16 @@ RDEPENDS_${PN} = "nodejs"
 
 inherit systemd npm-install-global
 
-FILES_${PN} += "${systemd_unitdir}/system \
-               "
+FILES_${PN} += "${systemd_unitdir}/system ${sysconfdir}/crimson"
+
 SYSTEMD_SERVICE_${PN} = "crimson-website.service \
                         "
 
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
+	install -d -m 0755 ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/crimson-website.service ${D}${systemd_unitdir}/system/
 	ln -s /usr/lib/node_modules/crimson-webserver/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/crimson-webserver/public/js/jquery.min.js
 	chown -R root ${D}${libdir}/node_modules/crimson-webserver
+	echo "${BRANCH}:${SRCREV}" > ${D}${sysconfdir}/crimson/${PN}
 }
