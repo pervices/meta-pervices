@@ -9,7 +9,9 @@ SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-tes
            file://lib/systemd/system/crimson-server.service \
            file://usr/src/debug/${PN}/update.sh \
           "
-SRCREV = "master-testing"
+SRCREV = "659857fb7a31d6fce7fd713d4b0af53658937ab1"
+
+BRANCH = "master-testing"
 
 inherit systemd
 
@@ -21,7 +23,7 @@ SYSTEMD_SERVICE_${PN} = "crimson-server.service "
 
 do_compile() {
 	cd ${WORKDIR}/git
-	git checkout ${SRCREV}
+	git checkout ${BRANCH}
 	make all
 }
 
