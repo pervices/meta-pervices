@@ -13,7 +13,7 @@ ok="[$green   OK   $normal]"
 failed="[$red FAILED $normal]"
 
 if [[ "$1" != 'all' ]] && [[ "$1" != 'mcu' ]] && [[ "$1" != 'fpga' ]] && [[ "$1" != 'website' ]] && [[ "$1" != 'server' ]]; then
-	echo "Usage: ./crimson-update all|mcu|server|fpga|website|fs"
+	echo "Usage: ./crimson-update all|mcu|server|fpga|website"
 	exit 0
 fi
 
@@ -64,8 +64,8 @@ then
 		exit $rc0
 	fi
 	smart info crimson-mcu
-	#smart install crimson-mcu.cortexa9hf_vfp_neon.rpm
-	#/bin/bash /lib/mcu/./flash.sh w all
+	smart install crimson-mcu.cortexa9hf_vfp_neon.rpm
+	/bin/bash /lib/mcu/./flash.sh w all
 	rc0=$?
 	if [[ $rc0 != 0 ]]; then
 		echo -e "$failed Failed to update MCU code"
@@ -90,8 +90,8 @@ then
 		exit $rc0
 	fi
 	smart info crimson-fpga
-	#smart install crimson-fpga.cortexa9hf_vfp_neon.rpm
-	#/bin/bash /lib/firmware/./update.sh hard
+	smart install crimson-fpga.cortexa9hf_vfp_neon.rpm
+	/bin/bash /lib/firmware/./update.sh hard
 	rc0=$?
 	if [[ $rc0 != 0 ]]; then
 		echo -e "$failed Failed to update FPGA image"
@@ -116,7 +116,7 @@ then
 		exit $rc0
 	fi
 	smart info crimson-website
-	#smart install crimson-website.cortexa9hf_vfp_neon.rpm
+	smart install crimson-website.cortexa9hf_vfp_neon.rpm
 	rc0=$?
 	if [[ $rc0 != 0 ]]; then
 		echo -e "$failed Failed to update webserver through package manager"
@@ -149,7 +149,7 @@ then
 		exit $rc0
 	fi
 	smart info crimson-firmware
-	#smart install crimson-firmware.cortexa9hf_vfp_neon.rpm
+	smart install crimson-firmware.cortexa9hf_vfp_neon.rpm
 	rc0=$?
 	if [[ $rc0 != 0 ]]; then
 		echo -e "$failed Failed to update server"
@@ -164,31 +164,6 @@ then
 		fi
 	else
 		echo -e "$ok Successfully update server"
-	fi
-fi
-
-if [[ "$1" == 'fs' ]] || [[ "$1" == 'all' ]]
-then
-	SUM256_FS=$(sha256sum crimson-filesystem.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
-	SUMMD5_FS=$(md5sum crimson-filesystem.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
-	SUMMD5_GIVEN_FS=$(cat fs-md5sum | cut -d ' ' -f 1)
-	SUM256_GIVEN_FS=$(cat fs-sha256sum | cut -d ' ' -f 1)
-	if [[ "$SUMMD5_GIVEN_FS" != "$SUMMD5_FS" ]]; then
-		echo -e "$failed md5 checksum failed, given $SUMMD5_GIVEN and found $SUMMD5"
-		exit $rc0
-	fi
-	if [[ "$SUM256_GIVEN_FS" != "$SUM256_FS" ]]; then
-		echo -e "$failed sha256 checksum failed, given $SUM256_GIVEN and found $SUMM256"
-		exit $rc0
-	fi
-	smart info crimson-filesystem
-	#smart install crimson-filesystem.cortexa9hf_vfp_neon.rpm
-	rc0=$?
-	if [[ $rc0 != 0 ]]; then
-		echo -e "$failed Failed to update filesystem"
-		exit $rc0
-	else
-		echo -e "$ok Successfully update filesystem"
 	fi
 fi
 
