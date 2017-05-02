@@ -1,0 +1,214 @@
+#! /bin/bash -e
+# This script is used to update specfic packages on Crimson TNG
+
+update_dir="/etc/crimson/crimson-update.tar.gz"
+webserver_dir="/usr/lib/node_modules/crimson-webserver/"
+server_dir="/usr/bin/"
+red="\e[1;31m"
+normal="\e[0m"
+green="\e[1;32m"
+bold="\e[1m"
+yellow="\e[1;33m"
+ok="[$green   OK   $normal]"
+failed="[$red FAILED $normal]"
+
+if [[ "$1" != 'all' ]] && [[ "$1" != 'mcu' ]] && [[ "$1" != 'fpga' ]] && [[ "$1" != 'website' ]] && [[ "$1" != 'server' ]]; then
+	echo "Usage: ./crimson-update all|mcu|server|fpga|website|fs"
+	exit 0
+fi
+
+if [[ -f "$update_dir" ]]; then
+	echo -e "$ok crimson-update.tar.gz is present in /etc/crimson"
+else
+	echo -e "$failed crimson-update.tar.gz is missing in /etc/crimson"
+	exit 1
+fi
+
+sudo tar -zxf crimson-update.tar.gz
+rc0=$?
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to extract files from crimson-update.tar.gz"
+	exit $rc0
+else
+	echo -e "$ok Successfully extract files from crimson-update.tar.gz"
+fi
+folder=$(readlink packages)
+cd $folder
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to change directory to $folder"
+	exit $rc0
+fi
+sudo systemctl stop crimson-website
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to stop crimson-website.service"
+	exit $rc0
+fi
+sudo systemctl stop crimson-server
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to stop crimson-server.service"
+	exit $rc0
+fi
+
+if [[ "$1" == 'mcu' ]] || [[ "$1" == 'all' ]]
+then
+	SUM256_MCU=$(sha256sum crimson-mcu.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_MCU=$(md5sum crimson-mcu.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_GIVEN_MCU=$(cat mcu-md5sum | cut -d ' ' -f 1)
+	SUM256_GIVEN_MCU=$(cat mcu-sha256sum | cut -d ' ' -f 1)
+	if [[ "$SUMMD5_GIVEN_MCU" != "$SUMMD5_MCU" ]]; then
+		echo -e "$failed md5 checksum failed, given $SUMMD5_GIVEN and found $SUMMD5"
+		exit $rc0
+	fi
+	if [[ "$SUM256_GIVEN_MCU" != "$SUM256_MCU" ]]; then
+		echo -e "$failed sha256 checksum failed, given $SUM256_GIVEN and found $SUMM256"
+		exit $rc0
+	fi
+	smart info crimson-mcu
+	#smart install crimson-mcu.cortexa9hf_vfp_neon.rpm
+	#/bin/bash /lib/mcu/./flash.sh w all
+	rc0=$?
+	if [[ $rc0 != 0 ]]; then
+		echo -e "$failed Failed to update MCU code"
+		exit $rc0
+	else
+		echo -e "$ok Successfully update MCU code"
+	fi
+fi
+
+if [[ "$1" == 'fpga' ]] || [[ "$1" == 'all' ]]
+then
+	SUM256_FPGA=$(sha256sum crimson-fpga.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_FPGA=$(md5sum crimson-fpga.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_GIVEN_FPGA=$(cat fpga-md5sum | cut -d ' ' -f 1)
+	SUM256_GIVEN_FPGA=$(cat fpga-sha256sum | cut -d ' ' -f 1)
+	if [[ "$SUMMD5_GIVEN_FPGA" != "$SUMMD5_FPGA" ]]; then
+		echo -e "$failed md5 checksum failed, given $SUMMD5_GIVEN and found $SUMMD5"
+		exit $rc0
+	fi
+	if [[ "$SUM256_GIVEN_FPGA" != "$SUM256_FPGA" ]]; then
+		echo -e "$failed sha256 checksum failed, given $SUM256_GIVEN and found $SUMM256"
+		exit $rc0
+	fi
+	smart info crimson-fpga
+	#smart install crimson-fpga.cortexa9hf_vfp_neon.rpm
+	#/bin/bash /lib/firmware/./update.sh hard
+	rc0=$?
+	if [[ $rc0 != 0 ]]; then
+		echo -e "$failed Failed to update FPGA image"
+		exit $rc0
+	else
+		echo -e "$ok Successfully update FPGA image"
+	fi
+fi
+
+if [[ "$1" == 'website' ]] || [[ "$1" == 'all' ]]
+then
+	SUM256_WEBSITE=$(sha256sum crimson-website.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_WEBSITE=$(md5sum crimson-website.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_GIVEN_WEBSITE=$(cat website-md5sum | cut -d ' ' -f 1)
+	SUM256_GIVEN_WEBSITE=$(cat website-sha256sum | cut -d ' ' -f 1)
+	if [[ "$SUMMD5_GIVEN_WEBSITE" != "$SUMMD5_WEBSITE" ]]; then
+		echo -e "$failed md5 checksum failed, given $SUMMD5_GIVEN and found $SUMMD5"
+		exit $rc0
+	fi
+	if [[ "$SUM256_GIVEN_WEBSITE" != "$SUM256_WEBSITE" ]]; then
+		echo -e "$failed sha256 checksum failed, given $SUM256_GIVEN and found $SUMM256"
+		exit $rc0
+	fi
+	smart info crimson-website
+	#smart install crimson-website.cortexa9hf_vfp_neon.rpm
+	rc0=$?
+	if [[ $rc0 != 0 ]]; then
+		echo -e "$failed Failed to update webserver through package manager"
+		echo -e "[        ] Updating webserver manually..."
+		sudo cp -rf webserver/* $webserver_dir
+		$rc0
+		if [[ $rc0 != 0 ]]; then
+			echo -e "$failed Failed to update webserver manually"
+			exit $rc0
+		else
+			echo -e "$ok Successfully update webserver manually"
+		fi
+	else
+		echo -e "$ok Successfully update webserver"
+	fi
+fi
+
+if [[ "$1" == 'server' ]] || [[ "$1" == 'all' ]]
+then
+	SUM256_SERVER=$(sha256sum crimson-firmware.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_SERVER=$(md5sum crimson-firmware.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_GIVEN_SERVER=$(cat firmware-md5sum | cut -d ' ' -f 1)
+	SUM256_GIVEN_SERVER=$(cat firmware-sha256sum | cut -d ' ' -f 1)
+	if [[ "$SUMMD5_GIVEN_SERVER" != "$SUMMD5_SERVER" ]]; then
+		echo -e "$failed md5 checksum failed, given $SUMMD5_GIVEN and found $SUMMD5"
+		exit $rc0
+	fi
+	if [[ "$SUM256_GIVEN_SERVER" != "$SUM256_SERVER" ]]; then
+		echo -e "$failed sha256 checksum failed, given $SUM256_GIVEN and found $SUMM256"
+		exit $rc0
+	fi
+	smart info crimson-firmware
+	#smart install crimson-firmware.cortexa9hf_vfp_neon.rpm
+	rc0=$?
+	if [[ $rc0 != 0 ]]; then
+		echo -e "$failed Failed to update server"
+		echo -e "[        ] Updating server manually..."
+		sudo cp -rf firmware/* $server_dir
+		$rc0
+		if [[ $rc0 != 0 ]]; then
+			echo -e "$failed Failed to update server manually"
+			exit $rc0
+		else
+			echo -e "$ok Successfully update server manually"
+		fi
+	else
+		echo -e "$ok Successfully update server"
+	fi
+fi
+
+if [[ "$1" == 'fs' ]] || [[ "$1" == 'all' ]]
+then
+	SUM256_FS=$(sha256sum crimson-filesystem.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_FS=$(md5sum crimson-filesystem.cortexa9hf_vfp_neon.rpm | cut -d ' ' -f 1)
+	SUMMD5_GIVEN_FS=$(cat fs-md5sum | cut -d ' ' -f 1)
+	SUM256_GIVEN_FS=$(cat fs-sha256sum | cut -d ' ' -f 1)
+	if [[ "$SUMMD5_GIVEN_FS" != "$SUMMD5_FS" ]]; then
+		echo -e "$failed md5 checksum failed, given $SUMMD5_GIVEN and found $SUMMD5"
+		exit $rc0
+	fi
+	if [[ "$SUM256_GIVEN_FS" != "$SUM256_FS" ]]; then
+		echo -e "$failed sha256 checksum failed, given $SUM256_GIVEN and found $SUMM256"
+		exit $rc0
+	fi
+	smart info crimson-filesystem
+	#smart install crimson-filesystem.cortexa9hf_vfp_neon.rpm
+	rc0=$?
+	if [[ $rc0 != 0 ]]; then
+		echo -e "$failed Failed to update filesystem"
+		exit $rc0
+	else
+		echo -e "$ok Successfully update filesystem"
+	fi
+fi
+
+sudo systemctl daemon-reload
+rc0=$?
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to perform systemctl daemon-reload"
+	exit $rc0
+fi
+sudo systemctl start crimson-server
+rc0=$?
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to start crimson-server.service"
+	exit $rc0
+fi
+sudo systemctl start crimson-website
+rc0=$?
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to start crimson-website.service"
+	exit $rc0
+fi
+echo -e "$ok Update successfully"
+exit 0
