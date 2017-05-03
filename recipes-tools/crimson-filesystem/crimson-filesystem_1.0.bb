@@ -47,7 +47,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "crimson-startup.service crimson-networking.service"
+SYSTEMD_SERVICE_${PN} = "crimson-networking.service"
 
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
