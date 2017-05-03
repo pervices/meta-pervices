@@ -45,6 +45,7 @@ IMAGE_INSTALL += "\
 	crimson-fpga \
 	crimson-mcu \
 	crimson-website \
+	crimson-default \
 	cronie \
 	cronie-doc \
 	cups \

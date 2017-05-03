@@ -36,6 +36,7 @@ IMAGE_INSTALL += "\
 	crimson-fpga \
 	crimson-mcu \
 	crimson-website \
+	crimson-default \
 	cronie \
 	cups \
 	diffutils \
