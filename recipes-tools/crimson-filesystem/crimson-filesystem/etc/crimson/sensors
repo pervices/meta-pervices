@@ -20,12 +20,18 @@ TEMP_3V3_V=$(cat $PWR_TMP/in7_input)
 MAX_TEMP=80 #80 degree C
 MIN_TEMP=0 #0 degree C
 
-TEMP_DIG1=in4_input
-TEMP_DIG2=in5_input
+TEMP_DIG1_V=$(cat $DIG_TMP/in4_input)
+TEMP_DIG2_V=$(cat $DIG_TMP/in5_input)
 
 CONST1=2637
 CONST2=13.6
 CONST3=2
+CONST4=123
+CONST5=201
+CONST6=299
+CONST7=251
+CONST8=89
+CONST9=4095
 
 # formula to calculate temp: temp = (Voltage-2637mV)/(-13.6mV/C), thus 2637mV -> 0 degree C
 # higher temp -> lower voltage
@@ -87,6 +93,23 @@ run)
 		elif [[ "$TEMP_3V3_T" -lt $MIN_TEMP ]]; then
 			wall -n "UNDER-TEMPERATURE: Temperautre at 3300 mV regualator is $TEMP_3V3_T deg C"
 		fi
+		
+		TEMP1=$(bc <<<"scale=2;$TEMP_DIG1_V/1000")
+		TEMP2=$(bc <<<"scale=2;$TEMP_DIG2_V/1000")
+		DIG_TEMP1=$(bc <<<"scale=2;$CONST5-$CONST6*($TEMP1)+$CONST7*($TEMP1^2)-$CONST8*($TEMP1^3)")
+
+		if [[ "$TEMP_3V3_T" -gt $MAX_TEMP ]]; then
+			wall -n "OVER-TEMPERATURE: Temperautre at 3300 mV regualator is $TEMP_3V3_T deg C"
+		elif [[ "$TEMP_3V3_T" -lt $MIN_TEMP ]]; then
+			wall -n "UNDER-TEMPERATURE: Temperautre at 3300 mV regualator is $TEMP_3V3_T deg C"
+		fi
+		
+		DIG_TEMP2=$(bc <<<"scale=2;$CONST5-$CONST6*($TEMP2)+$CONST7*($TEMP2^2)-$CONST8*($TEMP2^3)")
+		if [[ "$TEMP_3V3_T" -gt $MAX_TEMP ]]; then
+			wall -n "OVER-TEMPERATURE: Temperautre at 3300 mV regualator is $TEMP_3V3_T deg C"
+		elif [[ "$TEMP_3V3_T" -lt $MIN_TEMP ]]; then
+			wall -n "UNDER-TEMPERATURE: Temperautre at 3300 mV regualator is $TEMP_3V3_T deg C"
+		fi
 		sleep 5
 	done
 	;;
@@ -103,6 +126,12 @@ read)
 	echo -e "$bold Temperautre at 5500 mV regualator: $TEMP_5V5_T deg C $normal"
 	echo -e "$bold Temperautre at 3600 mV regualator: $TEMP_3V6_T deg C $normal"
 	echo -e "$bold Temperautre at 3300 mV regualator: $TEMP_3V3_T deg C $normal"
+	TEMP1=$(bc <<<"scale=2;$TEMP_DIG1_V/1000")
+	TEMP2=$(bc <<<"scale=2;$TEMP_DIG2_V/1000")
+	DIG_TEMP1=$(bc <<<"scale=2;$CONST5-$CONST6*($TEMP1)+$CONST7*($TEMP1^2)-$CONST8*($TEMP1^3)")
+	DIG_TEMP2=$(bc <<<"scale=2;$CONST5-$CONST6*($TEMP2)+$CONST7*($TEMP2^2)-$CONST8*($TEMP2^3)")
+	echo -e "$bold Temperautre at Digital board location 1: $DIG_TEMP1 deg C $normal"
+	echo -e "$bold Temperautre at Digital board location 2: $DIG_TEMP2 deg C $normal"
 	;;
 *)
 	echo -e "$bold Usage: ./sensors run|read $normal"
