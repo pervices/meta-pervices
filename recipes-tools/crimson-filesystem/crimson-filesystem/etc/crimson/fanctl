@@ -71,17 +71,17 @@ read)
 		for j in $FANTACH1_ADDRLSB $FANTACH2_ADDRLSB $FANTACH3_ADDRLSB $FANTACH4_ADDRLSB $FANTACH5_ADDRLSB $FANTACH6_ADDRLSB
 		do
 			HEXL=$(i2cget -y $I2CBUS_ADDR $i $j | cut -c 3- | awk '{print toupper($0)}')
-			#echo "HEXL: $HEXL"
+			#echo "VAL_LSB_HEX: $HEXL"
 			ADDR_MSB=$(($j - 1))
-			#echo "$ADDR_MSB"
+			#echo "ADDR_MSB_DEC: $ADDR_MSB"
 			ADDR_MSB_HEX=$(echo "obase=16; ibase=10; $ADDR_MSB" | bc)
 			PREFIX=0x
 			ADDR_MSB_HEX=$PREFIX$ADDR_MSB_HEX
-			#echo "$ADDR_MSB_HEX"
+			#echo "ADDR_MSB_HEX: $ADDR_MSB_HEX"
 			HEXM=$(i2cget -y $I2CBUS_ADDR $i $ADDR_MSB_HEX | cut -c 3- | awk '{print toupper($0)}')
-			#echo "HEXM: $HEXM"
+			#echo "VAL_MSB_HEX: $HEXM"
 			BINM=$(echo "obase=2; ibase=16; $HEXM" | bc)
-			#echo "BINM: $BINM"
+			#echo "VAL_MSB_BIN: $BINM"
 			BINL=$(echo "obase=2; ibase=16; $HEXL" | bc | cut -c -3)
 			if [[ "${#BINL}" == "1" ]]
 			then
@@ -92,14 +92,20 @@ read)
 				PREFIX=0
 				BINL=$PREFIX$BINL
 			fi
-			#echo "BINL: $BINL"
+			#echo "VAL_LSB_BIN: $BINL"
 			BIN=$BINM$BINL
-			#echo "BIN: $BIN"
+			#echo "VAL_BIN: $BIN"
 			DEC=$(echo "obase=10; ibase=2; $BIN" | bc)
-			#echo "DEC: $DEC"
-			let RPM="$CONST1*$CONST2*$SR/$NP/$DEC"
-			echo "Fan speed in rpm: $RPM"
-			echo "---------------------------------------------------"
+			if [[ "$DEC" == "2047" ]]
+			then
+				echo "Error: Chassis fan not detected"
+				echo "---------------------------------------------------"
+			else
+				#echo "VAL_DEC: $DEC"
+				let RPM="$CONST1*$CONST2*$SR/$NP/$DEC"
+				echo "Fan speed in rpm: $RPM"
+				echo "---------------------------------------------------"
+			fi
 		done
 	done
 	;;
