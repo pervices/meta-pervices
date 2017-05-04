@@ -1,0 +1,14 @@
+[Unit]
+Description=Crimson fan controller setup service
+Before=getty@tty1.service
+After=dev-tty1.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/etc/crimson/fanctl setup
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

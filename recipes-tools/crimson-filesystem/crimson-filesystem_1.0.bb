@@ -8,15 +8,17 @@ RDEPENDS_${PN} = "bash"
 SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/crimson-log.service \
            file://lib/systemd/system/crimson-networking.service \
-	   file://lib/systemd/system/crimson-sensors.service \
+           file://lib/systemd/system/crimson-sensors.service \
+           file://lib/systemd/system/crimson-fanctl.service \
            file://etc/crimson/logging \
            file://etc/crimson/package-manager \
            file://etc/crimson/motd \
            file://etc/sysctl.d/udp_recvbuff.conf \
            file://etc/crimson/issue.net \
            file://etc/crimson/make-tarball \
-	   file://etc/crimson/sensors \
-	   file://etc/crimson/crimson-update \
+           file://etc/crimson/sensors \
+           file://etc/crimson/crimson-update \
+           file://etc/crimson/fanctl \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
@@ -47,7 +49,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "crimson-networking.service"
+SYSTEMD_SERVICE_${PN} = "crimson-networking.service crimson-fanctl.service"
 
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
@@ -64,6 +66,7 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/crimson/make-tarball ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/sensors ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/crimson-update ${D}${sysconfdir}/crimson/
+	install -m 0744 -D ${WORKDIR}/etc/crimson/fanctl ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }
