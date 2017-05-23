@@ -177,8 +177,6 @@ IMAGE_INSTALL += "\
 	sysfsutils-doc \
 	systemd \
 	systemd-doc \
-	sysvinit \
-	sysvinit-doc \
 	tar \
 	tar-doc \
 	tcl \
