@@ -11,6 +11,7 @@ BBLAYERS ?= " \
   ${TOPDIR}/../poky/meta-yocto-bsp \
   ${TOPDIR}/../poky/meta-altera \
   ${TOPDIR}/../poky/meta-linaro/meta-linaro-toolchain \
+  ${TOPDIR}/../poky/meta-linaro/meta-linaro \
   ${TOPDIR}/../poky/meta-pervices \
   ${TOPDIR}/../poky/meta-openembedded/meta-oe \
   ${TOPDIR}/../poky/meta-openembedded/meta-webserver \
