@@ -252,6 +252,7 @@ PREFERRED_VERSION_nodejs = "0.12.1%"
 #PREFERRED_VERSION_nativesdk-nodejs = "0.12.1%"
 DEFAULTTUNE = "cortexa9hf-neon"
 FILESYSTEM_PERMS_TABLES = "fs-perms-pv.txt"
+WARN_QA_remove = "host-user-contaminated"
 
 MIRRORS =+ "\
 http://.*/.*     http://snapshots.linaro.org/openembedded/sources/ \n \

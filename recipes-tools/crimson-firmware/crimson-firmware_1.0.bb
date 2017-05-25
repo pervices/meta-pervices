@@ -15,8 +15,9 @@ BRANCH = "master-testing"
 
 inherit systemd
 
-INSANE_SKIP_${PN} = "ldflags"
-
+INSANE_SKIP_${PN} = "ldflags \
+                     expanded-d \
+                    "
 FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
 SYSTEMD_SERVICE_${PN} = "crimson-server.service "
