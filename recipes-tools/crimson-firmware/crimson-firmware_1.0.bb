@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-tes
            file://lib/systemd/system/crimson-server.service \
            file://usr/src/debug/${PN}/update.sh \
           "
-SRCREV = "e3fbf205bea9a9fff08b858003c4987fc352ccf2"
+SRCREV = "02fa42a395958a9bb3a35129d992ade9e8dab113"
 
 BRANCH = "master-testing"
 
