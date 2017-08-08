@@ -1,1 +1,1 @@
-script: ./build.sh
+script: sudo sh ./build.sh
