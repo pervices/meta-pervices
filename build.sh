@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEFAULT_PV_RELEASE="2017.07"
+DEFAULT_PV_RELEASE="dizzy"
 DEFAULT_PV_MACHINE="rtm5"
 
 PV_MACHINE="${DEFAULT_PV_MACHINE}"
@@ -17,6 +17,10 @@ die() {
 		r=1
 	fi
 	exit $r
+}
+
+ncpus() {
+	cat /proc/cpuinfo | grep -i processor | wc -l
 }
 
 pv_tag() {
@@ -82,23 +86,7 @@ if [ "" = "${PV_DOCKER_TAG}" ]; then
 fi
 
 case "${PV_RELEASE}" in
-	"2017.07" )
-#dizzy	
-#		FIRMWARE_TAG="master-testing"
-#		RELEASES_TAG="master-testing"
-#		UHD_TAG="master-testing"
-#		WEBSERVER_TAG="master-testing"
-#		META_PERVICES_TAG="yocto1.7"
-#		
-#		POKY_TAG="dizzy"
-#		ALTERA_TAG="angstrom-v2014.12-yocto1.7"
-#		ANGSTROM_TAG="angstrom-v2014.12-yocto1.7"
-#		LINARO_TAG="${POKY_TAG}"
-#		NODEJS_TAG="jethro"
-#		NODEJS_CONTRIB_TAG="jethro"
-#		OE_TAG="${POKY_TAG}"
-
-#morty	
+	"morty" )
 		FIRMWARE_TAG="master-testing"
 		RELEASES_TAG="master-testing"
 		UHD_TAG="master-testing"
@@ -113,6 +101,23 @@ case "${PV_RELEASE}" in
 		NODEJS_CONTRIB_TAG="morty"
 		OE_TAG="morty"
 	;;
+
+	"dizzy" )
+		FIRMWARE_TAG="master-testing"
+		RELEASES_TAG="master-testing"
+		UHD_TAG="master-testing"
+		WEBSERVER_TAG="master-testing"
+		META_PERVICES_TAG="yocto1.7"
+		
+		POKY_TAG="dizzy"
+		ALTERA_TAG="angstrom-v2014.12-yocto1.7"
+		ANGSTROM_TAG="angstrom-v2014.12-yocto1.7"
+		LINARO_TAG="${POKY_TAG}"
+		NODEJS_TAG="jethro"
+		NODEJS_CONTRIB_TAG="jethro"
+		OE_TAG="${POKY_TAG}"
+	;;
+
 	*)
 		echo "unsupported release specified: '${RELEASE}'"
 		exit 3
@@ -190,7 +195,7 @@ drun() {
 	${DRUN_CMD} sh -c "$*"	
 }
 
-rm -Rf build
+#rm -Rf build
 mkdir -p build
 
 echo "Preparing configuration.."
@@ -211,7 +216,7 @@ if [ "yocto1.7" = "${META_PERVICES_TAG}" ]; then
 	&& drun " \
 			sed \
 				-i \
-				-e 's|path-to-poky|/root/poky|g' \
+				-e 's|path-to-poky|/root|g' \
 				/root/build/conf/bblayers.conf \
 		" \
 	|| die "failed to prepare configuration"
@@ -244,6 +249,8 @@ echo "Building SD-Card Image.."
 drun " \
 	cd /root/poky \
 		&& . ./oe-init-build-env /root/build \
+		&& export BITBAKE_THREADS=$(( 2 * $(ncpus) )) \
+		&& export PARALLEL_MAKE=-j$(( $(ncpus) - 1 )) \
 		&& bitbake pervices-sd-image \
 	" \
 || die "failed to build SD Card Image"
