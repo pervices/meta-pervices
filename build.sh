@@ -70,9 +70,10 @@ while [ $# -ge 1 ]; do
 	shift
 done
 
-if [ "0" != "${UID}" -a "0" != "${EUID}" ]; then
+touch / 2>/dev/null
+if [ $? -ne 0 -a "0" != "${UID}" -a "0" != "${EUID}"  ]; then
 	usage
-	echo "root permissions required (UID: ${UID}, EUID: ${EUID})"
+	echo "root permissions required (UID: '${UID}', EUID: '${EUID}')"
 	exit 1
 fi
 
