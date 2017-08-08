@@ -1,3 +1,5 @@
-services:
-	- docker
+sudo: required
+
+services: docker
+
 script: ./build.sh
