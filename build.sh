@@ -93,13 +93,14 @@ case "${PV_RELEASE}" in
 		WEBSERVER_TAG="master-testing"
 		META_PERVICES_TAG="yocto2.2"
 		
-		POKY_TAG="morty-16.0.1"
+		POKY_TAG="morty"
 		ALTERA_TAG="rel_angstrom-v2015.12-yocto2.0_17.08.01_pr"
 		ANGSTROM_TAG="angstrom-v2016.12-yocto2.2"
-		LINARO_TAG="morty"
-		NODEJS_TAG="morty"
-		NODEJS_CONTRIB_TAG="morty"
-		OE_TAG="morty"
+		LINARO_TAG="${POKY_TAG}"
+		NODEJS_TAG="${POKY_TAG}"
+		NODEJS_CONTRIB_TAG="${POKY_TAG}"
+		OE_TAG="${POKY_TAG}"
+		SWU_TAG="${POKY_TAG}"
 	;;
 
 	"dizzy" )
@@ -116,6 +117,7 @@ case "${PV_RELEASE}" in
 		NODEJS_TAG="jethro"
 		NODEJS_CONTRIB_TAG="jethro"
 		OE_TAG="${POKY_TAG}"
+		SWU_TAG="daisy"
 	;;
 
 	*)
@@ -143,6 +145,7 @@ LINARO_TAG         '${LINARO_TAG}'
 NODEJS_TAG         '${NODEJS_TAG}'
 NODEJS_CONTRIB_TAG '${NODEJS_CONTRIB_TAG}'
 OE_TAG             '${OE_TAG}'
+SWU_TAG            '${SWU_TAG}'
 ================================================================================
 EOF
 
@@ -160,6 +163,7 @@ ARGS=" \
 	--build-arg NODEJS_TAG="${NODEJS_TAG}" \
 	--build-arg NODEJS_CONTRIB_TAG="${NODEJS_CONTRIB_TAG}" \
 	--build-arg OE_TAG="${OE_TAG}" \
+	--build-arg SWU_TAG="${SWU_TAG}" \
 "
 
 echo ""

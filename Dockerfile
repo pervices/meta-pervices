@@ -76,6 +76,9 @@ RUN git -C ${HOME}/poky clone -b ${NODEJS_CONTRIB_TAG} https://github.com/imylle
 ARG OE_TAG="master"
 RUN git -C ${HOME}/poky clone -b ${OE_TAG} https://github.com/openembedded/meta-openembedded.git
 
+ARG OE_TAG="master"
+RUN git -C ${HOME}/poky clone -b ${SWU_TAG} https://github.com/sbabic/meta-swupdate.git
+
 #
 # Build Bootloader
 # 
