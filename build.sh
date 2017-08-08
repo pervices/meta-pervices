@@ -72,7 +72,7 @@ done
 
 if [ "0" != "${UID}" -a "0" != "${EUID}" ]; then
 	usage
-	echo "root permissions required"
+	echo "root permissions required (UID: ${UID}, EUID: ${EUID})"
 	exit 1
 fi
 
