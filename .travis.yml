@@ -2,4 +2,4 @@ sudo: required
 
 services: docker
 
-script: sudo sh ./build.sh
+script: sudo /bin/bash ./build.sh
