@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y chrpath diffstat gawk texinfo iputils-p
 #
 RUN mkdir -p ${HOME}/pv
 ARG FIRMWARE_TAG="master-testing"
-RUN git -C ${HOME}/pv clone -b ${FIRMWARE_TAG} https://github.com/pervices/firmware.git
+RUN git -C ${HOME}/pv clone -b ${FIRMWARE_TAG} https://github.com/cfriedtpv/firmware.git
 ARG WEBSERVER_TAG="master-testing"
 RUN git -C ${HOME}/pv clone -b ${WEBSERVER_TAG} https://github.com/pervices/webserver.git
 
