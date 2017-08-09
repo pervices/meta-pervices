@@ -12,7 +12,7 @@ FILES_${PN} = "${bindir}"
 
 do_compile() {
 	make \
-		CC=${TARGET_PREFIX}-gcc \
+		CC=${TARGET_PREFIX}gcc \
 		-C ${WORKDIR}/git \
 		all
 }
