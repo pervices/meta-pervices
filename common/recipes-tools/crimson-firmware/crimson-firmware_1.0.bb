@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 DEPENDS = ""
 
 SRC_URI = "git://github.com/cfriedtpv/firmware.git;protocol=git;branch=cfriedt-testing"
-SRCREV = "e2d165b53e9845b769f9fd8bfeed85c8db4de45e"
+SRCREV = "1516ca71cbc23574c4a4d6de94687bc3913e7f28"
 INSANE_SKIP_${PN} = "ldflags"
 FILES_${PN} = "${bindir}"
 
