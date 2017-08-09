@@ -223,6 +223,12 @@ if [ "yocto1.7" = "${META_PERVICES_TAG}" ]; then
 				-e 's|path-to-poky|/root|g' \
 				/root/build/conf/bblayers.conf \
 		" \
+	&& drun " \
+			sed \
+				-i \
+			-e 's|tools-profile||g' \
+				/root/build/conf/local.conf \
+		" \
 	|| die "failed to prepare configuration"
 elif [ "yocto2.2" = "${META_PERVICES_TAG}" ]; then
 	drun " \
@@ -249,6 +255,26 @@ else
 	die "unsupported META_PERVICES_TAG ${META_PERVICES_TAG}"
 fi
 
+echo "Building Bootloader.."
+drun " \
+	cd /root/poky \
+		&& . ./oe-init-build-env /root/build \
+		&& export BITBAKE_THREADS=$(( 2 * $(ncpus) )) \
+		&& export PARALLEL_MAKE=-j$(( $(ncpus) - 1 )) \
+		&& bitbake virtual/bootloader \
+	" \
+|| die "failed to build Bootloader"
+
+echo "Building Kernel Image.."
+drun " \
+	cd /root/poky \
+		&& . ./oe-init-build-env /root/build \
+		&& export BITBAKE_THREADS=$(( 2 * $(ncpus) )) \
+		&& export PARALLEL_MAKE=-j$(( $(ncpus) - 1 )) \
+		&& bitbake virtual/kernel \
+	" \
+|| die "failed to build Kernel Image"
+
 echo "Building SD-Card Image.."
 drun " \
 	cd /root/poky \
@@ -258,5 +284,15 @@ drun " \
 		&& bitbake pervices-sd-image \
 	" \
 || die "failed to build SD Card Image"
+
+echo "Building NAND Image.."
+drun " \
+	cd /root/poky \
+		&& . ./oe-init-build-env /root/build \
+		&& export BITBAKE_THREADS=$(( 2 * $(ncpus) )) \
+		&& export PARALLEL_MAKE=-j$(( $(ncpus) - 1 )) \
+		&& bitbake pervices-nand-image \
+	" \
+|| die "failed to build NAND Image"
 
 echo 'SUCCESS!'

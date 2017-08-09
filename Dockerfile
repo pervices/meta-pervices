@@ -78,39 +78,3 @@ RUN git -C ${HOME}/poky clone -b ${OE_TAG} https://github.com/openembedded/meta-
 
 ARG SWU_TAG="master"
 RUN git -C ${HOME}/poky clone -b ${SWU_TAG} https://github.com/sbabic/meta-swupdate.git
-
-#
-# Build Bootloader
-# 
-#RUN true \
-#	&& cd ${HOME}/poky \
-#	&& . ./oe-init-build-env ${HOME}/build \
-#	&& bitbake virtual/bootloader
-
-#
-# Build Kernel
-# 
-#RUN true \
-#	&& cd ${HOME}/poky \
-#	&& . ./oe-init-build-env ${HOME}/build \
-#	&& bitbake virtual/kernel
-
-#
-# Build Userspace
-#
-#RUN true \
-#	&& cd ${HOME}/poky \
-#	&& . ./oe-init-build-env ${HOME}/build \
-#	&& bitbake pervices-sd-image
-
-#
-# Create Recovery Image
-#
-
-#
-# Create NAND Image
-# 
-
-#
-# Create SDCard Image
-# 
