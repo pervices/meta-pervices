@@ -11,7 +11,7 @@ INSANE_SKIP_${PN} = "ldflags"
 FILES_${PN} = "${bindir}"
 
 do_compile() {
-	make -C ${WORKDIR}/git all CC="${CC}"
+	make -C ${WORKDIR}/git all CC=\"${CC}\"
 }
 
 do_install() {
