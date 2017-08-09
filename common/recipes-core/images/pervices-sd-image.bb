@@ -82,7 +82,6 @@ IMAGE_INSTALL += "\
 	sshfs-fuse \
 	strace \
 	subversion \
-	swupdate \
 	systemd \
 	sysfsutils \
 	sysvinit \
