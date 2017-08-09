@@ -104,7 +104,7 @@ case "${PV_RELEASE}" in
 	;;
 
 	"dizzy" )
-		FIRMWARE_TAG="cfriedt-testing"
+		FIRMWARE_TAG="master-testing"
 		RELEASES_TAG="master-testing"
 		UHD_TAG="master-testing"
 		WEBSERVER_TAG="master-testing"

@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y chrpath diffstat gawk texinfo iputils-p
 #
 RUN mkdir -p ${HOME}/pv
 ARG FIRMWARE_TAG="master-testing"
-RUN git -C ${HOME}/pv clone -b ${FIRMWARE_TAG} https://github.com/cfriedtpv/firmware.git
+RUN git -C ${HOME}/pv clone -b ${FIRMWARE_TAG} https://github.com/pervices/firmware.git
 ARG WEBSERVER_TAG="master-testing"
 RUN git -C ${HOME}/pv clone -b ${WEBSERVER_TAG} https://github.com/pervices/webserver.git
 
@@ -65,7 +65,7 @@ ARG LINARO_TAG="master"
 RUN git -C ${HOME}/poky clone -b ${LINARO_TAG} git://git.linaro.org/openembedded/meta-linaro.git
 
 ARG META_PERVICES_TAG="master-testing"
-RUN git -C ${HOME}/poky clone -b ${META_PERVICES_TAG} https://github.com/cfriedtpv/meta-pervices.git
+RUN git -C ${HOME}/poky clone -b ${META_PERVICES_TAG} https://github.com/pervices/meta-pervices.git
 
 ARG NODEJS_TAG="master"
 RUN git -C ${HOME}/poky clone -b ${NODEJS_TAG} https://github.com/imyller/meta-nodejs.git
