@@ -17,6 +17,7 @@ BBLAYERS ?= " \
   path-to-poky/poky/meta-openembedded/meta-filesystems \
   path-to-poky/poky/meta-openembedded/meta-networking \
   path-to-poky/poky/meta-openembedded/meta-python \
+  path-to-poky/poky/meta-swupdate \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
   path-to-poky/poky/meta \
