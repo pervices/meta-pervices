@@ -18,11 +18,30 @@ S = "${WORKDIR}/git"
 inherit systemd
 inherit autotools
 
+INSANE_SKIP_${PN} = "ldflags"
+
 FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
 SYSTEMD_SERVICE_${PN} = "crimson-server.service "
 
+do_compile() {
+	cd ${WORKDIR}/git
+	git checkout ${BRANCH}
+	make all
+}
+
+do_install() {
+	install -d -m 0755 ${D}${bindir}
+	install -d -m 0755 ${D}${sysconfdir}/crimson/
+	install -m 0755 -D ${WORKDIR}/git/out/bin/* ${D}${bindir}
+	install -d -m 0755 ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git
+	rm -r ${WORKDIR}/git/out
+	cp -r ${WORKDIR}/git ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/
+	install -m 0755 -D ${WORKDIR}/usr/src/debug/${PN}/update.sh ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git/
+}
+
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/crimson-server.service ${D}${systemd_unitdir}/system/
+	echo "installed-${PV}" >> ${D}${sysconfdir}/crimson/${PN}
 }
