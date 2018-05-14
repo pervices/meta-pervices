@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-tes
            file://lib/systemd/system/crimson-server.service \
            file://usr/src/debug/${PN}/update.sh \
           "
-SRCREV = "0ae47ef3c351003786422ff94b573a6929e4f3a4"
+SRCREV = "master-testing"
 
 BRANCH = "master-testing"
 
@@ -21,16 +21,20 @@ FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${
 
 SYSTEMD_SERVICE_${PN} = "crimson-server.service "
 
+
 do_compile() {
 	cd ${WORKDIR}/git
 	git checkout ${BRANCH}
-	make all
+	sh autogen.sh
+	./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf
+	make
+	make DESTDIR=${WORKDIR}/git/ install
 }
 
 do_install() {
 	install -d -m 0755 ${D}${bindir}
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
-	install -m 0755 -D ${WORKDIR}/git/out/bin/* ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/usr/bin/* ${D}${bindir}
 	install -d -m 0755 ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git
 	rm -r ${WORKDIR}/git/out
 	cp -r ${WORKDIR}/git ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/
