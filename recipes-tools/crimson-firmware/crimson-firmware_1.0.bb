@@ -27,7 +27,11 @@ SYSTEMD_SERVICE_${PN} = "crimson-server.service "
 do_compile() {
 	cd ${WORKDIR}/git
 	git checkout ${BRANCH}
-	make all
+	mkdir -p out/bin
+	sh autogen.sh
+	./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf
+	make
+	make DESTDIR=${WORKDIR}/git/out/bin
 }
 
 do_install() {
