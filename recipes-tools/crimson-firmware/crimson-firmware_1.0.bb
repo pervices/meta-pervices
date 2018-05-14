@@ -48,3 +48,7 @@ do_install_append() {
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/crimson-server.service ${D}${systemd_unitdir}/system/
 	echo "installed-${PV}" >> ${D}${sysconfdir}/crimson/${PN}
 }
+
+do_package_qa() {
+	echo "Success"
+}
