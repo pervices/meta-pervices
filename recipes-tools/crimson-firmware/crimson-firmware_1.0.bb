@@ -5,15 +5,18 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS_${PN} = ""
 RDEPENDS_${PN} = ""
-SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing \
-           file://lib/systemd/system/crimson-server.service \
-           file://usr/src/debug/${PN}/update.sh \
-          "
-SRCREV = "master-testing"
+SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master"
+SRC_URI += "file://lib/systemd/system/crimson-server.service"
+SRC_URI += "file://usr/src/debug/${PN}/update.sh"
 
-BRANCH = "master-testing"
+SRCREV = "master"
+
+BRANCH = "master"
+
+S = "${WORKDIR}/git"
 
 inherit systemd
+inherit autotools
 
 INSANE_SKIP_${PN} = "ldflags"
 

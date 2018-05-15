@@ -5,4 +5,6 @@ do_install_append() {
 	sed -i 's:#SystemMaxUse=:SystemMaxUse=100M:g' ${D}${sysconfdir}/systemd/journald.conf
 	sed -i 's:#SystemKeepFree=:SystemKeepFree=150M:g' ${D}${sysconfdir}/systemd/journald.conf
 	sed -i 's:#SystemMaxFileSize=:SystemMaxFileSize=30M:g' ${D}${sysconfdir}/systemd/journald.conf
+	sed -i 's:#RuntimeKeepFree=:RuntimeKeepFree=150M:g' ${D}${sysconfdir}/systemd/journald.conf
+	sed -i 's:#RuntimeMaxFileSize=:RuntimeMaxFileSize=30M:g' ${D}${sysconfdir}/systemd/journald.conf
 }
