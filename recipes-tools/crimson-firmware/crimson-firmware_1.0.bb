@@ -24,6 +24,7 @@ FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${
 
 SYSTEMD_SERVICE_${PN} = "crimson-server.service "
 
+
 do_compile() {
 	cd ${WORKDIR}/git
 	git checkout ${BRANCH}
