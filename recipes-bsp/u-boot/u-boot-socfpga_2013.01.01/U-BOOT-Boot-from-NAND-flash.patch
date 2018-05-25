@@ -1,12 +1,12 @@
-From 6ef7a8b718f3a015aa28a76360bed13db025f914 Mon Sep 17 00:00:00 2001
+From dc7a5323b1c98371856ea61ef21872f1b26607a3 Mon Sep 17 00:00:00 2001
 From: "Build @Spectrum" <cfri@roxy>
-Date: Fri, 25 May 2018 19:25:32 +0000
+Date: Fri, 25 May 2018 20:02:23 +0000
 Subject: [PATCH] UBOOT: Boot from NAND
 
 ---
  board/altera/socfpga/build.h     | 4 ++--
- include/configs/socfpga_common.h | 6 +++++-
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ include/configs/socfpga_common.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/board/altera/socfpga/build.h b/board/altera/socfpga/build.h
 index c1f10c0..ebacf39 100644
@@ -24,21 +24,10 @@ index c1f10c0..ebacf39 100644
  
  /*
 diff --git a/include/configs/socfpga_common.h b/include/configs/socfpga_common.h
-index 6d1424a..22d7ce7 100644
+index 6d1424a..60437e8 100644
 --- a/include/configs/socfpga_common.h
 +++ b/include/configs/socfpga_common.h
-@@ -513,6 +513,10 @@
- #define CONFIG_NAND_DENALI
- #endif
- #ifdef CONFIG_NAND_DENALI
-+#define CONFIG_CMD_UBI
-+#define CONFIG_CMD_UBIFS
-+#define CONFIG_CMD_CONFIG_RBTREE
-+#define CONFIG_LZO
- #define CONFIG_CMD_NAND
- #define CONFIG_SYS_MAX_NAND_DEVICE	1
- #define CONFIG_SYS_NAND_USE_FLASH_BBT
-@@ -702,7 +706,7 @@
+@@ -702,7 +702,7 @@
  #define CONFIG_SYS_NAND_U_BOOT_OFFS	CONFIG_PRELOADER_NAND_NEXT_BOOT_IMAGE
  #define CONFIG_SYS_NAND_PAGE_SIZE	2048
  #define CONFIG_SYS_NAND_OOBSIZE		64
