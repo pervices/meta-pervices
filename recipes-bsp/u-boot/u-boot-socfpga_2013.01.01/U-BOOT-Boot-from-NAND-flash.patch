@@ -1,12 +1,12 @@
-From 9bd0329727c191a542c32a96bf66a32a8290f075 Mon Sep 17 00:00:00 2001
+From 6ef7a8b718f3a015aa28a76360bed13db025f914 Mon Sep 17 00:00:00 2001
 From: "Build @Spectrum" <cfri@roxy>
-Date: Fri, 25 May 2018 18:11:02 +0000
-Subject: [PATCH] NAND: Enbale NAND in UBOOT
+Date: Fri, 25 May 2018 19:25:32 +0000
+Subject: [PATCH] UBOOT: Boot from NAND
 
 ---
- board/altera/socfpga/build.h     |  4 ++--
- include/configs/socfpga_common.h | 10 +++++++++-
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ board/altera/socfpga/build.h     | 4 ++--
+ include/configs/socfpga_common.h | 6 +++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/board/altera/socfpga/build.h b/board/altera/socfpga/build.h
 index c1f10c0..ebacf39 100644
@@ -24,19 +24,10 @@ index c1f10c0..ebacf39 100644
  
  /*
 diff --git a/include/configs/socfpga_common.h b/include/configs/socfpga_common.h
-index 6d1424a..9495e3b 100644
+index 6d1424a..22d7ce7 100644
 --- a/include/configs/socfpga_common.h
 +++ b/include/configs/socfpga_common.h
-@@ -98,7 +98,7 @@
- /* Room required on the stack for the environment data */
- #define CONFIG_ENV_SIZE			4096
- /* Size of DRAM reserved for malloc() use */
--#define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + 256 * 1024)
-+#define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + 1024 * 1024)
- 
- /*
-  * Stack setup
-@@ -513,6 +513,14 @@
+@@ -513,6 +513,10 @@
  #define CONFIG_NAND_DENALI
  #endif
  #ifdef CONFIG_NAND_DENALI
@@ -44,13 +35,18 @@ index 6d1424a..9495e3b 100644
 +#define CONFIG_CMD_UBIFS
 +#define CONFIG_CMD_CONFIG_RBTREE
 +#define CONFIG_LZO
-+#define CONFIG_CMD_UBI
-+#define CONFIG_CMD_UBIFS
-+#define CONFIG_CMD_CONFIG_RBTREE
-+#define CONFIG_LZO
  #define CONFIG_CMD_NAND
  #define CONFIG_SYS_MAX_NAND_DEVICE	1
  #define CONFIG_SYS_NAND_USE_FLASH_BBT
+@@ -702,7 +706,7 @@
+ #define CONFIG_SYS_NAND_U_BOOT_OFFS	CONFIG_PRELOADER_NAND_NEXT_BOOT_IMAGE
+ #define CONFIG_SYS_NAND_PAGE_SIZE	2048
+ #define CONFIG_SYS_NAND_OOBSIZE		64
+-#define CONFIG_SYS_NAND_BLOCK_SIZE	(128 * 1024)
++#define CONFIG_SYS_NAND_BLOCK_SIZE	(64 * 2048)
+ /* number of pages per block */
+ #define CONFIG_SYS_NAND_PAGE_COUNT	64
+ /* location of bad block marker within OOB */
 -- 
 2.7.4
 
