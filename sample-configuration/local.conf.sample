@@ -17,12 +17,12 @@
 # These two options control how much parallelism BitBake should use. The first 
 # option determines how many tasks bitbake should run in parallel:
 #
-BB_NUMBER_THREADS ?= "4"
+BB_NUMBER_THREADS ?= "8"
 # 
 # The second option controls how many processes make should run in parallel when
 # running compile tasks:
 #
-PARALLEL_MAKE ?= "-j 4"
+PARALLEL_MAKE ?= "-j 8"
 #
 # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
 # be appropriate for example.
@@ -51,7 +51,8 @@ PARALLEL_MAKE ?= "-j 4"
 # This sets the default machine to be qemux86 if no other machine is selected:
 #MACHINE ??= "qemux86"
 
-MACHINE = "arria5"
+MACHINE = "stratix10"
+#MACHINE = "arria5"
 
 #
 # Where to place downloads
@@ -245,15 +246,18 @@ VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 GCCVERSION = "linaro-6.2%"
 SDKGCCVERSION = "linaro-6.2%"
-KERNEL_PROVIDER = "linux-altera"
-PREFERRED_VERSION_linux-altera = "4.8%"
+PREFERRED_VERSION_valgrind ?= "3.12%"
+#KERNEL_PROVIDER = "linux-altera"
+PREFERRED_PROVIDER_virtual/kernel = "linux-altera-ltsi"
+#PREFERRED_VERSION_linux-altera = "4.9.78%"
 PREFERRED_VERSION_nodejs = "0.12.1%"
-#PREFERRED_VERSION_nodejs-native = "0.12.1%"
-#PREFERRED_VERSION_nativesdk-nodejs = "0.12.1%"
-DEFAULTTUNE = "cortexa9hf-neon"
+PREFERRED_VERSION_nodejs-native = "0.12.1%"
+PREFERRED_VERSION_nativesdk-nodejs = "0.12.1%"
+#DEFAULTTUNE = "cortexa9hf-neon"
 FILESYSTEM_PERMS_TABLES = "fs-perms-pv.txt"
-WARN_QA_remove = "host-user-contaminated"
 
 MIRRORS =+ "\
 http://.*/.*     http://snapshots.linaro.org/openembedded/sources/ \n \
 https://.*/.*    https://snapshots.linaro.org/openembedded/sources/ \n"
+
+BBMASK += "meta-altera/recipes-core/systemd/"

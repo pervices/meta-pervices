@@ -4,11 +4,11 @@ SECTION = "common"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 
-SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master-testing \
+SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master \
            file://lib/systemd/system/crimson-website.service \
           "
-SRCREV = "1aa775024abdff7481f973279959baa787b4f461"
-BRANCH = "master-testing"
+SRCREV = "master"
+BRANCH = "master"
 
 S = "${WORKDIR}/git"
 
@@ -17,6 +17,9 @@ RDEPENDS_${PN} = "nodejs"
 inherit systemd npm-install-global
 
 FILES_${PN} += "${systemd_unitdir}/system ${sysconfdir}/crimson"
+
+SYSTEMD_SERVICE_${PN} = "crimson-website.service \
+                        "
 
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/

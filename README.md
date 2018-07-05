@@ -1,4 +1,4 @@
-Yocto 2.2 Morty BSP Layer for Per Vices Crimson TNG
+Yocto 2.2 Morty BSP Layer for Per Vices
 ========================================================
 
 Maintainer: Shiqi Feng <shiqi.f@pervices.com></br>

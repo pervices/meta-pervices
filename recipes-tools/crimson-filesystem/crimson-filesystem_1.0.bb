@@ -51,9 +51,6 @@ inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
 SYSTEMD_SERVICE_${PN} = "crimson-networking.service crimson-fanctl.service"
 
-do_compile() {
-}
-
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
