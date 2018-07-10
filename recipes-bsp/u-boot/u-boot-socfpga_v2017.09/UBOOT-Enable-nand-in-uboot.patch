@@ -1,0 +1,23 @@
+From efd6dccd832a68d0fd38e53c7902dcb5ef215dfc Mon Sep 17 00:00:00 2001
+From: "Build @Spectrum" <cfri@roxy>
+Date: Tue, 10 Jul 2018 20:55:06 +0000
+Subject: [PATCH] UBOOT: Enable nand in uboot
+
+---
+ configs/socfpga_stratix10_defconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/configs/socfpga_stratix10_defconfig b/configs/socfpga_stratix10_defconfig
+index 5a1cc61..6c566b3 100755
+--- a/configs/socfpga_stratix10_defconfig
++++ b/configs/socfpga_stratix10_defconfig
+@@ -45,4 +45,5 @@ CONFIG_USE_TINY_PRINTF=y
+ CONFIG_HUSH_PARSER=y
+ CONFIG_FPGA_ALTERA=y
+ CONFIG_FPGA_STRATIX10=y
+-
++CONFIG_NAND_DENALI=y
++CONFIG_CMD_NAND=y
+-- 
+2.7.4
+
