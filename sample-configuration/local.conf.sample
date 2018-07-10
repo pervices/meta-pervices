@@ -261,3 +261,4 @@ http://.*/.*     http://snapshots.linaro.org/openembedded/sources/ \n \
 https://.*/.*    https://snapshots.linaro.org/openembedded/sources/ \n"
 
 BBMASK += "meta-altera/recipes-core/systemd/"
+WARN_QA_remove = "host-user-contaminated"
