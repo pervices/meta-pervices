@@ -1,23 +1,38 @@
-From efd6dccd832a68d0fd38e53c7902dcb5ef215dfc Mon Sep 17 00:00:00 2001
-From: "Build @Spectrum" <cfri@roxy>
-Date: Tue, 10 Jul 2018 20:55:06 +0000
+From 638e16db9271fd687798ec68acee162de13a9c5e Mon Sep 17 00:00:00 2001
+From: Shiqi Feng <shiqi.f@pervices.com>
+Date: Mon, 16 Jul 2018 18:27:27 +0000
 Subject: [PATCH] UBOOT: Enable nand in uboot
 
 ---
- configs/socfpga_stratix10_defconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/configs/socfpga_stratix10_socdk.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/configs/socfpga_stratix10_defconfig b/configs/socfpga_stratix10_defconfig
-index 5a1cc61..6c566b3 100755
---- a/configs/socfpga_stratix10_defconfig
-+++ b/configs/socfpga_stratix10_defconfig
-@@ -45,4 +45,5 @@ CONFIG_USE_TINY_PRINTF=y
- CONFIG_HUSH_PARSER=y
- CONFIG_FPGA_ALTERA=y
- CONFIG_FPGA_STRATIX10=y
--
-+CONFIG_NAND_DENALI=y
-+CONFIG_CMD_NAND=y
+diff --git a/include/configs/socfpga_stratix10_socdk.h b/include/configs/socfpga_stratix10_socdk.h
+index e44a81d419..e1226530f3 100755
+--- a/include/configs/socfpga_stratix10_socdk.h
++++ b/include/configs/socfpga_stratix10_socdk.h
+@@ -96,6 +96,21 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
+ 
+ #endif /* CONFIG_CADENCE_QSPI */
+ 
++/*
++ * NAND Support
++ */
++#define CONFIG_SYS_NAND_SELF_INIT			1
++#define CONFIG_NAND_DENALI				1
++#define CONFIG_CMD_NAND					1
++#define CONFIG_SYS_MAX_NAND_DEVICE			1
++#define CONFIG_SYS_NAND_MAX_CHIPS			1
++#define CONFIG_SYS_NAND_ONFI_DETECTION			
++#define CONFIG_NAND_DENALI_ECC_SIZE			(512)
++#define CONFIG_NAND_DENALI_SPARE_AREA_SKIP_BYTES	(2)
++#define CONFIG_SYS_NAND_REGS_BASE			SOCFPGA_NANDREGS_ADDRESS
++#define CONFIG_SYS_NAND_DATA_BASE			SOCFPGA_NANDDATA_ADDRESS
++#define CONFIG_SYS_NAND_BASE				(CONFIG_SYS_NAND_DATA_BASE + 0x10)
++
+ /*
+  * Boot arguments passed to the boot command. The value of
+  * CONFIG_BOOTARGS goes into the environment value "bootargs".
 -- 
-2.7.4
+2.18.0
 
