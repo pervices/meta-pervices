@@ -1,0 +1,99 @@
+From bbde6d2bbead77bd0df597e7b212b44a5b878dae Mon Sep 17 00:00:00 2001
+From: Amir Ghanbari Bavarsad <amir.b@pervices.com>
+Date: Wed, 27 Feb 2019 23:41:29 +0000
+Subject: [PATCH 2/8] Remove non-existing modules, disable everything except
+ UART and MMC
+
+---
+ .../dts/altera/socfpga_stratix10_socdk.dts    | 32 ++++---------------
+ 1 file changed, 6 insertions(+), 26 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+index a67b477a9897..2f37f21a7ac1 100644
+--- a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+@@ -27,24 +27,6 @@
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+-	leds {
+-		compatible = "gpio-leds";
+-		hps0 {
+-			label = "hps_led0";
+-			gpios = <&portb 20 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		hps1 {
+-			label = "hps_led1";
+-			gpios = <&portb 19 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		hps2 {
+-			label = "hps_led2";
+-			gpios = <&portb 21 GPIO_ACTIVE_HIGH>;
+-		};
+-	};
+-
+ 	memory {
+ 		device_type = "memory";
+ 		/* We expect the bootloader to fill in the reg */
+@@ -70,7 +52,7 @@
+ };
+ 
+ &gpio1 {
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &gmac0 {
+@@ -95,7 +77,7 @@
+ 	rxdv-skew-ps = <420>; /* 0ps */
+ 	rxc-skew-ps = <1680>; /* 780ps */
+ 	max-frame-size = <3800>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &mmc {
+@@ -111,12 +93,12 @@
+ };
+ 
+ &usb0 {
+-	status = "okay";
++	status = "disabled";
+ 	disable-over-current;
+ };
+ 
+ &i2c0 {
+-	status = "okay";
++	status = "disabled";
+ 	clock-frequency = <100000>;
+ 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+ 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+@@ -124,7 +106,7 @@
+ };
+ 
+ &i2c2 {
+-	status = "okay";
++	status = "disabled";
+ 	clock-frequency = <100000>;
+ 	i2c-sda-falling-time-ns = <300>;  /* hcnt */
+ 	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+@@ -132,6 +114,7 @@
+ };
+ 
+ &qspi {
++	status = "disabled";
+ 	flash@0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+@@ -166,6 +149,3 @@
+ 	};
+ };
+ 
+-&watchdog0 {
+-	status = "okay";
+-};
+-- 
+2.20.1
+
