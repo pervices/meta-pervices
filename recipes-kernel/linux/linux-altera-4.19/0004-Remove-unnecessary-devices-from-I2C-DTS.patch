@@ -1,0 +1,64 @@
+From 460d25f751f84a21a62afd7495e4235007f3a617 Mon Sep 17 00:00:00 2001
+From: Amir Ghanbari Bavarsad <amir.b@pervices.com>
+Date: Tue, 26 Feb 2019 21:25:51 +0000
+Subject: [PATCH 4/9] Remove unnecessary devices from I2C DTS
+
+---
+ .../dts/altera/socfpga_stratix10_socdk.dts    | 32 ++++---------------
+ 1 file changed, 6 insertions(+), 26 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+index af1fa617d331..16e44b4c834b 100644
+--- a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+@@ -107,33 +107,13 @@
+ 	status = "okay";
+ };
+ 
+-&i2c1 {
+-	status = "disabled";
++&i2c0 {
++	status = "okay";
+ 	clock-frequency = <100000>;
+-	i2c-sda-falling-time-ns = <890>;  /* hcnt */
+-	i2c-sdl-falling-time-ns = <890>;  /* lcnt */
+-
+-	adc@14 {
+-		compatible = "lltc,ltc2497";
+-		reg = <0x14>;
+-		vref-supply = <&ref_033v>;
+-	};
+-
+-	temp@4c {
+-		compatible = "maxim,max1619";
+-		reg = <0x4c>;
+-	};
++	i2c-sda-hold-time-ns = <100>;
++	i2c-sda-falling-time-ns = <300>;  /* hcnt */
++	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
+ 
+-	eeprom@51 {
+-		compatible = "atmel,24c32";
+-		reg = <0x51>;
+-		pagesize = <32>;
+-	};
+-
+-	rtc@68 {
+-		compatible = "dallas,ds1339";
+-		reg = <0x68>;
+-	};
+ };
+ 
+ &spi0 {
+@@ -157,7 +137,7 @@
+ 
+ 
+ &qspi {
+-	status = "disabled";
++	status = "okay";
+ 	flash@0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+-- 
+2.19.1
+

@@ -43,7 +43,11 @@ do_install () {
 	chown -R client ${D}/home/client/
 	chgrp -R cli-grp0 ${D}/home/client/
 }
+do_install_append () {
+	install -d -m 0750 ${D}${sysconfdir}/sudoers.d
+	echo "dev0 ALL=(ALL) ALL" > ${D}${sysconfdir}/sudoers.d/dev0
+}
 
-FILES_${PN} = "/home/dev0/ /home/root/"
+FILES_${PN} = "/home/dev0/ /home/root/ /etc/sudoers.d/"
 FILES_${PN}-client = "/home/client/"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"

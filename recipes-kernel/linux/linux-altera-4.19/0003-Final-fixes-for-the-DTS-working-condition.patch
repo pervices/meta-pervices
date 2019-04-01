@@ -1,0 +1,74 @@
+From 4919282ff49aa01b7cae769ffbdee20c54a7c328 Mon Sep 17 00:00:00 2001
+From: Amir Ghanbari Bavarsad <amir.b@pervices.com>
+Date: Tue, 22 Jan 2019 16:21:08 +0000
+Subject: [PATCH 3/9] Final fixes for the DTS, working condition
+
+Remove the unused LED GPIOs, reuse one LED GPIO as IRQ for SPI bus
+---
+ .../dts/altera/socfpga_stratix10_socdk.dts    | 32 ++++++-------------
+ 1 file changed, 9 insertions(+), 23 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+index d3f253d5d15c..af1fa617d331 100644
+--- a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+@@ -15,6 +15,7 @@
+  */
+ 
+ #include "socfpga_stratix10.dtsi"
++#include <dt-bindings/interrupt-controller/irq.h>
+ 
+ / {
+ 	model = "SoCFPGA Stratix 10 SoCDK";
+@@ -30,24 +31,6 @@
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+-	leds {
+-		compatible = "gpio-leds";
+-		hps0 {
+-			label = "hps_led0";
+-			gpios = <&portb 20 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		hps1 {
+-			label = "hps_led1";
+-			gpios = <&portb 19 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		hps2 {
+-			label = "hps_led2";
+-			gpios = <&portb 21 GPIO_ACTIVE_HIGH>;
+-		};
+-	};
+-
+ 	memory {
+ 		device_type = "memory";
+ 		/* We expect the bootloader to fill in the reg */
+@@ -163,15 +146,18 @@
+ 		spi-max-frequency = <1000000>;
+ 		clocks = <&spi_uart_clock>;
+ 		clock-names = "xtal";
+-		interrupt-parent = <&intc>;
+-		interrupts = <7 8>;
+-		// gpio-controller;
+-		// #gpio-cells = <2>;
++		interrupt-parent = <&portb>;
++		// pin 19 (index starting at 0) of portb
++		// (IOB_20) is an Edge-Sensitive Active-Low interrupt
++		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
++		gpio-controller;
++		#gpio-cells = <2>;
+ 	};
+ };
+- 
++
+ 
+ &qspi {
++	status = "disabled";
+ 	flash@0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+-- 
+2.19.1
+

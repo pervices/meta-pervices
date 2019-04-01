@@ -1,0 +1,66 @@
+From 00c51a8814b078ab943d50eec929e457e9948c5c Mon Sep 17 00:00:00 2001
+From: Amir Ghanbari Bavarsad <amir.b@pervices.com>
+Date: Tue, 26 Mar 2019 14:47:20 +0000
+Subject: [PATCH 7/9] Remove RGMII RX pad skew in Ethernet PHY
+
+We've added a PLL in RGMII RX in the FPGA, so there's no need to delay
+data in ethernet PHY. The PLL will phase shift the clock to make it
+center-aligned  with data.
+---
+ .../dts/altera/socfpga_stratix10_socdk.dts    | 26 +++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+index 2ba503cae4e1..6635022dbb2a 100644
+--- a/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
++++ b/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+@@ -90,12 +90,12 @@
+ 			txen-skew-ps = <0>; /* -420ps */
+ 			txc-skew-ps  = <1860>; /* 960ps */
+ 
+-			rxd0-skew-ps = <0>; /* -420ps */
+-			rxd1-skew-ps = <0>; /* -420ps */
+-			rxd2-skew-ps = <0>; /* -420ps */
+-			rxd3-skew-ps = <0>; /* -420ps */
+-			rxdv-skew-ps = <0>; /* -420ps */
+-			rxc-skew-ps = <1860>; /* 960ps */
++			rxd0-skew-ps = <420>; /* 0ps */
++			rxd1-skew-ps = <420>; /* 0ps */
++			rxd2-skew-ps = <420>; /* 0ps */
++			rxd3-skew-ps = <420>; /* 0ps */
++			rxdv-skew-ps = <420>; /* 0ps */
++			rxc-skew-ps  = <900>; /* 0ps */
+ 		};
+ 	};
+ };
+@@ -113,7 +113,7 @@
+ 
+ 	max-frame-size = <9000>;
+ 
+-	mdio0 {
++	mdio1 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		compatible = "snps,dwmac-mdio";
+@@ -132,12 +132,12 @@
+ 			txen-skew-ps = <0>; /* -420ps */
+ 			txc-skew-ps  = <1860>; /* 960ps */
+ 
+-			rxd0-skew-ps = <0>; /* -420ps */
+-			rxd1-skew-ps = <0>; /* -420ps */
+-			rxd2-skew-ps = <0>; /* -420ps */
+-			rxd3-skew-ps = <0>; /* -420ps */
+-			rxdv-skew-ps = <0>; /* -420ps */
+-			rxc-skew-ps = <1860>; /* 960ps */
++			rxd0-skew-ps = <420>; /* 0ps */
++			rxd1-skew-ps = <420>; /* 0ps */
++			rxd2-skew-ps = <420>; /* 0ps */
++			rxd3-skew-ps = <420>; /* 0ps */
++			rxdv-skew-ps = <420>; /* 0ps */
++			rxc-skew-ps  = <900>; /* 0ps */
+ 		};
+ 	};
+ };
+-- 
+2.19.1
+

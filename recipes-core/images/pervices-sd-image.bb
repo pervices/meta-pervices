@@ -198,6 +198,7 @@ IMAGE_INSTALL += "\
 	watchdog-doc \
 	wget \
 	wget-doc \
+	wireshark \
 	zlib \
 	zlib-doc \
 	"
