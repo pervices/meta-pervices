@@ -52,6 +52,7 @@ IMAGE_INSTALL += "\
 	cups-doc \
 	diffutils \
 	diffutils-doc \
+	dosfstools \
 	dtc \
 	e2fsprogs \
 	e2fsprogs-doc \
