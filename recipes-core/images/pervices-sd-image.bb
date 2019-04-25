@@ -54,6 +54,7 @@ IMAGE_INSTALL += "\
 	diffutils-doc \
 	dosfstools \
 	dtc \
+	dtbt \
 	e2fsprogs \
 	e2fsprogs-doc \
 	elfutils \
@@ -67,6 +68,7 @@ IMAGE_INSTALL += "\
 	flashrom-doc \
 	fuse \
 	fuse-doc \
+	fpga-overlay \
 	g++ \
 	gawk \
 	gawk-doc \
