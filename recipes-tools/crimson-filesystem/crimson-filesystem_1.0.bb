@@ -19,6 +19,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/crimson/sensors \
            file://etc/crimson/crimson-update \
            file://etc/crimson/fanctl \
+           file://etc/udev/rules.d/71-cyan.rules \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
