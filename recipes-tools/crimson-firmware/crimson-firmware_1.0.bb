@@ -22,7 +22,7 @@ INSANE_SKIP_${PN} = "ldflags"
 
 FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
-SYSTEMD_SERVICE_${PN} = "crimson-server.service "
+#SYSTEMD_SERVICE_${PN} = "crimson-server.service"
 
 
 do_compile() {

@@ -50,7 +50,8 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "crimson-networking.service crimson-fanctl.service"
+SYSTEMD_SERVICE_${PN} = "crimson-networking.service"
+#SYSTEMD_SERVICE_${PN} = "crimson-log.service crimson-networking.service crimson-fanctl.service crimson-sensors.service"
 
 do_compile(){
 }
