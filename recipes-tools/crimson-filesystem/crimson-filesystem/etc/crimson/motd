@@ -32,18 +32,18 @@ NC='\e[m'               # Color Reset
 
 if [ $USER == 'root' ]; then
 	echo -e "*------------------------------------------------------------------*"
-	echo -e "|          Welcome to $BBold$HOSTNAME$NC                                      |"
+	echo -e "|          Welcome to $BBold$HOSTNAME$NC                                         |"
 	echo -e "|          USER NAME      : $BYellow$USER$NC                                   |"
-	echo -e "|          ARCHITECTURE   : $ARCH                                 |"
-	echo -e "|          KERNEL         : $KERNEL       |"
+	echo -e "|          ARCHITECTURE   : $ARCH                                |"
+	echo -e "|          KERNEL         : $KERNEL                          |"
 	echo -e "|          DATE           : $DATE           |"
 	echo -e "*------------------------------------------------------------------*"
 else
 	echo -e "#==================================================================#"
-	echo -e "|          Welcome to $BBold$HOSTNAME$NC                                      |"
+	echo -e "|          Welcome to $BBold$HOSTNAME$NC                                         |"
 	echo -e "|          USER NAME      : $BGreen$USER$NC                                   |"
-	echo -e "|          ARCHITECTURE   : $ARCH                                 |"
-	echo -e "|          KERNEL         : $KERNEL       |"
+	echo -e "|          ARCHITECTURE   : $ARCH                                |"
+	echo -e "|          KERNEL         : $KERNEL                          |"
 	echo -e "|          DATE           : $DATE           |"
 	echo -e "#==================================================================#"
 fi
