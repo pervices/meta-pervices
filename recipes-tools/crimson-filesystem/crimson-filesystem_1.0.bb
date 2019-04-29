@@ -4,7 +4,7 @@ SECTION = "common"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS_${PN} = "bash"
-RDEPENDS_${PN} = "bash"
+RDEPENDS_${PN} = "bash tcl"
 SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/crimson-log.service \
            file://lib/systemd/system/crimson-networking.service \
@@ -20,6 +20,10 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/crimson/crimson-update \
            file://etc/crimson/fanctl \
            file://etc/udev/rules.d/71-cyan.rules \
+           file://usr/bin/convert_tek_k12_to_avalon_stream \
+           file://usr/bin/gpio_control \
+           file://usr/bin/memtool \
+           file://usr/bin/rfe_control \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
@@ -72,6 +76,10 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/crimson/sensors ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/crimson-update ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/fanctl ${D}${sysconfdir}/crimson/
+        install -m 0744 -D ${WORKDIR}/usr/bin/convert_tek_k12_to_avalon_stream ${D}${bindir}
+        install -m 0744 -D ${WORKDIR}/usr/bin/gpio_control ${D}${bindir}
+        install -m 0744 -D ${WORKDIR}/usr/bin/memtool ${D}${bindir}
+        install -m 0744 -D ${WORKDIR}/usr/bin/rfe_control ${D}${bindir}
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }
