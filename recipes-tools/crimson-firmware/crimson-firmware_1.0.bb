@@ -8,10 +8,7 @@ RDEPENDS_${PN} = ""
 SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing"
 SRC_URI += "file://lib/systemd/system/crimson-server.service"
 SRC_URI += "file://usr/src/debug/${PN}/update.sh"
-
 SRCREV = "master-testing"
-
-BRANCH = "master-testing"
 
 S = "${WORKDIR}/git"
 
@@ -27,7 +24,7 @@ FILES_${PN} += "${bindir} ${sysconfdir}/crimson ${systemd_unitdir}/system ${D}${
 
 do_compile() {
 	cd ${WORKDIR}/git
-	git checkout ${BRANCH}
+	sed -i 's/DVAUNT/DTATE/g' configure.ac
 	sh autogen.sh
 	./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf
 	make
