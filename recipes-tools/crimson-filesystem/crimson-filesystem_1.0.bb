@@ -24,6 +24,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://usr/bin/gpio_control \
            file://usr/bin/memtool \
            file://usr/bin/rfe_control \
+           file://etc/sdr.conf \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
@@ -82,6 +83,7 @@ do_install() {
         install -m 0744 -D ${WORKDIR}/usr/bin/rfe_control ${D}${bindir}
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
+	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/
 }
 
 do_install_append() {
