@@ -3,8 +3,8 @@
 #
 # Normal Colors
 
-if [ -x /etc/crimson/motd ]; then
-    /etc/crimson/./motd   # Print welcome message
+if [ -x /etc/cyan/motd ]; then
+    /etc/cyan/./motd   # Print welcome message
 fi
 
 # If not running interactively, don't do anything

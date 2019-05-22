@@ -1,0 +1,17 @@
+[Unit]
+Description=Cyan Networking
+Before=getty@tty1.service cyan-server.service
+After=dev-tty1.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStartPre=/etc/init.d/networking start
+ExecStart=/etc/init.d/networking check
+ExecReload=/etc/init.d/networking restart
+ExecStop=/etc/init.d/networking stop
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

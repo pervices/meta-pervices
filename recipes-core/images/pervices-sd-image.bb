@@ -40,12 +40,12 @@ IMAGE_INSTALL += "\
 	cmake-doc \
 	coreutils \
 	coreutils-doc \
-	crimson-filesystem \
-	crimson-firmware \
-	crimson-fpga \
-	crimson-mcu \
-	crimson-website \
-	crimson-default \
+	cyan-filesystem \
+	cyan-firmware \
+	cyan-fpga \
+	cyan-mcu \
+	cyan-website \
+	cyan-default \
 	cronie \
 	cronie-doc \
 	cups \
