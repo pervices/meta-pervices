@@ -14,6 +14,7 @@ SRC_URI = "file://flash \
            file://VAUNT_TX-xboot-boot.hex \
            file://vaunt-synth.hex \
            file://VAUNT_SYNTH-xboot-boot.hex \
+           file://.ci_info/gitversion \
            "
 FILES_${PN} += "${base_libdir}/mcu/ ${sysconfdir}/crimson/"
 

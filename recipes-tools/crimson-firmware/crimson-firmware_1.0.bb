@@ -8,6 +8,7 @@ RDEPENDS_${PN} = ""
 SRC_URI = "file://build/"
 SRC_URI += "file://lib/systemd/system/crimson-server.service"
 SRC_URI += "file://usr/src/debug/${PN}/update.sh"
+SRC_URI += "file://.ci_info/gitversion"
 
 S = "${WORKDIR}/build"
 

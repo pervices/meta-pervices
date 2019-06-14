@@ -8,6 +8,7 @@ RDEPENDS_${PN} = "bash"
 SRC_URI = "file://soc_system.rbf \
 	   file://update.sh \
 	   file://update.dtb \
+       file://.ci_info/gitversion \
           "
 FILES_${PN} += "${base_libdir}/firmware/ ${sysconfdir}/crimson"
 
