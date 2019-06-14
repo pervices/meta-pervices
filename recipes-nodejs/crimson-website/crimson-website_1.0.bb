@@ -4,13 +4,15 @@ SECTION = "common"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 
-SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master \
+SRC_URI = "file://site/ \ 
            file://lib/systemd/system/crimson-website.service \
+           file://.ci_info/gitversion \
           "
+
 SRCREV = "master"
 BRANCH = "master"
 
-S = "${WORKDIR}/git"
+S = "${WORKDIR}/site"
 
 RDEPENDS_${PN} = "nodejs"
 
