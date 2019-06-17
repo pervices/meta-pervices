@@ -18,6 +18,8 @@ SRC_URI = "file://flash \
            "
 FILES_${PN} += "${base_libdir}/mcu/ ${sysconfdir}/crimson/"
 
+FILES_${PN}-dbg += "${base_libdir}/mcu/"
+
 do_install() {
 	install -d -m 0755 ${D}${base_libdir}/mcu/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
