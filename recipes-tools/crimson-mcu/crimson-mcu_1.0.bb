@@ -24,7 +24,7 @@ do_install() {
 
 	install -m 0744 -D ${WORKDIR}/flash ${D}${base_libdir}/mcu/
 	install -m 0744 -D ${WORKDIR}/burn.sh ${D}${base_libdir}/mcu/
-    install -m 0744 -D ${WORKDIR}/buffer_lvl.sh ${D}${base_libdor}/mcu/
+    install -m 0744 -D ${WORKDIR}/buffer_lvl.sh ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/vaunt-rx.hex ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/vaunt-tx.hex ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/vaunt-synth.hex ${D}${base_libdir}/mcu/
