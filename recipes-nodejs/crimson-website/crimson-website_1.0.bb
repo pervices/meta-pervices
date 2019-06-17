@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master \
 SRCREV = "master"
 BRANCH = "master"
 
-S = "${WORKDIR}/git"
+S = "${WORKDIR}/git/crimson"
 
 RDEPENDS_${PN} = "nodejs"
 
