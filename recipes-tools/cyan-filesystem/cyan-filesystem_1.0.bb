@@ -20,7 +20,6 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/cyan/cyan-update \
            file://etc/cyan/fanctl \
            file://etc/udev/rules.d/71-cyan.rules \
-           file://usr/bin/convert_tek_k12_to_avalon_stream \
            file://usr/bin/gpio_control \
            file://usr/bin/memtool \
            file://usr/bin/rfe_control \
@@ -77,7 +76,6 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/cyan/sensors ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/cyan-update ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/fanctl ${D}${sysconfdir}/cyan/
-        install -m 0744 -D ${WORKDIR}/usr/bin/convert_tek_k12_to_avalon_stream ${D}${bindir}
         install -m 0744 -D ${WORKDIR}/usr/bin/gpio_control ${D}${bindir}
         install -m 0744 -D ${WORKDIR}/usr/bin/memtool ${D}${bindir}
         install -m 0744 -D ${WORKDIR}/usr/bin/rfe_control ${D}${bindir}
