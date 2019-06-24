@@ -45,6 +45,7 @@ IMAGE_INSTALL += "\
 	cyan-fpga \
 	cyan-mcu \
 	cyan-website \
+	cyan-website-hdr \
 	cyan-default \
 	cronie \
 	cronie-doc \
