@@ -20,7 +20,7 @@ inherit systemd npm-install-global allarch
 
 FILES_${PN} += "${systemd_unitdir}/system ${sysconfdir}/cyan"
 
-SYSTEMD_SERVICE_${PN} = "cyan-website.service"
+#SYSTEMD_SERVICE_${PN} = "cyan-website.service"
 
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/

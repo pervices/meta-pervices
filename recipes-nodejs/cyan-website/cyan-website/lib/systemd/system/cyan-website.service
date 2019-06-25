@@ -2,6 +2,7 @@
 Description=Cyan Website
 Requires=cyan-server.service
 After=cyan-server.service
+Conflicts=cyan-website-hdr.service
 
 [Service]
 User=root

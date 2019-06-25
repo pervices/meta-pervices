@@ -1,7 +1,8 @@
 [Unit]
 Description=Cyan Website HDR
-Requires=cyan-server-hdr.service
-After=cyan-server-hdr.service
+Requires=cyan-server.service
+After=cyan-server.service
+Conflicts=cyan-website.service
 
 [Service]
 User=root
