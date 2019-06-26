@@ -160,6 +160,7 @@ IMAGE_INSTALL += "\
 	portmap-doc \
 	python-core \
 	resolvconf \
+	rsu \
 	screen \
 	screen-doc \
 	sed \
