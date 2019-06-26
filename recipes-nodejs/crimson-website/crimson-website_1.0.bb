@@ -6,11 +6,13 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 
 SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master \
            file://lib/systemd/system/crimson-website.service \
+           file://.ci_info/gitversion \
           "
+
 SRCREV = "master"
 BRANCH = "master"
 
-S = "${WORKDIR}/git"
+S = "${WORKDIR}/git/crimson"
 
 RDEPENDS_${PN} = "nodejs"
 
@@ -20,6 +22,13 @@ FILES_${PN} += "${systemd_unitdir}/system ${sysconfdir}/crimson"
 
 SYSTEMD_SERVICE_${PN} = "crimson-website.service \
                         "
+
+do_configure_append() {
+    dir=$(pwd)
+    cd ${WORKDIR}
+    git checkout master
+    cd $dir
+}
 
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
