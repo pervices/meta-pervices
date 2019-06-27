@@ -24,7 +24,7 @@ SYSTEMD_SERVICE_${PN} = "cyan-server.service"
 
 do_compile() {
 	cd ${WORKDIR}/git
-	sed -i 's/DVAUNT/DTATE/g' configure.ac
+	#sed -i 's/DVAUNT/DTATE/g' configure.ac
 	sh autogen.sh
 	./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf
 	make
