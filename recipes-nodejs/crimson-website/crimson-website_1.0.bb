@@ -25,7 +25,7 @@ SYSTEMD_SERVICE_${PN} = "crimson-website.service \
 
 do_configure_append() {
     dir=$(pwd)
-    cd ${WORKDIR}
+    cd ${WORKDIR}/git
     git checkout master
     cd $dir
 }
