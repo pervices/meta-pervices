@@ -1,7 +1,7 @@
 [Unit]
 Description=Cyan Server
 Requires=network-online.target
-Before=cyan-website.service
+Before=cyan-website.service cyan-website-hdr.service
 After=network-online.target
 
 [Service]
