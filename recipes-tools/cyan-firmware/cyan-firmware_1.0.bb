@@ -6,8 +6,11 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 DEPENDS_${PN} = ""
 RDEPENDS_${PN} = ""
 SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing"
-SRC_URI += "file://lib/systemd/system/cyan-server.service"
-SRC_URI += "file://usr/src/debug/${PN}/update.sh"
+SRC_URI += "file://lib/systemd/system/cyan-server.service \
+            file://usr/src/debug/${PN}/update.sh \
+            file://usr/bin/uart-debugger.sh \
+            file://lib/systemd/system/cyan-uart-debugger.service \
+           "
 SRCREV = "master-testing"
 
 S = "${WORKDIR}/git"
@@ -19,7 +22,7 @@ INSANE_SKIP_${PN} = "ldflags"
 
 FILES_${PN} += "${bindir} ${sysconfdir}/cyan ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
-SYSTEMD_SERVICE_${PN} = "cyan-server.service"
+SYSTEMD_SERVICE_${PN} = "cyan-server.service cyan-uart-debugger.service"
 
 
 do_compile() {
@@ -35,6 +38,7 @@ do_install() {
 	install -d -m 0755 ${D}${bindir}
 	install -d -m 0755 ${D}${sysconfdir}/cyan/
 	install -m 0755 -D ${WORKDIR}/git/usr/bin/* ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/usr/bin/uart-debugger.sh ${D}${bindir}
 	install -d -m 0755 ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git
 	rm -r ${WORKDIR}/git/usr
 	cp -r ${WORKDIR}/git ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/
@@ -44,6 +48,7 @@ do_install() {
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-server.service ${D}${systemd_unitdir}/system/
+	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-uart-debugger.service ${D}${systemd_unitdir}/system/
 	echo "installed-${PV}" >> ${D}${sysconfdir}/cyan/${PN}
 }
 

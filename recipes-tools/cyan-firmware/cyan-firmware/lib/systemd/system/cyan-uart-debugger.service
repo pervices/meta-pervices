@@ -1,0 +1,15 @@
+[Unit]
+Description=Cyan Uart Debugger
+Requires=network-online.target
+Before=cyan-server.service
+After=network-online.target
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/usr/bin/uart-debugger.sh
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
