@@ -25,8 +25,8 @@ setup)
 		echo "Attempting to setup package manager's server ip addres to $ADD on $NOW" >> $LOCATION
 		echo "[        ] Attempting to setup package manager's server ip address..."
 		smart channel --yes --add all type=rpm-md name=all baseurl=http://$ADD/cyan/all > /dev/null
-		smart channel --yes --add cortexa9hf_vfp_neon type=rpm-md name=cortexa9hf_vfp_neon baseurl=http://$ADD/cyan/cortexa9hf_vfp_neon > /dev/null
-		smart channel --yes --add arria5 type=rpm-md name=arria5 baseurl=http://$ADD/cyan/arria5 > /dev/null
+		smart channel --yes --add aarch64 type=rpm-md name=aarch64 baseurl=http://$ADD/cyan/aarch64 > /dev/null
+		smart channel --yes --add stratix10 type=rpm-md name=stratix10 baseurl=http://$ADD/cyan/stratix10 > /dev/null
 		echo "The package manager was setup on $NOW with the server ip address set to $ADD" >> $LOCATION
 		echo -e "[$green   OK   $normal] Successfully setup the package manager's server ip address"
 	else
@@ -47,8 +47,8 @@ update)
 		echo "[        ] Attempting to update package manager's server ip address..."
 		smart channel --yes --remove-all > /dev/null
 		smart channel --yes --add all type=rpm-md name=all baseurl=http://$NEW_ADD/cyan/all > /dev/null
-		smart channel --yes --add cortexa9hf_vfp_neon type=rpm-md name=cortexa9hf_vfp_neon baseurl=http://$NEW_ADD/cyan/cortexa9hf_vfp_neon > /dev/null
-		smart channel --yes --add arria5 type=rpm-md name=arria5 baseurl=http://$NEW_ADD/cyan/arria5 > /dev/null
+		smart channel --yes --add aarch64 type=rpm-md name=aarch64 baseurl=http://$NEW_ADD/cyan/aarch64 > /dev/null
+		smart channel --yes --add stratix10 type=rpm-md name=stratix10 baseurl=http://$NEW_ADD/cyan/stratix10 > /dev/null
 		echo "The package manager was updated on $NOW with the server ip address set to $NEW_ADD" >> $LOCATION
 		echo -e "[$green   OK   $normal] Successfully updated the package manager's server ip address"
 	else
