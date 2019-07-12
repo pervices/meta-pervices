@@ -1,0 +1,15 @@
+[Unit]
+Description=Cyan HDR script
+Requires=network-online.target
+Before=cyan-website-hdr.service
+After=network-online.target cyan-server.service
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/usr/bin/hdr_gpio_symlinks.sh
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
