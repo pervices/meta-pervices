@@ -16,7 +16,7 @@ S = "${WORKDIR}/git/webserver-tate-HDR"
 
 DEPENDS += " nodejs"
 
-RDEPENDS_${PN} += " nodejs"
+RDEPENDS_${PN} += " nodejs tcl"
 
 inherit systemd npm-install-global allarch
 
