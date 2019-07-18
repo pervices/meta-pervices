@@ -10,6 +10,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/cyan-networking.service \
            file://lib/systemd/system/cyan-sensors.service \
            file://lib/systemd/system/cyan-fanctl.service \
+           file://lib/systemd/system/cyan-fpga-image-status.service \
            file://etc/cyan/logging \
            file://etc/cyan/package-manager \
            file://etc/cyan/motd \
@@ -24,6 +25,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://usr/bin/memtool \
            file://usr/bin/rfe_control \
            file://usr/bin/prog_primer \
+           file://usr/bin/fpga_image_status \
            file://etc/sdr.conf \
           "
 PAM_PLUGINS = "libpam-runtime \
@@ -55,7 +57,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "cyan-networking.service"
+SYSTEMD_SERVICE_${PN} = "cyan-networking.service cyan-fpga-image-status.service"
 #SYSTEMD_SERVICE_${PN} = "cyan-log.service cyan-networking.service cyan-fanctl.service cyan-sensors.service"
 
 do_compile(){
@@ -81,6 +83,7 @@ do_install() {
         install -m 0744 -D ${WORKDIR}/usr/bin/memtool ${D}${bindir}
         install -m 0744 -D ${WORKDIR}/usr/bin/rfe_control ${D}${bindir}
         install -m 0744 -D ${WORKDIR}/usr/bin/prog_primer ${D}${bindir}
+        install -m 0744 -D ${WORKDIR}/usr/bin/fpga_image_status ${D}${bindir}
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/
