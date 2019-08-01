@@ -32,6 +32,7 @@ do_compile() {
 	./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf
 	make
 	make DESTDIR=${WORKDIR}/git/ install
+	${CC} script/memtool.c -o script/memtool
 }
 
 do_install() {
@@ -43,6 +44,11 @@ do_install() {
 	rm -r ${WORKDIR}/git/usr
 	cp -r ${WORKDIR}/git ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/
 	install -m 0755 -D ${WORKDIR}/usr/src/debug/${PN}/update.sh ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git/
+	install -m 0755 -D ${WORKDIR}/git/script/gpio_control ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/script/memtool ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/script/rfe_control ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/script/prog_primer ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/script/fpga_image_status ${D}${bindir}
 }
 
 do_install_append() {
