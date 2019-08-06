@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 
 SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master \
            file://lib/systemd/system/crimson-website.service \
+	   file://etc/sdr.conf \
           "
 SRCREV = "master"
 BRANCH = "master"
@@ -25,6 +26,7 @@ do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/crimson-website.service ${D}${systemd_unitdir}/system/
+	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/
 	ln -s /usr/lib/node_modules/crimson-webserver/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/crimson-webserver/public/js/jquery.min.js
 	chown -R root ${D}${libdir}/node_modules/crimson-webserver
 	echo "${BRANCH}:${SRCREV}" > ${D}${sysconfdir}/crimson/${PN}
