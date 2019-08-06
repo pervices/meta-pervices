@@ -21,7 +21,6 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/cyan/cyan-update \
            file://etc/cyan/fanctl \
            file://etc/udev/rules.d/71-cyan.rules \
-           file://etc/sdr.conf \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
@@ -76,7 +75,6 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/cyan/fanctl ${D}${sysconfdir}/cyan/
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
-	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/
 }
 
 do_install_append() {

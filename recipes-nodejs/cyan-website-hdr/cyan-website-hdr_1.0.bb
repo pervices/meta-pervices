@@ -8,6 +8,7 @@ SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master \
            file://lib/systemd/system/cyan-website-hdr.service \
            file://lib/systemd/system/cyan-hdr.service \
            file://usr/bin/hdr_gpio_symlinks.sh \
+	   file://etc/sdr.conf \
           "
 SRCREV = "master"
 BRANCH = "master"
@@ -31,6 +32,7 @@ do_install_append() {
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-website-hdr.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-hdr.service ${D}${systemd_unitdir}/system/
 	install -m 0755 -D ${WORKDIR}/usr/bin/hdr_gpio_symlinks.sh ${D}${bindir}
+	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/
 	ln -s /usr/lib/node_modules/cyan-webserver-hdr/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/cyan-webserver-hdr/public/js/jquery.min.js
 	chown -R root ${D}${libdir}/node_modules/cyan-webserver-hdr
 	echo "${BRANCH}:${SRCREV}" > ${D}${sysconfdir}/cyan/${PN}
