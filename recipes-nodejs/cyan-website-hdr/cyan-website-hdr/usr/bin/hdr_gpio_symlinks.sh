@@ -49,7 +49,9 @@ for { set i 0 } { $i < $number_of_channels } { incr i } {
                 set symlink_name "reserved"
             }
         }
-        exec ln -s [lindex $gpio_names $gpio_number] $hdr_folder/$symlink_name
+        if { ![file exists $hdr_folder/$symlink_name] } {
+            exec ln -s [lindex $gpio_names $gpio_number] $hdr_folder/$symlink_name
+        }
     }
 }
 
