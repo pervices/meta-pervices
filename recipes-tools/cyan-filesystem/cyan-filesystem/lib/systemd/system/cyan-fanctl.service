@@ -6,7 +6,8 @@ After=dev-tty1.device
 [Service]
 User=root
 Group=dev-grp0
-ExecStart=/etc/cyan/fanctl setup
+ExecStartPre=/etc/cyan/fanctl setup
+ExecStart=/etc/cyan/fanctl low
 Type=oneshot
 RemainAfterExit=yes
 
