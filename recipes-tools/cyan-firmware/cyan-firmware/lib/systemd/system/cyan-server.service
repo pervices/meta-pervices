@@ -2,7 +2,7 @@
 Description=Cyan Server
 Requires=network-online.target cyan-uart-debugger.service
 Before=cyan-website.service cyan-website-hdr.service
-After=network-online.target cyan-uart-debugger.service
+After=network-online.target cyan-uart-debugger.service cyan-post.service
 
 [Service]
 User=root

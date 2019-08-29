@@ -10,6 +10,7 @@ SRC_URI += "file://lib/systemd/system/cyan-server.service \
             file://usr/src/debug/${PN}/update.sh \
             file://usr/bin/uart-debugger.sh \
             file://lib/systemd/system/cyan-uart-debugger.service \
+            file://lib/systemd/system/cyan-post.service \
            "
 SRCREV = "master-testing"
 
@@ -22,7 +23,7 @@ INSANE_SKIP_${PN} = "ldflags"
 
 FILES_${PN} += "${bindir} ${sysconfdir}/cyan ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
-SYSTEMD_SERVICE_${PN} = "cyan-server.service cyan-uart-debugger.service"
+SYSTEMD_SERVICE_${PN} = "cyan-server.service cyan-uart-debugger.service cyan-post.service"
 
 
 do_compile() {
@@ -33,6 +34,7 @@ do_compile() {
 	make
 	make DESTDIR=${WORKDIR}/git/ install
 	${CC} script/memtool.c -o script/memtool
+	${CC} script/pll_check.c -o script/pll_check
 }
 
 do_install() {
@@ -49,6 +51,7 @@ do_install() {
 	install -m 0755 -D ${WORKDIR}/git/script/rfe_control ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/script/prog_primer ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/script/fpga_image_status ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/script/pll_check ${D}${bindir}
 }
 
 do_install_append() {
