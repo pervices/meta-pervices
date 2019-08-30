@@ -1,9 +1,9 @@
 DESCRIPTION = "Pervices Crimson TNG webserver and GUI source code"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
+PR="r0"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
-
 SRC_URI = "git://github.com/pervices/webserver.git;protocol=git;branch=master \
            file://lib/systemd/system/crimson-website.service \
            file://.ci_info/gitversion \
