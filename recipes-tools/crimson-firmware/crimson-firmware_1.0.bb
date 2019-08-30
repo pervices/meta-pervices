@@ -11,6 +11,8 @@ SRC_URI += "file://lib/systemd/system/crimson-server.service"
 SRC_URI += "file://usr/src/debug/${PN}/update.sh"
 SRC_URI += "file://.ci_info/gitversion"
 
+INHIBIT_PACKAGE_STRIP="1"
+
 S = "${WORKDIR}/build"
 
 inherit systemd
