@@ -11,6 +11,7 @@ SRC_URI += "file://lib/systemd/system/cyan-server.service \
             file://usr/bin/uart-debugger.sh \
             file://lib/systemd/system/cyan-uart-debugger.service \
             file://lib/systemd/system/cyan-post.service \
+            file://etc/cyan/stty.settings \
            "
 SRCREV = "master-testing"
 
@@ -52,6 +53,7 @@ do_install() {
 	install -m 0755 -D ${WORKDIR}/git/script/prog_primer ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/script/fpga_image_status ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/script/pll_check ${D}${bindir}
+	install -m 0644 -D ${WORKDIR}/etc/cyan/stty.settings ${D}${sysconfdir}/cyan/
 }
 
 do_install_append() {
