@@ -1,6 +1,6 @@
 [Unit]
 Description=Cyan Website HDR
-Requires=cyan-server.service cyan-hdr.service
+Requires=cyan-server.service
 After=cyan-server.service cyan-hdr.service
 Conflicts=cyan-website.service
 
