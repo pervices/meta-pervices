@@ -8,6 +8,7 @@ DEPENDS = ""
 SRC_URI = "file://default.bashrc \
            file://default.bash_profile \
            file://.ssh/authorized_keys \
+           file://default.minirc.dfl \
           "
 
 S = "${WORKDIR}"
@@ -35,6 +36,7 @@ do_install () {
 	install -p -m 0640 default.bashrc ${D}/home/root/.bashrc
 	install -p -m 0640 default.bash_profile ${D}/home/root/.bash_profile
 	install -p -m 0600 .ssh/authorized_keys ${D}/home/root/.ssh/authorized_keys
+	install -p -m 0640 default.minirc.dfl ${D}/home/root/.minirc.dfl
 	sed -i 's/1;32m/1;33m/g' ${D}/home/root/.bashrc
 
 	chown -R dev0 ${D}/home/dev0/
