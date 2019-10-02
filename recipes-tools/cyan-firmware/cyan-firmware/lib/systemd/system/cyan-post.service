@@ -7,7 +7,7 @@ After=network-online.target
 [Service]
 User=root
 Group=dev-grp0
-ExecStartPre=/bin/stty < /dev/ttycyan-time `cat /etc/cyan/stty.settings`
+ExecStartPre=/etc/cyan/set_baud
 ExecStart=/usr/bin/pll_check
 Type=oneshot
 RemainAfterExit=yes
