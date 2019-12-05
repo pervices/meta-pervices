@@ -1,6 +1,6 @@
 #! /bin/bash -e
 # crimson tng miscellaneous startup script
 
-sed -i '/temp/d' /etc/crimson/crimson-fpga
-mkdir -p /var/crimson/history/log
-ln -sf /etc/crimson/make-tarball /var/crimson/
+#sed -i '/temp/d' /etc/crimson/crimson-fpga
+mkdir -p /var/volatile/crimson/history/log
+#ln -sf /etc/crimson/make-tarball /var/crimson/
