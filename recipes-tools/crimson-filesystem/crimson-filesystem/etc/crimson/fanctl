@@ -44,10 +44,10 @@ SR=16
 NP=2
 case "$1" in
 setup)
-	i2cdetect -r -y $I2CBUS_ADDR >> i2c-map
+	i2cdetect -r -y $I2CBUS_ADDR >> /var/volatile/i2c-map
 	for i in $FANCTL1_ADDR $FANCTL2_ADDR
 	do
-		if [[ $(cut -d\  -f2- i2c-map | tail -n +2 | grep $(echo $i | cut -c 3-)) ]]
+		if [[ $(cut -d\  -f2- /var/volatile/i2c-map | tail -n +2 | grep $(echo $i | cut -c 3-)) ]]
 		then
 			for j in $FANCONFIG1_ADDR $FANCONFIG2_ADDR $FANCONFIG3_ADDR $FANCONFIG4_ADDR $FANCONFIG5_ADDR $FANCONFIG6_ADDR
 			do
@@ -63,7 +63,7 @@ setup)
 			echo "Missing i2c device $i"
 		fi
 	done
-	rm i2c-map
+	rm /var/volatile/i2c-map
 	;;
 read)
 	for i in $FANCTL1_ADDR $FANCTL2_ADDR

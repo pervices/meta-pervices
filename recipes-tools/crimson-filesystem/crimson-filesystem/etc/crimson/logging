@@ -10,13 +10,13 @@ ACTUAL_FILE=notExist
 NEXT_NUM=0
 SYMLINK=notExist
 
-if [ ! -e /var/log/lastlog ];
+if [ ! -e /var/volatile/log/lastlog ];
 then
-	touch /var/log/lastlog
-	chgrp utmp /var/log/lastlog
-	chmod 0644 /var/log/lastlog
+	touch /var/volatile/log/lastlog
+	chgrp utmp /var/volatile/log/lastlog
+	chmod 0644 /var/volatile/log/lastlog
 fi
-mkdir -p /var/crimson/history/log && cd $_
+mkdir -p /var/volatile/crimson/history/log && cd $_
 if [ ! -e crimson-configuration ];
 then
 	touch crimson-configuration

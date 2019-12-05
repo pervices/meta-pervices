@@ -1,6 +1,6 @@
 #! /bin/bash -e
 NOW=$(date '+%Y%m%d%H%M')
-LOCATION="/var/crimson/history/log/crimson-configuration"
+LOCATION="/var/volatile/crimson/history/log/crimson-configuration"
 STRING="The package manager was setup on"
 red='\e[1;31m'
 normal='\e[0m'
