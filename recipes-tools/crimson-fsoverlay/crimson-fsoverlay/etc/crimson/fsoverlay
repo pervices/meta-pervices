@@ -7,5 +7,5 @@ mkdir -p /overlay/var/ol-up/
 mkdir -p /overlay/var/work/
 
 mount -t overlay -o lowerdir=/etc/ssh/,upperdir=/overlay/ssh/ol-up/,workdir=/overlay/ssh/work/ overlay /etc/ssh/
-mount -t overlay -o lowerdir=/home/,upperdir=/overlay/home/ol-up/,workdir=/overlay/home/work/ overlay /etc/home/
+mount -t overlay -o lowerdir=/home/,upperdir=/overlay/home/ol-up/,workdir=/overlay/home/work/ overlay /home/
 mount -t overlay -o lowerdir=/var/,upperdir=/overlay/var/ol-up/,workdir=/overlay/var/work/ overlay /var/
