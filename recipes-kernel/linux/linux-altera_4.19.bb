@@ -6,7 +6,7 @@ KERNEL_PROT = "https"
 KBRANCH = "pv/socfpga-4.19"
 KBUILD_DEFCONFIG_stratix10 = "s10_devkit_defconfig"
 KERNEL_DEVICETREE_stratix10 = "altera/socfpga_stratix10_socdk.dtb altera/socfpga_stratix10_ovl1.dtb"
-KERNEL_MODULE_AUTOLOAD += "max310x ads1015 max31790 max6639"
+KERNEL_MODULE_AUTOLOAD += "lm87 ads1015 max31790 max6639"
 
 require ../../../meta-altera/recipes-kernel/linux/linux-altera.inc
 
