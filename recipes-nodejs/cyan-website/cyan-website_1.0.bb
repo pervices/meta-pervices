@@ -30,5 +30,5 @@ do_install_append() {
 	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/
 	ln -s /usr/lib/node_modules/cyan-webserver/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/cyan-webserver/public/js/jquery.min.js
 	chown -R root ${D}${libdir}/node_modules/cyan-webserver
-	echo "${BRANCH}:${SRCREV}" > ${D}${sysconfdir}/cyan/${PN}
+	cd ${WORKDIR}/git && git describe --tags --always --dirty --long >> ${D}${sysconfdir}/cyan/${PN}
 }

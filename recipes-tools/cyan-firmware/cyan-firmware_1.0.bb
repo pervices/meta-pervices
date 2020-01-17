@@ -63,7 +63,7 @@ do_install_append() {
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-server.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-uart-debugger.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-post.service ${D}${systemd_unitdir}/system/
-	echo "installed-${PV}" >> ${D}${sysconfdir}/cyan/${PN}
+	cd ${WORKDIR}/git && git describe --tags --always --dirty --long >> ${D}${sysconfdir}/cyan/${PN}
 }
 
 do_package_qa() {
