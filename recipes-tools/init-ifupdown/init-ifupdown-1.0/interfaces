@@ -4,8 +4,6 @@ iface eth0 inet static
         network 192.168.10.0
         broadcast 192.168.10.255
         netmask 255.255.255.0
-post-up ethtool -s eth0 speed 10 duplex half autoneg off
-post-up memtool 0xFF803018 0x2202986
 
 #auto eth1
 #iface eth1 inet static
