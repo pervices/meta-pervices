@@ -20,7 +20,6 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/cyan/sensors \
            file://etc/cyan/cyan-update \
            file://etc/cyan/fanctl \
-           file://etc/udev/rules.d/71-cyan.rules \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
