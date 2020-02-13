@@ -10,7 +10,7 @@ SRC_URI = "file://etc/cyan/startup \
           "
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "cyan-startup.service"
+#SYSTEMD_SERVICE_${PN} = "cyan-startup.service"
 
 do_compile(){
 }

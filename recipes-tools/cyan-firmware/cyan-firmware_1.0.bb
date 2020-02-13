@@ -8,8 +8,6 @@ RDEPENDS_${PN} = ""
 SRC_URI = "git://github.com/pervices/firmware.git;protocol=git;branch=master-testing"
 SRC_URI += "file://lib/systemd/system/cyan-server.service \
             file://usr/src/debug/${PN}/update.sh \
-            file://usr/bin/uart-debugger.sh \
-            file://lib/systemd/system/cyan-uart-debugger.service \
             file://lib/systemd/system/cyan-post.service \
             file://etc/cyan/stty.settings \
             file://etc/cyan/set_baud \
@@ -25,7 +23,7 @@ INSANE_SKIP_${PN} = "ldflags"
 
 FILES_${PN} += "${bindir} ${sysconfdir}/cyan ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
-SYSTEMD_SERVICE_${PN} = "cyan-server.service cyan-uart-debugger.service cyan-post.service"
+#SYSTEMD_SERVICE_${PN} = "cyan-server.service cyan-post.service"
 
 
 do_compile() {
@@ -43,7 +41,6 @@ do_install() {
 	install -d -m 0755 ${D}${bindir}
 	install -d -m 0755 ${D}${sysconfdir}/cyan/
 	install -m 0755 -D ${WORKDIR}/git/usr/bin/* ${D}${bindir}
-	install -m 0755 -D ${WORKDIR}/usr/bin/uart-debugger.sh ${D}${bindir}
 	install -d -m 0755 ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git
 	rm -r ${WORKDIR}/git/usr
 	cp -r ${WORKDIR}/git ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/
@@ -61,7 +58,6 @@ do_install() {
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-server.service ${D}${systemd_unitdir}/system/
-	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-uart-debugger.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-post.service ${D}${systemd_unitdir}/system/
 	cd ${WORKDIR}/git && git describe --tags --always --dirty --long >> ${D}${sysconfdir}/cyan/${PN}
 }

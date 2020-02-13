@@ -23,7 +23,7 @@ inherit systemd npm-install-global allarch
 
 FILES_${PN} += "${systemd_unitdir}/system ${sysconfdir}/cyan ${bindir}"
 
-SYSTEMD_SERVICE_${PN} = "cyan-website-hdr.service cyan-hdr.service"
+#SYSTEMD_SERVICE_${PN} = "cyan-website-hdr.service cyan-hdr.service"
 
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
