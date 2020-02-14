@@ -13,8 +13,8 @@ SUBSYSTEM=="tty", KERNELS=="1-1.3:1.1", ATTRS{bInterfaceNumber}=="01", ATTRS{int
 SUBSYSTEM=="tty", KERNELS=="1-1.3:1.2", ATTRS{bInterfaceNumber}=="02", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-10", GROUP="dev-grp0"
 SUBSYSTEM=="tty", KERNELS=="1-1.3:1.3", ATTRS{bInterfaceNumber}=="03", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-11", GROUP="dev-grp0"
 
-SUBSYSTEM=="tty", KERNELS=="1-1.4:1.0", ATTRS{bInterfaceNumber}=="00", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-12", GROUP="dev-grp0"
-SUBSYSTEM=="tty", KERNELS=="1-1.4:1.1", ATTRS{bInterfaceNumber}=="01", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-13", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.4:1.0", ATTRS{bInterfaceNumber}=="00", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-13", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.4:1.1", ATTRS{bInterfaceNumber}=="01", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-12", GROUP="dev-grp0"
 SUBSYSTEM=="tty", KERNELS=="1-1.4:1.2", ATTRS{bInterfaceNumber}=="02", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-14", GROUP="dev-grp0"
 SUBSYSTEM=="tty", KERNELS=="1-1.4:1.3", ATTRS{bInterfaceNumber}=="03", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttycyan-rfe-15", GROUP="dev-grp0"
 
