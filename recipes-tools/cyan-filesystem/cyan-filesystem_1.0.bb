@@ -11,6 +11,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/cyan-sensors.service \
            file://lib/systemd/system/cyan-fanctl.service \
            file://lib/systemd/system/cyan-fpga-image-status.service \
+	   file://lib/systemd/system/cyan-set-baud.service \
            file://etc/cyan/logging \
            file://etc/cyan/package-manager \
            file://etc/cyan/motd \
@@ -20,6 +21,8 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/cyan/sensors \
            file://etc/cyan/cyan-update \
            file://etc/cyan/fanctl \
+           file://etc/cyan/stty.settings \
+           file://etc/cyan/set_baud \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
@@ -50,7 +53,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "cyan-networking.service"
+SYSTEMD_SERVICE_${PN} = "cyan-networking.service cyan-set-baud.service"
 #SYSTEMD_SERVICE_${PN} = "cyan-networking.service cyan-fpga-image-status.service cyan-fanctl.service "
 #SYSTEMD_SERVICE_${PN} = "cyan-log.service cyan-sensors.service"
 
@@ -73,6 +76,8 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/cyan/sensors ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/cyan-update ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/fanctl ${D}${sysconfdir}/cyan/
+	install -m 0644 -D ${WORKDIR}/etc/cyan/stty.settings ${D}${sysconfdir}/cyan/
+	install -m 0744 -D ${WORKDIR}/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }

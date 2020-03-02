@@ -1,5 +1,0 @@
-#! /bin/bash -e
-
-/bin/stty < /dev/ttycyan-time `cat /etc/cyan/stty.settings` || \
-/bin/stty < /dev/ttycyan-time `cat /etc/cyan/stty.settings` || \
-/bin/stty < /dev/ttycyan-time `cat /etc/cyan/stty.settings`
