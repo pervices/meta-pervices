@@ -32,7 +32,7 @@ do_install_append() {
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-website-hdr.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-hdr.service ${D}${systemd_unitdir}/system/
 	install -m 0755 -D ${WORKDIR}/usr/bin/hdr_gpio_symlinks.sh ${D}${bindir}
-	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/
+	install -m 0644 -D ${WORKDIR}/etc/sdr.conf ${D}${sysconfdir}/sdr_hdr.conf
 	ln -s /usr/lib/node_modules/cyan-webserver-hdr/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/cyan-webserver-hdr/public/js/jquery.min.js
 	chown -R root ${D}${libdir}/node_modules/cyan-webserver-hdr
 	cd ${WORKDIR}/git && git describe --tags --always --dirty --long >> ${D}${sysconfdir}/cyan/${PN}
