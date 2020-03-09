@@ -23,8 +23,6 @@ do_install () {
 	install -d -m 0750 ${D}/home/dev0
 	install -d -m 0700 ${D}/home/dev0/.ssh
 	install -d -m 0750 ${D}/home/client
-	install -d -m 0750 ${D}/home/root
-	install -d -m 0700 ${D}/home/root/.ssh
 
 	install -p -m 0640 default.bashrc ${D}/home/dev0/.bashrc
 	install -p -m 0640 default.bash_profile ${D}/home/dev0/.bash_profile
@@ -32,12 +30,6 @@ do_install () {
 
 	install -p -m 0640 default.bashrc ${D}/home/client/.bashrc
 	install -p -m 0640 default.bash_profile ${D}/home/client/.bash_profile
-
-	install -p -m 0640 default.bashrc ${D}/home/root/.bashrc
-	install -p -m 0640 default.bash_profile ${D}/home/root/.bash_profile
-	install -p -m 0600 .ssh/authorized_keys ${D}/home/root/.ssh/authorized_keys
-	install -p -m 0640 default.minirc.dfl ${D}/home/root/.minirc.dfl
-	sed -i 's/1;32m/1;33m/g' ${D}/home/root/.bashrc
 
 	chown -R dev0 ${D}/home/dev0/
 	chgrp -R dev-grp0 ${D}/home/dev0/
@@ -50,6 +42,6 @@ do_install_append () {
 	echo "dev0 ALL=(ALL) ALL" > ${D}${sysconfdir}/sudoers.d/dev0
 }
 
-FILES_${PN} = "/home/dev0/ /home/root/ /etc/sudoers.d/"
+FILES_${PN} = "/home/dev0/ /etc/sudoers.d/"
 FILES_${PN}-client = "/home/client/"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"

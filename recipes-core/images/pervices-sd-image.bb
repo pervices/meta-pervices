@@ -43,7 +43,6 @@ IMAGE_INSTALL += "\
 	cyan-filesystem \
 	cyan-firmware \
 	cyan-fpga \
-	cyan-mcu \
 	cyan-website \
 	cyan-website-hdr \
 	cyan-default \
@@ -94,14 +93,11 @@ IMAGE_INSTALL += "\
 	i2c-tools-doc \
 	init-ifupdown \
 	initscripts \
-	iperf \
-	iperf-doc \
 	iproute2 \
 	iproute2-doc \
 	iptables \
 	iptables-doc \
 	iputils \
-	iputils-doc \
 	kernel-modules \
 	kmod \
 	liba52 \
