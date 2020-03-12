@@ -35,6 +35,7 @@ IMAGE_INSTALL += "\
 	cyan-filesystem \
 	cyan-firmware \
 	cyan-fpga \
+	cyan-mcu \
 	cyan-website \
 	cyan-website-hdr \
 	cyan-default \
