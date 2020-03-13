@@ -90,6 +90,7 @@ IMAGE_INSTALL += "\
 	neon \
 	netbase \
 	net-tools \
+	nmap \
 	nodejs \
 	openssh \
 	openssh-misc \
