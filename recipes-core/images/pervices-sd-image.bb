@@ -90,7 +90,6 @@ IMAGE_INSTALL += "\
 	neon \
 	netbase \
 	net-tools \
-	nmap \
 	nodejs \
 	openssh \
 	openssh-misc \
@@ -103,9 +102,9 @@ IMAGE_INSTALL += "\
 	pciutils \
 	perl \
 	polkit \
-	portmap \
 	python-core \
 	resolvconf \
+	rpcbind \
 	rsu \
 	screen \
 	sed \
