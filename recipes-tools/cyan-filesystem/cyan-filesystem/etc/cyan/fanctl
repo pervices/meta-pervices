@@ -3,7 +3,7 @@
 normal="\e[0m"
 bold="\e[1m"
 
-I2CBUS_ADDR=0
+I2CBUS_ADDR=2
 
 FANCTL1_ADDR=0x23
 FANCTL2_ADDR=0x23
