@@ -49,6 +49,7 @@ do_install() {
 	install -m 0755 -D ${WORKDIR}/git/script/prog_primer ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/script/fpga_image_status ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/script/pll_check ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/git/script/buffer_lvl.sh ${D}${bindir}
 }
 
 do_install_append() {

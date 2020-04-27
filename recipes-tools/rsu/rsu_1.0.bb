@@ -13,7 +13,7 @@ SRC_URI = "file://etc/librsu.rc \
            file://lib/librsu.so \
            file://home/root/rsu_client \
           "
-FILES_${PN} += "/home/root/ ${D}${sysconfdir} ${D}${base_libdir}"
+FILES_${PN} += "/home/root/ ${D}${sysconfdir} ${D}${base_libdir} ${bindir}"
 
 #do_compile() {
 #        export ARCH=arm64
@@ -31,8 +31,9 @@ do_install() {
         install -d -m 0755 ${D}${sysconfdir}
         install -d -m 0755 ${D}${base_libdir}
         install -d -m 0750 ${D}/home/root
+	install -d -m 0755 ${D}${bindir}
         #install -m 0755 -D ${WORKDIR}/git/example/rsu_client ${D}/home/root/
-        install -m 0755 -D ${WORKDIR}/home/root/rsu_client ${D}/home/root/
+        install -m 0755 -D ${WORKDIR}/home/root/rsu_client ${D}${bindir}
         #install -m 0755 -D ${WORKDIR}/git/lib/librsu.so ${D}${base_libdir}
         install -m 0755 -D ${WORKDIR}/lib/librsu.so ${D}${base_libdir}
         #install -m 0644 -D ${WORKDIR}/git/etc/qspi.rc ${D}${sysconfdir}/librsu.rc
