@@ -1,10 +1,10 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 SRC_URI += "file://hostname \
-            file://fstab \
+            file://fstab_ro \
            "
 do_install_append () {
 	install -m 0644 ${WORKDIR}/hostname ${D}${sysconfdir}/hostname
-	install -m 0644 ${WORKDIR}/fstab ${D}${sysconfdir}/fstab
+	#install -m 0644 ${WORKDIR}/fstab_ro ${D}${sysconfdir}/fstab_ro
 	rm ${D}${localstatedir}/log
 	rm ${D}${localstatedir}/tmp
 	install -d -m 1777 ${D}${localstatedir}/tmp

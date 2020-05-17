@@ -46,6 +46,7 @@ IMAGE_INSTALL += "\
 	crimson-mcu \
 	crimson-website \
 	crimson-default \
+	crimson-fsoverlay \
 	cronie \
 	cronie-doc \
 	cups \

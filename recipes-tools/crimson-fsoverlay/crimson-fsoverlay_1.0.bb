@@ -10,7 +10,7 @@ SRC_URI = "file://etc/crimson/fsoverlay \
           "
 inherit systemd autotools
 FILES_${PN} += "${sysconfdir} ${systemd_unitdir}/system /overlay"
-SYSTEMD_SERVICE_${PN} = "crimson-fsoverlay.service"
+#SYSTEMD_SERVICE_${PN} = "crimson-fsoverlay.service"
 
 do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
