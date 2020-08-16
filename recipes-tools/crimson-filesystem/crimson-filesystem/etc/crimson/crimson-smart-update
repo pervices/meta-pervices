@@ -1,0 +1,99 @@
+#! /bin/bash -e
+
+red="\e[1;31m"
+normal="\e[0m"
+green="\e[1;32m"
+bold="\e[1m"
+yellow="\e[1;33m"
+ok="[$green   OK   $normal]"
+failed="[$red FAILED $normal]"
+warning="[$yellow WARNING$normal]"
+
+function stoping_services {
+	systemctl stop crimson-website &&
+	systemctl stop crimson-server
+}
+
+function smart_update {
+	smart update &&
+	smart upgrade crimson-mcu crimson-fpga crimson-firmware crimson-website &&
+	smart upgrade crimson-website
+}
+
+function server_cleanup {
+	umount /var/crimson/state &&
+	rm -rf /var/crimson/state &&
+	mkdir /var/crimson/state &&
+	mount -t tmpfs -o size=50m tpmfs /var/crimson/state
+}
+
+function mcu_update {
+	cd /lib/mcu && 
+	./flash w time crimson &&
+	./flash w rx crimson &&
+	./flash w tx crimson
+}
+
+function fpga_update {
+	cd /lib/firmware &&
+	./update.sh hard
+}
+
+function restarting_services {
+	systemctl unmask crimson-server &&
+	systemctl enable crimson-server &&
+	systemctl unmask crimson-website &&
+	systemctl enable crimson-website
+}
+
+stoping_services
+rc0=$?
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to stop system services, exiting..."
+	echo -e "$bold Try xx to fix the problem"
+	exit $rc0
+fi
+echo -e "$ok Finish stopping system services"
+smart_update
+rc1=$?
+if [[ $rc1 != 0 ]]; then
+	echo -e "$failed Failed to execute smart update, exiting..."
+	echo -e "$bold Try xx to fix the problem"
+	exit $rc1
+fi
+echo -e "$ok Finish executing smart update"
+server_cleanup
+rc2=$?
+if [[ $rc2 != 0 ]]; then
+	echo -e "$failed Failed to execute server cleanup, exiting..."
+	echo -e "$bold Try xx to fix the problem"
+	exit $rc2
+fi
+echo -e "$ok Finish executing server cleanup"
+mcu_update
+rc3=$?
+if [[ $rc3 != 0 ]]; then
+	echo -e "$failed Failed to execute mcu update, exiting..."
+	echo -e "$bold Try xx to fix the problem"
+	exit $rc3
+fi
+echo -e "$ok Finish executing mcu update"
+fpga_update
+rc4=$?
+if [[ $rc4 != 0 ]]; then
+	echo -e "$failed Failed to execute fpga update, exiting..."
+	echo -e "$bold Try xx to fix the problem"
+	exit $rc4
+fi
+echo -e "$ok Finish executing fpga update"
+restarting_services
+rc5=$?
+if [[ $rc5 != 0 ]]; then
+	echo -e "$failed Failed to restart system services, exiting..."
+	echo -e "$bold Try xx to fix the problem"
+	exit $rc5
+fi
+echo -e "$ok Finish restarting system services"
+sync
+sleep 15
+systemctl reboot
