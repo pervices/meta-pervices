@@ -19,6 +19,8 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/crimson/sensors \
            file://etc/crimson/crimson-update \
            file://etc/crimson/crimson-smart-update \
+           file://etc/crimson/crimson-smart-add-address \
+           file://etc/crimson/crimson-smart-update-address \
            file://etc/crimson/fanctl \
            file://etc/sdr.conf \
           "
@@ -69,6 +71,8 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/crimson/sensors ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/crimson-update ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/crimson-smart-update ${D}${sysconfdir}/crimson/
+	install -m 0744 -D ${WORKDIR}/etc/crimson/crimson-smart-add-address ${D}${sysconfdir}/crimson/
+	install -m 0744 -D ${WORKDIR}/etc/crimson/crimson-smart-update-address ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/fanctl ${D}${sysconfdir}/crimson/
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/

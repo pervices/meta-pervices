@@ -1,0 +1,27 @@
+#! /bin/bash -e
+
+red="\e[1;31m"
+normal="\e[0m"
+green="\e[1;32m"
+bold="\e[1m"
+yellow="\e[1;33m"
+ok="[$green   OK   $normal]"
+failed="[$red FAILED $normal]"
+warning="[$yellow WARNING$normal]"
+ADD=192.168.10.4
+NEW_ADD=192.168.10.4
+
+function setting_address {
+	smart channel --yes --add all type=rpm-md name=all baseurl=http://$ADD/crimson/all > /dev/null &&
+	smart channel --yes --add cortexa9hf_vfp_neon type=rpm-md name=cortexa9hf_vfp_neon baseurl=http://$ADD/crimson/cortexa9hf_vfp_neon > /dev/null &&
+	smart channel --yes --add arria5 type=rpm-md name=arria5 baseurl=http://$ADD/crimson/arria5 > /dev/null
+}
+
+setting_address
+rc0=$?
+if [[ $rc0 != 0 ]]; then
+	echo -e "$failed Failed to add smart update address, exiting..."
+	echo -e "$bold Try xx to fix the problem"
+	exit $rc0
+fi
+echo -e "$ok Finished adding smart update address"
