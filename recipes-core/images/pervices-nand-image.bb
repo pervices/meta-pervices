@@ -87,6 +87,7 @@ IMAGE_INSTALL += "\
 	netbase \
 	net-tools \
 	nmap \
+	ntp \
 	nodejs \
 	openssh \
 	openssh-sftp \
