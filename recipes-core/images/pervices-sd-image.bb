@@ -135,6 +135,7 @@ IMAGE_INSTALL += "\
 	nmap \
 	nmap-doc \
 	ntp \
+	ntp-utils \
 	nodejs \
 	nodejs-doc \
 	openssh \
