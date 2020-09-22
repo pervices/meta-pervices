@@ -1,11 +1,8 @@
 #!/bin/bash
-mkdir -p /overlay/ssh/ol-up/
-mkdir -p /overlay/ssh/work/
-mkdir -p /overlay/home/ol-up/
-mkdir -p /overlay/home/work/
-mkdir -p /overlay/var/ol-up/
-mkdir -p /overlay/var/work/
+mkdir -p /var/volatile/overlay/ssh/ol-up/
+mkdir -p /var/volatile/overlay/ssh/work/
+mkdir -p /var/volatile/overlay/home/ol-up/
+mkdir -p /var/volatile/overlay/home/work/
 
-mount -t overlay -o lowerdir=/etc/ssh/,upperdir=/overlay/ssh/ol-up/,workdir=/overlay/ssh/work/ overlay /etc/ssh/
-mount -t overlay -o lowerdir=/home/,upperdir=/overlay/home/ol-up/,workdir=/overlay/home/work/ overlay /home/
-mount -t overlay -o lowerdir=/var/,upperdir=/overlay/var/ol-up/,workdir=/overlay/var/work/ overlay /var/
+mount -t overlay -o lowerdir=/etc/ssh/,upperdir=/var/volatile/overlay/ssh/ol-up/,workdir=/var/volatile/overlay/ssh/work/ overlay /etc/ssh/
+mount -t overlay -o lowerdir=/home/,upperdir=/var/volatile/overlay/home/ol-up/,workdir=/var/volatile/overlay/home/work/ overlay /home/
