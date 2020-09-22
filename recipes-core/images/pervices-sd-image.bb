@@ -114,6 +114,7 @@ IMAGE_INSTALL += "\
 	libusb-compat \
 	libxml2 \
 	libxml2-doc \
+	logrotate \
 	lshw \
 	lshw-doc \
 	make \

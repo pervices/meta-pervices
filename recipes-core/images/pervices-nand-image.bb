@@ -77,6 +77,7 @@ IMAGE_INSTALL += "\
 	libusb1 \
 	libusb-compat \
 	libxml2 \
+	logrotate \
 	lshw \
 	make \
 	memtester \
