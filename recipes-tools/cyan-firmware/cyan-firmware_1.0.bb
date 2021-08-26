@@ -28,7 +28,7 @@ do_compile() {
 	cd ${WORKDIR}/git
 	#sed -i 's/DVAUNT/DTATE/g' configure.ac
 	sh autogen.sh
-	./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf
+	./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf PRODUCT=TATE
 	make
 	make DESTDIR=${WORKDIR}/git/ install
 	${CC} script/memtool.c -o script/memtool
