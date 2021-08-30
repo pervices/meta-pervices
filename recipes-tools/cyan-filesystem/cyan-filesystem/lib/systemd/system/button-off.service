@@ -1,0 +1,13 @@
+[Unit]
+Description=Cyan Button Off
+After=dev-tty1.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/usr/bin/button_press_off.sh
+Type=simple
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
