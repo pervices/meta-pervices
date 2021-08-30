@@ -11,6 +11,8 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/cyan-sensors.service \
            file://lib/systemd/system/cyan-fanctl.service \
            file://lib/systemd/system/cyan-fpga-image-status.service \
+           file://lib/systemd/system/button-off.service \
+           file://lib/systemd/system/cyan-startup.service \
 	   file://lib/systemd/system/cyan-set-baud.service \
            file://etc/cyan/logging \
            file://etc/cyan/package-manager \
@@ -23,6 +25,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/cyan/fanctl \
            file://etc/cyan/stty.settings \
            file://etc/cyan/set_baud \
+           file://etc/cyan/startup \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
@@ -67,6 +70,8 @@ do_install() {
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
 	install -d -m 0755 ${D}${bindir}/
 	
+	install -m 0755 -D ${WORKDIR}/usr/bin/* ${D}${bindir}
+	
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
 	install -m 0755 -D ${WORKDIR}/etc/cyan/motd ${D}${sysconfdir}/cyan/
 	install -m 0644 -D ${WORKDIR}/etc/cyan/issue.net ${D}${sysconfdir}/cyan/
@@ -78,6 +83,8 @@ do_install() {
 	install -m 0744 -D ${WORKDIR}/etc/cyan/fanctl ${D}${sysconfdir}/cyan/
 	install -m 0644 -D ${WORKDIR}/etc/cyan/stty.settings ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
+	install -m 0744 -D ${WORKDIR}/etc/cyan/startup ${D}${sysconfdir}/cyan/
+	
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
 }
