@@ -26,6 +26,8 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/cyan/stty.settings \
            file://etc/cyan/set_baud \
            file://etc/cyan/startup \
+           file://usr/bin/button_press_off.sh \
+           file://usr/bin/execstop.sh \
           "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
