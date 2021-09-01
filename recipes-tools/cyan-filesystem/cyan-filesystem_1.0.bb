@@ -72,7 +72,7 @@ do_install() {
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
 	install -d -m 0755 ${D}${bindir}/
 	
-	install -m 0755 -D ${D}${bindir}/usr/bin/* ${D}${bindir}
+	install -m 0755 -D ${WORKDIR}/usr/bin/* ${D}${bindir}
 	
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
 	install -m 0755 -D ${WORKDIR}/etc/cyan/motd ${D}${sysconfdir}/cyan/
