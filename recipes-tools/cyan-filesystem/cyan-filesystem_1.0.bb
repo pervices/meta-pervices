@@ -74,6 +74,7 @@ do_install() {
 	
 	install -m 0755 -D ${WORKDIR}/usr/bin/*.sh ${D}${bindir}
 	#${WORKDIR} = /storage/build/src/t-2021-08-26-15-00/build/tmp/work/aarch64-poky-linux/cyan-filesystem/1.0-r0
+	#${D}${bindir} = storage/build/src/t-2021-08-26-15-00/build/tmp/work/aarch64-poky-linux/cyan-filesystem/1.0-r0/image/usr/bin
 	
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
 	install -m 0755 -D ${WORKDIR}/etc/cyan/motd ${D}${sysconfdir}/cyan/
