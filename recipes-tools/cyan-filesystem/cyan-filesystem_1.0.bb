@@ -12,7 +12,6 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/cyan-fanctl.service \
            file://lib/systemd/system/cyan-fpga-image-status.service \
            file://lib/systemd/system/button-off.service \
-           file://lib/systemd/system/cyan-startup.service \
 	   file://lib/systemd/system/cyan-set-baud.service \
            file://etc/cyan/logging \
            file://etc/cyan/package-manager \
@@ -29,6 +28,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://usr/bin/button_press_off.sh \
            file://usr/bin/execstop.sh \
           "
+#file://lib/systemd/system/cyan-startup.service \
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
                pam-plugin-cracklib \
