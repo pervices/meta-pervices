@@ -28,7 +28,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://usr/bin/button_press_off.sh \
            file://usr/bin/execstop.sh \
           "
-#file://lib/systemd/system/cyan-startup.service \
+
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
                pam-plugin-cracklib \
