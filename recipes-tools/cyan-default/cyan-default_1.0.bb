@@ -19,6 +19,6 @@ do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -d -m 0755 ${D}${sysconfdir}/cyan/
 	
-	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
+	#install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/startup ${D}${sysconfdir}/cyan/
 }
