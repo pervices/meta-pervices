@@ -6,7 +6,6 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 DEPENDS_${PN} = "bash"
 RDEPENDS_${PN} = "bash"
 SRC_URI = "file://etc/cyan/startup \
-           file://lib/systemd/system/cyan-startup.service \
           "
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
