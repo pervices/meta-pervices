@@ -155,6 +155,7 @@ IMAGE_INSTALL += "\
 	pciutils-doc \
 	perl \
 	perl-doc \
+	picocom \
 	polkit \
 	portmap \
 	portmap-doc \
