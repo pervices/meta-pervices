@@ -1,14 +1,19 @@
-SUMMARY = "Lightweight and minimal dumb-terminal emulation program"
+SUMMARY = "Lightweight and minimal (~20K) dumb-terminal emulation program"
 SECTION = "console/utils"
 LICENSE = "GPLv2+"
 HOMEPAGE = "http://code.google.com/p/picocom/"
-LIC_FILES_CHKSUM = "file://LICENSE.txt"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3000e4830620e310fe65c0eb69df9e8a"
 
-SRC_URI = "git:https://github.com/npat-efault/picocom.git;protocol=https;branch=master"
-SRCREV_commit = "90385aabe2b51f39fa130627d46b377569f82d4a"
+BASEPV = "2.2"
+PV = "${BASEPV}+git${SRCPV}"
 
+SRCREV = "deffd18c24145bd6f965f44e735a50b65810ccdc"
 
-EXTRA_OEMAKE = "'CC=${CC}' 'LD=${LD}' 'VERSION=${PV}' \
+SRC_URI = "git://github.com/npat-efault/picocom"
+
+S = "${WORKDIR}/git"
+
+EXTRA_OEMAKE = "'CC=${CC}' 'LD=${CC}' 'VERSION=${BASEPV}' \
 		'CFLAGS=${CFLAGS}' 'LDFLAGS=${LDFLAGS}' "
 
 do_install () {
