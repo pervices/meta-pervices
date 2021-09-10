@@ -119,6 +119,7 @@ IMAGE_INSTALL += "\
 	libxml2-doc \
 	lshw \
 	lshw-doc \
+	lsof \
 	make \
 	make-doc \
 	memtester \
