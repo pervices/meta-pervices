@@ -4,7 +4,6 @@ to support SDR features."
 
 IMAGE_FEATURES += " \
         dev-pkgs \
-        dbg-pkgs \
 	tools-sdk \
         "
 
