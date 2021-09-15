@@ -149,6 +149,7 @@ IMAGE_INSTALL += "\
 	oprofile \
 	oprofile-doc \
 	orc \
+	parted \
 	patch \
 	patch-doc \
 	pciutils \
