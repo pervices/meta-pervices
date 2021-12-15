@@ -26,5 +26,6 @@ while true; do
 	else
 		echo "Error, i2c command failed"
 	fi
-
+	
+	sleep 0.100
 done
