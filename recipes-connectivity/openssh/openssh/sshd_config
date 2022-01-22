@@ -41,7 +41,7 @@ Protocol 2
 # Authentication:
 
 #LoginGraceTime 2m
-#PermitRootLogin yes
+PermitRootLogin without-password
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
@@ -120,7 +120,7 @@ ClientAliveCountMax 4
 #VersionAddendum none
 
 # no default banner path
-#Banner none
+Banner /etc/crimson/issue.net
 
 # override default of no subsystems
 Subsystem	sftp	/usr/libexec/sftp-server
