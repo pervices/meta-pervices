@@ -91,7 +91,7 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/etc/cyan/stty.settings ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/startup ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/etc/cyan/expand_parti_sd-README.txt ${D}${sysconfdir}/cyan/
+	install -m 0644 -D ${WORKDIR}/etc/cyan/expand_parti_sd-README.txt ${D}${sysconfdir}/cyan/
 	
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
