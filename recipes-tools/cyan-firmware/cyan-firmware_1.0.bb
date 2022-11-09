@@ -22,7 +22,7 @@ INSANE_SKIP_${PN} = "ldflags"
 
 FILES_${PN} += "${bindir} ${sysconfdir}/cyan ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
-#SYSTEMD_SERVICE_${PN} = "cyan-server.service cyan-post.service"
+SYSTEMD_SERVICE_${PN} = "cyan-server.service cyan-post.service"
 
 
 do_compile() {
