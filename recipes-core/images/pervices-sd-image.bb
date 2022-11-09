@@ -54,6 +54,7 @@ IMAGE_INSTALL += "\
 	dtc \
 	dtbt \
 	e2fsprogs \
+	e2fsprogs-resize2fs \
 	e2fsprogs-doc \
 	edac-utils \
 	elfutils \
