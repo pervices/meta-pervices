@@ -26,8 +26,10 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://etc/cyan/stty.settings \
            file://etc/cyan/set_baud \
            file://etc/cyan/startup \
+           file://etc/cyan/expand_parti_sd-README.txt \
            file://usr/bin/button_press_off.sh \
            file://usr/bin/execstop.sh \
+           file://usr/bin/expand_parti_sd.sh \
           "
 
 PAM_PLUGINS = "libpam-runtime \
@@ -89,6 +91,7 @@ do_install() {
 	install -m 0644 -D ${WORKDIR}/etc/cyan/stty.settings ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/etc/cyan/startup ${D}${sysconfdir}/cyan/
+	install -m 0744 -D ${WORKDIR}/etc/cyan/expand_parti_sd-README.txt ${D}${sysconfdir}/cyan/
 	
 	install -m 0644 -D ${WORKDIR}/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0644 -D ${WORKDIR}/etc/sysctl.d/* ${D}${sysconfdir}/sysctl.d/
