@@ -1,0 +1,62 @@
+From 6635e00b836e9f4235a5ffa89b9d91afbcfb59ec Mon Sep 17 00:00:00 2001
+From: Shiqi Feng <shiqi.f@pervices.com>
+Date: Wed, 9 Nov 2022 11:32:31 -0500
+Subject: [PATCH] Test
+
+---
+ autotate.sh | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/autotate.sh b/autotate.sh
+index 123f725..f32f871 100755
+--- a/autotate.sh
++++ b/autotate.sh
+@@ -62,13 +62,11 @@ fi
+ if [ $# -eq 1 ]; then
+     ./configure                         \
+             --prefix=/usr                   \
+-            --host=x86_64                   \
+-            CC=aarch64-linux-gnu-gcc        \
++            --host=arm-unknown-linux-gnueabihf                   \
+             CFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+             CPPFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+-            CXX=aarch64-linux-gnu-g++       \
+             CXXFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+             PRODUCT=$1 \
+@@ -79,13 +77,11 @@ if [ $# -eq 1 ]; then
+ elif [ $# -eq 2 ]; then
+     ./configure                         \
+             --prefix=/usr                   \
+-            --host=x86_64                   \
+-            CC=aarch64-linux-gnu-gcc        \
++            --host=arm-unknown-linux-gnueabihf                   \
+             CFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+             CPPFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+-            CXX=aarch64-linux-gnu-g++       \
+             CXXFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+             PRODUCT=$1 \
+@@ -101,14 +97,12 @@ elif [ $# -eq 5 ]; then
+ 
+     ./configure                         \
+             --prefix=/usr                   \
+-            --host=x86_64                   \
+-            CC=aarch64-linux-gnu-gcc        \
++            --host=arm-unknown-linux-gnueabihf                   \
+             CFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 \
+                     -Werror -lm" \
+             CPPFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+-            CXX=aarch64-linux-gnu-g++       \
+             CXXFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall \
+                     -march=armv8-a -mtune=cortex-a53 " \
+             PRODUCT=$1 \
+-- 
+2.35.1
+
