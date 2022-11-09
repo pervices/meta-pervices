@@ -43,8 +43,6 @@ IMAGE_INSTALL += "\
 	cyan-firmware \
 	cyan-fpga \
 	cyan-mcu \
-	cyan-website \
-	cyan-website-hdr \
 	cyan-default \
 	cronie \
 	cronie-doc \
@@ -57,6 +55,7 @@ IMAGE_INSTALL += "\
 	dtbt \
 	e2fsprogs \
 	e2fsprogs-doc \
+	edac-utils \
 	elfutils \
 	ethtool \
 	ethtool-doc \
@@ -149,9 +148,9 @@ IMAGE_INSTALL += "\
 	oprofile \
 	oprofile-doc \
 	orc \
-	parted \
 	patch \
 	patch-doc \
+	parted \
 	pciutils \
 	pciutils-doc \
 	perl \
@@ -175,6 +174,9 @@ IMAGE_INSTALL += "\
 	sshfs-fuse-doc \
 	strace \
 	strace-doc \
+	stress \
+	stress-ng \
+	stressapptest \
 	subversion \
 	subversion-doc \
 	sudo \
