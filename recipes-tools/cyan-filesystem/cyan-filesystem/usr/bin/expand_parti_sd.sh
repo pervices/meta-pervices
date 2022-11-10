@@ -67,7 +67,7 @@ do_expand_rootfs() {
 #Get the end of the sd card space --------------------------------------------------------
 #NOTE Might not need, can use default values
     #PARTI_TOTAL_SIZE=$(sudo parted /dev/sde -ms unit s p | head -n 2 | tail -n 1 | cut -f 2 -d: | sed 's/[^0-9]//g')
-    PARTI_TOTAL_SIZE=$(parted /dev/mmcblk0 -ms unit s p | head -n 2 | tail -n 1 | cut -f 2 -d: | sed 's/[^0-9]\\g')
+    PARTI_TOTAL_SIZE=$(parted /dev/mmcblk0 -ms unit s p | head -n 2 | tail -n 1 | cut -f 2 -d: | sed 's/[^0-9]//g')
     PARTI_TOTAL_SIZE=( ${PARTI_TOTAL_SIZE} - 1 )
     echo "PARTI_TOTAL_SIZE is: ${PARTI_TOTAL_SIZE}"
 
@@ -77,10 +77,11 @@ fdisk /dev/mmcblk0 <<EOF
 p
 d
 $PARTI_NUM
-d
 n
 p
 $PARTI_NUM
+$PARTI_START
+
 
 
 p
