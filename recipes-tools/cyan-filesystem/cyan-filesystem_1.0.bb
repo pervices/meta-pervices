@@ -14,6 +14,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://lib/systemd/system/button-off.service \
            file://lib/systemd/system/cyan-set-baud.service \
            file://lib/systemd/system/cyan-startup.service \
+           file://lib/systemd/system/cyan-rf-fan-controller.service \
            file://etc/cyan/logging \
            file://etc/cyan/package-manager \
            file://etc/cyan/motd \
@@ -30,6 +31,7 @@ SRC_URI = "file://etc/udev/rules.d/99-local.rules \
            file://usr/bin/button_press_off.sh \
            file://usr/bin/execstop.sh \
            file://usr/bin/expand_parti_sd.sh \
+           file://usr/bin/cyan-rf-fan-controller.sh \
           "
 
 PAM_PLUGINS = "libpam-runtime \

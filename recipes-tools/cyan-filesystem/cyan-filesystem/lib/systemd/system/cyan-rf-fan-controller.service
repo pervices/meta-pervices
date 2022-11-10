@@ -6,7 +6,7 @@ After=dev-tty1.device
 [Service]
 User=root
 Group=dev-grp0
-ExecStart=/usr/bin/cyan-fan-controller.sh
+ExecStart=/usr/bin/cyan-rf-fan-controller.sh
 Type=simple
 RemainAfterExit=yes
 
