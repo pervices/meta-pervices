@@ -5,6 +5,7 @@ LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://etc/qspi.rc;md5=11ed0a5e56ff53304b1e6192fde53286"
 
 DEPENDS = "zlib"
+RDEPENDS_${PN} = "bash"
 
 PV = "1.0.0"
 

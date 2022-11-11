@@ -152,23 +152,23 @@ index 94b48a4..0000000
 -all: rsu_client
 -
 -install: rsu_client lib
--       cd ../lib/; make install
--       cp rsu_client ${INSTALL_PATH}/rsu_client
+-	cd ../lib/; make install
+-	cp rsu_client ${INSTALL_PATH}/rsu_client
 -
 -rsu_client: $(SRC:.c=.o) lib
--       $(CROSS_COMPILE)gcc -o $@ $(SRC:.c=.o) $(LDFLAGS)
+-	$(CROSS_COMPILE)gcc -o $@ $(SRC:.c=.o) $(LDFLAGS)
 -
 -%.o : %.c
--       $(CROSS_COMPILE)gcc $(CFLAGS) -c $< -o $@
+-	$(CROSS_COMPILE)gcc $(CFLAGS) -c $< -o $@
 -
 -lib: ../lib/librsu.so
 -
 -../lib/librsu.so:
--       cd ../lib/; make all
+-	cd ../lib/; make all
 -
 -clean:
--       rm -rf $(SRC:.c=.o) rsu_client
--       cd ../lib/; make clean
+-	rm -rf $(SRC:.c=.o) rsu_client
+-	cd ../lib/; make clean
 diff --git a/lib/Makefile.am b/lib/Makefile.am
 new file mode 100644
 index 0000000..23f0a1e
@@ -177,7 +177,7 @@ index 0000000..23f0a1e
 @@ -0,0 +1,7 @@
 +lib_LTLIBRARIES = librsu.la
 +librsu_la_SOURCES = librsu.c librsu_cb.c librsu_cb.h librsu_cfg.c librsu_cfg.h \
-+       librsu_image.c librsu_image.h librsu_ll.h librsu_ll_qspi.c librsu_misc.c librsu_misc.h librsu_qspi.h
++	librsu_image.c librsu_image.h librsu_ll.h librsu_ll_qspi.c librsu_misc.c librsu_misc.h librsu_qspi.h
 +librsu_la_CFLAGS = $(AM_CFLAGS)
 +librsu_la_LDFLAGS = $(LTLDFLAGS)
 +AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib
@@ -209,16 +209,17 @@ index 6433558..0000000
 -all: librsu.so
 -
 -install: librsu.so
--       cp librsu.so $(INSTALL_PATH)/librsu.so.$(LIBRSU_VER)
--       ln -s $(INSTALL_PATH)/librsu.so.$(LIBRSU_VER) $(INSTALL_PATH)/librsu.so
+-	cp librsu.so $(INSTALL_PATH)/librsu.so.$(LIBRSU_VER)
+-	ln -s $(INSTALL_PATH)/librsu.so.$(LIBRSU_VER) $(INSTALL_PATH)/librsu.so
 -
 -librsu.so: $(SRC:.c=.o)
--       $(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o)
+-	$(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o)
 -
 -%.o : %.c
--       $(CROSS_COMPILE)gcc $(CFLAGS) -fPIC -c $< -o $@
+-	$(CROSS_COMPILE)gcc $(CFLAGS) -fPIC -c $< -o $@
 -
 -clean:
--       rm -rf $(SRC:.c=.o) librsu.so
+-	rm -rf $(SRC:.c=.o) librsu.so
 -- 
 2.7.4
+
