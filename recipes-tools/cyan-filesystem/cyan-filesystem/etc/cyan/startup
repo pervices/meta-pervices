@@ -1,5 +1,5 @@
 #! /bin/bash -e
-# cyan tng miscellaneous startup script
+echo "Cyan miscellaneous startup script"
 
 #sed -i '/temp/d' /etc/cyan/cyan-fpga
 #mkdir -p /var/cyan/history/log

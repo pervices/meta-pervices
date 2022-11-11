@@ -63,7 +63,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 inherit systemd autotools
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN} = "cyan-networking.service cyan-set-baud.service cyan-fanctl.service button-off.service"
+SYSTEMD_SERVICE_${PN} = "cyan-networking.service cyan-set-baud.service cyan-fanctl.service button-off.service cyan-startup.service"
 #SYSTEMD_SERVICE_${PN} = "cyan-networking.service cyan-fpga-image-status.service cyan-fanctl.service "
 #SYSTEMD_SERVICE_${PN} = "cyan-log.service cyan-sensors.service"
 
