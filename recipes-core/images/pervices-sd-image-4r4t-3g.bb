@@ -40,7 +40,7 @@ IMAGE_INSTALL += "\
 	coreutils \
 	coreutils-doc \
 	cyan-filesystem \
-	cyan-firmware \
+	cyan-firmware-4r4t-3g \
 	cyan-fpga \
 	cyan-mcu \
 	cyan-default \
