@@ -11,10 +11,10 @@ KERNEL_MODULE_AUTOLOAD += "lm87 ads1015 max31790 max6639"
 require ../../../meta-altera/recipes-kernel/linux/linux-altera.inc
 
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${LINUX_VERSION}:"
-SRC_URI += "file://defconfig"
+#FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${LINUX_VERSION}:"
+#SRC_URI += "file://defconfig"
 
-do_configure_append() {
-            cp ${WORKDIR}/defconfig ${WORKDIR}/linux-stratix10-standard-build/.config
-}
+#do_configure_append() {
+#            cp ${WORKDIR}/defconfig ${WORKDIR}/linux-stratix10-standard-build/.config
+#}
 
