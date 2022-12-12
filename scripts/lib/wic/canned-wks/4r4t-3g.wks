@@ -1,0 +1,6 @@
+# short-description: Create SD card image for Per Vices Cyan 4R4T 3GSPS platform
+# long-description: Creates a partitioned SD card image for the Per Vices
+# Cyan 4R4T 3GSPS platform. Boot files are located in the first vfat partition.
+
+part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 100
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4
