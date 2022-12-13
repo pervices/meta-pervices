@@ -154,4 +154,4 @@ EXTRA_USERS_PARAMS = "\
 	usermod -a -G cli-grp0 client; \
 	"
 
-export IMAGE_BASENAME = "base-image"
+export IMAGE_BASENAME = "sdimage"
