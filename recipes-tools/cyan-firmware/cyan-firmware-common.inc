@@ -36,7 +36,7 @@ do_compile() {
 do_install() {
 	install -d -m 0755 ${D}${bindir}
 	install -d -m 0755 ${D}${sysconfdir}/cyan/
-	install -m 0755 -D ${WORKDIR}/git/${PN} ${D}${sysconfdir}/cyan/${PN}
+	install -m 0644 -D ${WORKDIR}/git/${PN} ${D}${sysconfdir}/cyan/${PN}
 	install -m 0755 -D ${WORKDIR}/git/server ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/mem ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/mcu ${D}${bindir}
