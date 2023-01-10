@@ -30,11 +30,13 @@ do_compile() {
 	make
 	${CC} script/memtool.c -o script/memtool
 	${CC} script/pll_check.c -o script/pll_check
+	git describe --always --dirty --long >> ${PN}
 }
 
 do_install() {
 	install -d -m 0755 ${D}${bindir}
 	install -d -m 0755 ${D}${sysconfdir}/cyan/
+	install -m 0755 -D ${WORKDIR}/git/${PN} ${D}${sysconfdir}/cyan/${PN}
 	install -m 0755 -D ${WORKDIR}/git/server ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/mem ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/mcu ${D}${bindir}
@@ -51,7 +53,6 @@ do_install() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-server.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-post.service ${D}${systemd_unitdir}/system/
-	#cd ${WORKDIR}/git && git describe --tags --always --dirty --long >> ${D}${sysconfdir}/cyan/${PN}
 }
 
 do_package_qa() {
