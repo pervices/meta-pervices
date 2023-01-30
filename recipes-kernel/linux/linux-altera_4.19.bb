@@ -5,9 +5,9 @@ KERNEL_REPO = "git://github.com/pervices/linux-socfpga.git"
 KERNEL_PROT = "https"
 KBRANCH = "pv/socfpga-4.19"
 #KBUILD_DEFCONFIG_stratix10 = "s10_devkit_defconfig"
-KBUILD_DEFCONFIG_arria5 = "socfpga_defconfig"
+KBUILD_DEFCONFIG = "socfpga_defconfig"
 #KERNEL_DEVICETREE_stratix10 = "altera/socfpga_stratix10_socdk.dtb altera/socfpga_stratix10_ovl1.dtb"
-KERNEL_DEVICETREE_arria5 = "socfpga_arria5_socdk.dtb"
+KERNEL_DEVICETREE = "socfpga_arria5_socdk.dtb"
 #KERNEL_MODULE_AUTOLOAD += "lm87 ads1015 max31790 max6639"
 
 require ../../../meta-altera/recipes-kernel/linux/linux-altera.inc
@@ -19,4 +19,13 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${LINUX_VERSION}:"
 #do_configure_append() {
 #            cp ${WORKDIR}/defconfig ${WORKDIR}/linux-stratix10-standard-build/.config
 #}
+
+do_deploy_append() {
+	#echo ${DTB_NAME} > var
+	#echo ${DTB_EXT} >> var
+	#echo ${DEPLOYDIR} >> var
+	#echo ${DTB_BASE_NAME} >> var
+	#ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_BASE_NAME}.${DTB_EXT}
+	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.${DTB_EXT}
+}
 
