@@ -20,7 +20,7 @@ do_install() {
 	install -d -m 0755 ${D}${base_libdir}/mcu/
 	install -d -m 0755 ${D}${sysconfdir}/crimson/
 
-	install -m 0744 -D ${WORKDIR}/flash.sh ${D}${base_libdir}/mcu/
+	#install -m 0744 -D ${WORKDIR}/flash.sh ${D}${base_libdir}/mcu/
 	install -m 0744 -D ${WORKDIR}/burn-on-host-only.sh ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/rx.hex ${D}${base_libdir}/mcu/
 	install -m 0644 -D ${WORKDIR}/tx.hex ${D}${base_libdir}/mcu/
