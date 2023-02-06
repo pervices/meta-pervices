@@ -1,5 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 SRC_URI += "file://hostname-crimson \
+            file://hostname-cyan \
             file://fstab-ro-crimson \
            "
 do_install_append () {
@@ -14,7 +15,7 @@ do_install_append () {
 }
 
 do_install_append_crimson () {
-	install -m 0644 ${WORKDIR}/hostname-crimson ${D}${sysconfdir}/hostname	
+	install -m 0644 ${WORKDIR}/hostname-crimson ${D}${sysconfdir}/hostname
 }
 
 do_install_append_cyan () {
