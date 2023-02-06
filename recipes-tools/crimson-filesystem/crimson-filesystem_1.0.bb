@@ -66,7 +66,7 @@ do_install() {
 	install -d -m 0755 ${D}${bindir}/
 	
 	install -m 0644 -D ${WORKDIR}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
-	install -m 0755 -D ${WORKDIR}/etc/crimson/motd ${D}${sysconfdir}/crimson/
+	install -m 0755 -D ${WORKDIR}/etc/crimson/motd ${D}${sysconfdir}/
 	install -m 0644 -D ${WORKDIR}/etc/crimson/issue.net ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/logging ${D}${sysconfdir}/crimson/
 	install -m 0744 -D ${WORKDIR}/etc/crimson/package-manager ${D}${sysconfdir}/crimson/
