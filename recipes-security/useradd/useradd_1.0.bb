@@ -1,4 +1,4 @@
-DESCRIPTION = "Recipe for adding users in Cyan"
+DESCRIPTION = "Recipe for adding users"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"
