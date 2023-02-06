@@ -1,4 +1,4 @@
-DESCRIPTION = "Recipe for adding users in Crimson"
+DESCRIPTION = "Recipe for adding users"
 AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"
@@ -8,7 +8,7 @@ DEPENDS = ""
 SRC_URI = "file://default.bashrc \
            file://default.bash_profile \
            file://.ssh/authorized_keys \
-           file://default.minirc.dfl \
+	   file://default.minirc.dfl \
           "
 
 S = "${WORKDIR}"
@@ -45,7 +45,11 @@ do_install () {
 	chown -R client ${D}/home/client/
 	chgrp -R cli-grp0 ${D}/home/client/
 }
+do_install_append () {
+	install -d -m 0750 ${D}${sysconfdir}/sudoers.d
+	echo "dev0 ALL=(ALL) ALL" > ${D}${sysconfdir}/sudoers.d/dev0
+}
 
-FILES_${PN} = "/home/dev0/ /home/root/"
+FILES_${PN} = "/home/dev0/ /home/root/ /etc/sudoers.d/"
 FILES_${PN}-client = "/home/client/"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
