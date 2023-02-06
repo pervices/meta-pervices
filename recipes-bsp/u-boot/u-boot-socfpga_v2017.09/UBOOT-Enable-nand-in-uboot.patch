@@ -1,0 +1,38 @@
+From 638e16db9271fd687798ec68acee162de13a9c5e Mon Sep 17 00:00:00 2001
+From: Shiqi Feng <shiqi.f@pervices.com>
+Date: Mon, 16 Jul 2018 18:27:27 +0000
+Subject: [PATCH] UBOOT: Enable nand in uboot
+
+---
+ include/configs/socfpga_stratix10_socdk.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/include/configs/socfpga_stratix10_socdk.h b/include/configs/socfpga_stratix10_socdk.h
+index e44a81d419..e1226530f3 100755
+--- a/include/configs/socfpga_stratix10_socdk.h
++++ b/include/configs/socfpga_stratix10_socdk.h
+@@ -96,6 +96,21 @@ unsigned int cm_get_qspi_controller_clk_hz(void);
+ 
+ #endif /* CONFIG_CADENCE_QSPI */
+ 
++/*
++ * NAND Support
++ */
++#define CONFIG_SYS_NAND_SELF_INIT			1
++#define CONFIG_NAND_DENALI				1
++#define CONFIG_CMD_NAND					1
++#define CONFIG_SYS_MAX_NAND_DEVICE			1
++#define CONFIG_SYS_NAND_MAX_CHIPS			1
++#define CONFIG_SYS_NAND_ONFI_DETECTION			
++#define CONFIG_NAND_DENALI_ECC_SIZE			(512)
++#define CONFIG_NAND_DENALI_SPARE_AREA_SKIP_BYTES	(2)
++#define CONFIG_SYS_NAND_REGS_BASE			SOCFPGA_NANDREGS_ADDRESS
++#define CONFIG_SYS_NAND_DATA_BASE			SOCFPGA_NANDDATA_ADDRESS
++#define CONFIG_SYS_NAND_BASE				(CONFIG_SYS_NAND_DATA_BASE + 0x10)
++
+ /*
+  * Boot arguments passed to the boot command. The value of
+  * CONFIG_BOOTARGS goes into the environment value "bootargs".
+-- 
+2.18.0
+

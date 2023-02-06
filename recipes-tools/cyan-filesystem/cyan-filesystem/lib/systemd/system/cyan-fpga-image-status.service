@@ -1,0 +1,14 @@
+[Unit]
+Description=Cyan FPGA image status
+Before=getty@tty1.service
+After=dev-tty1.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/usr/bin/fpga_image_status
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

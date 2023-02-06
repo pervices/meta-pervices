@@ -1,0 +1,13 @@
+auto eth0
+iface eth0 inet static
+        address 192.168.10.2
+        network 192.168.10.0
+        broadcast 192.168.10.255
+        netmask 255.255.255.0
+
+auto eth1
+iface eth1 inet static
+        address 192.168.11.2
+        network 192.168.11.0
+        broadcast 192.168.11.255
+        netmask 255.255.255.0

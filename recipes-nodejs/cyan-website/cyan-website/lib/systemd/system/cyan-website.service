@@ -1,0 +1,16 @@
+[Unit]
+Description=Cyan Website
+Requires=cyan-server.service
+After=cyan-server.service
+Conflicts=cyan-website-hdr.service
+
+[Service]
+User=root
+Group=dev-grp0
+WorkingDirectory=/usr/lib/node_modules/cyan-webserver/tate
+ExecStart=/usr/bin/node server.js
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

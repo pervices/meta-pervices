@@ -1,0 +1,8 @@
+# short-description: Create SD card image for Per Vices Crimson SDR platform
+# long-description: Creates a partitioned SD card image for the Per Vices
+# Crimson SDR platform. Boot files are located in the first vfat partition.
+
+part --source rawcopy --sourceparams="file=preloader-mkpimage.bin,u-boot-arria5.img" --ondisk mmcblk --system-id=a2 --align 1024 --size 50
+part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot --active --align 1024 --size 16
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 1024
+

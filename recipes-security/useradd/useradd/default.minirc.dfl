@@ -1,4 +1,5 @@
 # Machine-generated file - use setup menu in minicom to change parameters.
+pu rtscts           No
 pu localecho        Yes
 pu linewrap         Yes
 pu addcarreturn     Yes

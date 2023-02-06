@@ -1,0 +1,225 @@
+From b6778c858ce7b9d9e110f2f4b3a17c9c7ba5c84a Mon Sep 17 00:00:00 2001
+From: MengLi <meng.li@windriver.com>
+Date: Wed, 12 Sep 2018 14:08:49 +0800
+Subject: [PATCH] intel-rsu: implement automake for intel-rsu package
+
+RallyID: US118017
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
+---
+ AUTHORS             |  3 +++
+ ChangeLog           |  5 +++++
+ Makefile.am         |  2 ++
+ NEWS                |  2 ++
+ README              | 15 +++++++++++++++
+ configure.ac        | 29 +++++++++++++++++++++++++++++
+ example/Makefile.am |  5 +++++
+ example/makefile    | 31 -------------------------------
+ lib/Makefile.am     |  7 +++++++
+ lib/makefile        | 32 --------------------------------
+ 10 files changed, 68 insertions(+), 63 deletions(-)
+ create mode 100644 AUTHORS
+ create mode 100644 ChangeLog
+ create mode 100644 Makefile.am
+ create mode 100644 NEWS
+ create mode 100644 README
+ create mode 100644 configure.ac
+ create mode 100644 example/Makefile.am
+ delete mode 100644 example/makefile
+ create mode 100644 lib/Makefile.am
+ delete mode 100644 lib/makefile
+
+diff --git a/AUTHORS b/AUTHORS
+new file mode 100644
+index 0000000..4d230c0
+--- /dev/null
++++ b/AUTHORS
+@@ -0,0 +1,3 @@
++Copyright © 2018 Intel
++
++Other contributors:
+diff --git a/ChangeLog b/ChangeLog
+new file mode 100644
+index 0000000..740007d
+--- /dev/null
++++ b/ChangeLog
+@@ -0,0 +1,5 @@
++For the latest librsu news, please refer to the ChangeLog file, or visit:
++https://github.com/altera-opensource/intel-rsu.git
++
++2018-05-08: v1.0 release
++ * First librsu release
+diff --git a/Makefile.am b/Makefile.am
+new file mode 100644
+index 0000000..2ebe613
+--- /dev/null
++++ b/Makefile.am
+@@ -0,0 +1,2 @@
++SUBDIRS = lib example
++AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib
+diff --git a/NEWS b/NEWS
+new file mode 100644
+index 0000000..efca7d1
+--- /dev/null
++++ b/NEWS
+@@ -0,0 +1,2 @@
++For the latest librsu news, please refer to the ChangeLog file, or visit:
++https://github.com/altera-opensource/intel-rsu.git
+diff --git a/README b/README
+new file mode 100644
+index 0000000..3c34c87
+--- /dev/null
++++ b/README
+@@ -0,0 +1,15 @@
++             Intel Remote system update library
++
++The RSU (Remote System Update) feature allows the users to update the 
++QSPI configuration bitstream of a Stratix 10 SX device with significantly
++reduced risk of corrupting the bitstream storage and bricking the system.
++
++If the configuration bitstream in QSPI flash got corrupted, the only method
++to recover the device would be to connect to it over JTAG and re-program the
++QSPI flash. However, the end product may not have a JTAG connector, or may be
++ in a very remote location, or there may be thousands of them so fixing the
++issue over JTAG is not a suitable solution. 
++
++The RSU procedure is designed to be very reliable, because sometimes a large
++number of units need to be updated, and even a small failure risk would produce
++a lot of failures.
+diff --git a/configure.ac b/configure.ac
+new file mode 100644
+index 0000000..594addb
+--- /dev/null
++++ b/configure.ac
+@@ -0,0 +1,29 @@
++#                                               -*- Autoconf -*-
++# Process this file with autoconf to produce a configure script.
++
++AC_PREREQ([2.69])
++AC_INIT(intel-rsu, 1.0, meng.li@windriver.com)
++AC_CONFIG_SRCDIR([lib/librsu_ll_qspi.c])
++# AC_CONFIG_HEADERS([config.h])
++AM_INIT_AUTOMAKE
++
++# Checks for programs.
++AC_PROG_CC
++
++# Checks for libraries.
++LT_INIT
++AC_CHECK_LIB([z])
++AC_PROG_RANLIB
++
++# Checks for header files.
++AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/ioctl.h unistd.h])
++
++# Checks for typedefs, structures, and compiler characteristics.
++AC_TYPE_OFF_T
++
++# Checks for library functions.
++AC_FUNC_MALLOC
++AC_FUNC_STRNLEN
++AC_CHECK_FUNCS([ftruncate memset strtol])
++
++AC_OUTPUT(Makefile example/Makefile lib/Makefile)
+diff --git a/example/Makefile.am b/example/Makefile.am
+new file mode 100644
+index 0000000..5e63807
+--- /dev/null
++++ b/example/Makefile.am
+@@ -0,0 +1,5 @@
++bin_PROGRAMS = rsu_client
++rsu_client_SOURCES = rsu_client.c 
++rsu_client_LDADD = ../lib/librsu.la
++rsu_client_LDFLAGS = $(LTLDFLAGS)
++AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir)/include
+diff --git a/example/makefile b/example/makefile
+deleted file mode 100644
+index 94b48a4..0000000
+--- a/example/makefile
++++ /dev/null
+@@ -1,31 +0,0 @@
+-# SPDX-License-Identifier: BSD-2-Clause
+-
+-# Intel Copyright 2018
+-
+-INSTALL_PATH ?= /usr/bin
+-
+-SRC := rsu_client.c
+-
+-CFLAGS := -I../include/
+-LDFLAGS := -L../lib/ -lrsu -lz
+-
+-all: rsu_client
+-
+-install: rsu_client lib
+-	cd ../lib/; make install
+-	cp rsu_client ${INSTALL_PATH}/rsu_client
+-
+-rsu_client: $(SRC:.c=.o) lib
+-	$(CROSS_COMPILE)gcc -o $@ $(SRC:.c=.o) $(LDFLAGS)
+-
+-%.o : %.c
+-	$(CROSS_COMPILE)gcc $(CFLAGS) -c $< -o $@
+-
+-lib: ../lib/librsu.so
+-
+-../lib/librsu.so:
+-	cd ../lib/; make all
+-
+-clean:
+-	rm -rf $(SRC:.c=.o) rsu_client
+-	cd ../lib/; make clean
+diff --git a/lib/Makefile.am b/lib/Makefile.am
+new file mode 100644
+index 0000000..23f0a1e
+--- /dev/null
++++ b/lib/Makefile.am
+@@ -0,0 +1,7 @@
++lib_LTLIBRARIES = librsu.la
++librsu_la_SOURCES = librsu.c librsu_cb.c librsu_cb.h librsu_cfg.c librsu_cfg.h \
++	librsu_image.c librsu_image.h librsu_ll.h librsu_ll_qspi.c librsu_misc.c librsu_misc.h librsu_qspi.h
++librsu_la_CFLAGS = $(AM_CFLAGS)
++librsu_la_LDFLAGS = $(LTLDFLAGS)
++AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib
++LIBS = -lz
+diff --git a/lib/makefile b/lib/makefile
+deleted file mode 100644
+index 6433558..0000000
+--- a/lib/makefile
++++ /dev/null
+@@ -1,32 +0,0 @@
+-# SPDX-License-Identifier: BSD-2-Clause
+-
+-# Intel Copyright 2018
+-
+-INSTALL_PATH ?= /usr/lib
+-LIBRSU_VER = 0
+-
+-SRC := $(wildcard *.c)
+-
+-CFLAGS := -I../include/ -fPIC -fPIE
+-CFLAGS += -fstack-protector-strong
+-CFLAGS += -O2 -D_FORTIFY_SOURCE=2
+-CFLAGS += -Wformat -Wformat-security
+-
+-LDFLAGS := -shared
+-LDFLAGS += -z noexecstack
+-LDFLAGS += -z relro -z now
+-
+-all: librsu.so
+-
+-install: librsu.so
+-	cp librsu.so $(INSTALL_PATH)/librsu.so.$(LIBRSU_VER)
+-	ln -s $(INSTALL_PATH)/librsu.so.$(LIBRSU_VER) $(INSTALL_PATH)/librsu.so
+-
+-librsu.so: $(SRC:.c=.o)
+-	$(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o)
+-
+-%.o : %.c
+-	$(CROSS_COMPILE)gcc $(CFLAGS) -fPIC -c $< -o $@
+-
+-clean:
+-	rm -rf $(SRC:.c=.o) librsu.so
+-- 
+2.7.4
+

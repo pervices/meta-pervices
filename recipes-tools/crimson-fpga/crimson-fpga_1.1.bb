@@ -8,8 +8,11 @@ RDEPENDS_${PN} = "bash"
 SRC_URI = "file://soc_system.rbf \
 	   file://update.sh \
 	   file://update.dtb \
+           file://preloader-mkpimage.bin \
           "
-FILES_${PN} += "${base_libdir}/firmware/ ${sysconfdir}/crimson"
+FILES_${PN} += "${base_libdir}/firmware/ ${sysconfdir}/crimson /preloader"
+
+inherit deploy
 
 do_install() {
 	install -d -m 0755 ${D}${base_libdir}/firmware/
@@ -21,8 +24,17 @@ do_install() {
 
 	chown -R root ${D}${base_libdir}/firmware
 	chgrp -R 880 ${D}${base_libdir}/firmware
+
+	install -d ${D}/preloader
+	install -m 0644 ${WORKDIR}/preloader-mkpimage.bin ${D}/preloader/
 }
 
 do_install_append() {
 	echo "shipped-${PV}" >> ${D}${sysconfdir}/crimson/${PN}
 }
+
+do_deploy() {
+	install -d ${DEPLOYDIR}
+	cp ${D}/preloader/preloader-mkpimage.bin ${DEPLOYDIR}
+}
+addtask deploy after do_install

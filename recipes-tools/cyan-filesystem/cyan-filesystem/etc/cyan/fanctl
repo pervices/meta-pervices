@@ -1,0 +1,252 @@
+#!/bin/bash
+
+normal="\e[0m"
+bold="\e[1m"
+
+I2CBUS_ADDR=2
+
+FANCTL1_ADDR=0x23
+FANCTL2_ADDR=0x23
+
+FANCONFIG1_ADDR=0x02
+FANCONFIG2_ADDR=0x03
+FANCONFIG3_ADDR=0x04
+FANCONFIG4_ADDR=0x05
+FANCONFIG5_ADDR=0x06
+FANCONFIG6_ADDR=0x07
+
+FANDYNAMICS1_ADDR=0x08
+FANDYNAMICS2_ADDR=0x09
+FANDYNAMICS3_ADDR=0x0a
+FANDYNAMICS4_ADDR=0x0b
+FANDYNAMICS5_ADDR=0x0c
+FANDYNAMICS6_ADDR=0x0d
+
+FANTACH1_ADDRMSB=0x18
+FANTACH1_ADDRLSB=0x19
+FANTACH2_ADDRMSB=0x1a
+FANTACH2_ADDRLSB=0x1b
+FANTACH3_ADDRMSB=0x1c
+FANTACH3_ADDRLSB=0x1d
+FANTACH4_ADDRMSB=0x1e
+FANTACH4_ADDRLSB=0x1f
+FANTACH5_ADDRMSB=0x20
+FANTACH5_ADDRLSB=0x21
+FANTACH6_ADDRMSB=0x22
+FANTACH6_ADDRLSB=0x23
+
+FANPWM1_ADDRMSB=0x40
+FANPWM1_ADDRLSB=0x41
+FANPWM2_ADDRMSB=0x42
+FANPWM2_ADDRLSB=0x43
+FANPWM3_ADDRMSB=0x44
+FANPWM3_ADDRLSB=0x45
+FANPWM4_ADDRMSB=0x46
+FANPWM4_ADDRLSB=0x47
+FANPWM5_ADDRMSB=0x48
+FANPWM5_ADDRLSB=0x49
+FANPWM6_ADDRMSB=0x4a
+FANPWM6_ADDRLSB=0x4b
+
+
+DEFAULT_FANCONFIG=0x48
+DEFAULT_FANDYNAMICS=0x8c
+
+DEFAULT_0_FANPWMH=0x00
+DEFAULT_0_FANPWML=0x00
+DEFAULT_39_FANPWMH=0x64
+DEFAULT_39_FANPWML=0x00
+DEFAULT_59_FANPWMH=0x96
+DEFAULT_59_FANPWML=0x00
+DEFAULT_78_FANPWMH=0xc8
+DEFAULT_78_FANPWML=0x00
+DEFAULT_94_FANPWMH=0xf0
+DEFAULT_94_FANPWML=0x00
+DEFAULT_100_FANPWMH=0xff
+DEFAULT_100_FANPWML=0x80
+
+DEFAILT_GLOBAL_CONFIG=0x28
+GLOBAL_CONFIG_ADDR=0x00
+
+CONST1=60
+CONST2=8192
+SR=16
+NP=2
+case "$1" in
+setup)
+	i2cdetect -r -y $I2CBUS_ADDR >> i2c-map
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		if [[ $(cut -d\  -f2- i2c-map | tail -n +2 | grep $(echo $i | cut -c 3-)) ]]
+		then
+			for j in $FANCONFIG1_ADDR $FANCONFIG2_ADDR $FANCONFIG3_ADDR $FANCONFIG4_ADDR $FANCONFIG5_ADDR $FANCONFIG6_ADDR
+			do
+				i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_FANCONFIG
+				#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_FANCONFIG"
+			done
+			for k in $FANDYNAMICS1_ADDR $FANDYNAMICS2_ADDR $FANDYNAMICS3_ADDR $FANDYNAMICS4_ADDR $FANDYNAMICS5_ADDR $FANDYNAMICS6_ADDR
+			do
+				i2cset -y $I2CBUS_ADDR $i $k $DEFAULT_FANDYNAMICS
+				#echo "i2cset -y $I2CBUS_ADDR $i $k $DEFAULT_FANDYNAMICS"
+			done
+		else
+			echo "Missing i2c device $i"
+		fi
+		i2cset -y $I2CBUS_ADDR $i $GLOBAL_CONFIG_ADDR $DEFAILT_GLOBAL_CONFIG
+	done
+	rm i2c-map
+	;;
+read)
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		for j in $FANTACH1_ADDRLSB $FANTACH2_ADDRLSB $FANTACH3_ADDRLSB $FANTACH4_ADDRLSB $FANTACH5_ADDRLSB $FANTACH6_ADDRLSB
+		do
+			HEXL=$(i2cget -y $I2CBUS_ADDR $i $j | cut -c 3- | awk '{print toupper($0)}')
+			#echo "VAL_LSB_HEX: $HEXL"
+			ADDR_MSB=$(($j - 1))
+			#echo "ADDR_MSB_DEC: $ADDR_MSB"
+			ADDR_MSB_HEX=$(echo "obase=16; ibase=10; $ADDR_MSB" | bc)
+			PREFIX=0x
+			ADDR_MSB_HEX=$PREFIX$ADDR_MSB_HEX
+			#echo "ADDR_MSB_HEX: $ADDR_MSB_HEX"
+			HEXM=$(i2cget -y $I2CBUS_ADDR $i $ADDR_MSB_HEX | cut -c 3- | awk '{print toupper($0)}')
+			#echo "VAL_MSB_HEX: $HEXM"
+			BINM=$(echo "obase=2; ibase=16; $HEXM" | bc)
+			#echo "VAL_MSB_BIN: $BINM"
+			BINL=$(echo "obase=2; ibase=16; $HEXL" | bc | cut -c -3)
+			if [[ "${#BINL}" == "1" ]]
+			then
+				PREFIX=00
+				BINL=$PREFIX$BINL
+			elif [[ "${#BINL}" == "2" ]]
+			then
+				PREFIX=0
+				BINL=$PREFIX$BINL
+			fi
+			#echo "VAL_LSB_BIN: $BINL"
+			BIN=$BINM$BINL
+			#echo "VAL_BIN: $BIN"
+			DEC=$(echo "obase=10; ibase=2; $BIN" | bc)
+			if [[ "$DEC" == "2047" ]]
+			then
+				echo "Error: Chassis fan not detected"
+				echo "---------------------------------------------------"
+			else
+				#echo "VAL_DEC: $DEC"
+				let RPM="$CONST1*$CONST2*$SR/$NP/$DEC"
+				echo "Fan speed in rpm: $RPM"
+				echo "---------------------------------------------------"
+			fi
+		done
+	done
+	;;
+stop)
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		for j in $FANPWM1_ADDRLSB $FANPWM2_ADDRLSB $FANPWM3_ADDRLSB $FANPWM4_ADDRLSB $FANPWM5_ADDRLSB $FANPWM6_ADDRLSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_0_FANPWML
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_0_FANPWML"
+		done
+		for j in $FANPWM1_ADDRMSB $FANPWM2_ADDRMSB $FANPWM3_ADDRMSB $FANPWM4_ADDRMSB $FANPWM5_ADDRMSB $FANPWM6_ADDRMSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_0_FANPWMH
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_0_FANPWMH"
+		done
+		#i2cset -y $I2CBUS_ADDR $i $GLOBAL_CONFIG_ADDR $DEFAILT_GLOBAL_CONFIG
+	done
+	;;
+low)
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		for j in $FANPWM1_ADDRLSB $FANPWM2_ADDRLSB $FANPWM3_ADDRLSB $FANPWM4_ADDRLSB $FANPWM5_ADDRLSB $FANPWM6_ADDRLSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_39_FANPWML
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_39_FANPWML"
+		done
+		for j in $FANPWM1_ADDRMSB $FANPWM2_ADDRMSB $FANPWM3_ADDRMSB $FANPWM4_ADDRMSB $FANPWM5_ADDRMSB $FANPWM6_ADDRMSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_39_FANPWMH
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_39_FANPWMH"
+		done
+		#i2cset -y $I2CBUS_ADDR $i $GLOBAL_CONFIG_ADDR $DEFAILT_GLOBAL_CONFIG
+	done
+	;;
+medium)
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		for j in $FANPWM1_ADDRLSB $FANPWM2_ADDRLSB $FANPWM3_ADDRLSB $FANPWM4_ADDRLSB $FANPWM5_ADDRLSB $FANPWM6_ADDRLSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_59_FANPWML
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_59_FANPWML"
+		done
+		for j in $FANPWM1_ADDRMSB $FANPWM2_ADDRMSB $FANPWM3_ADDRMSB $FANPWM4_ADDRMSB $FANPWM5_ADDRMSB $FANPWM6_ADDRMSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_59_FANPWMH
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_59_FANPWMH"
+		done
+		#i2cset -y $I2CBUS_ADDR $i $GLOBAL_CONFIG_ADDR $DEFAILT_GLOBAL_CONFIG
+	done
+	;;
+medium-high)
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		for j in $FANPWM1_ADDRLSB $FANPWM2_ADDRLSB $FANPWM3_ADDRLSB $FANPWM4_ADDRLSB $FANPWM5_ADDRLSB $FANPWM6_ADDRLSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_78_FANPWML
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_78_FANPWML"
+		done
+		for j in $FANPWM1_ADDRMSB $FANPWM2_ADDRMSB $FANPWM3_ADDRMSB $FANPWM4_ADDRMSB $FANPWM5_ADDRMSB $FANPWM6_ADDRMSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_78_FANPWMH
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_78_FANPWMH"
+		done
+		#i2cset -y $I2CBUS_ADDR $i $GLOBAL_CONFIG_ADDR $DEFAILT_GLOBAL_CONFIG
+	done
+	;;
+high)
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		for j in $FANPWM1_ADDRLSB $FANPWM2_ADDRLSB $FANPWM3_ADDRLSB $FANPWM4_ADDRLSB $FANPWM5_ADDRLSB $FANPWM6_ADDRLSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_94_FANPWML
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_94_FANPWML"
+		done
+		for j in $FANPWM1_ADDRMSB $FANPWM2_ADDRMSB $FANPWM3_ADDRMSB $FANPWM4_ADDRMSB $FANPWM5_ADDRMSB $FANPWM6_ADDRMSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_94_FANPWMH
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_94_FANPWMH"
+		done
+		#i2cset -y $I2CBUS_ADDR $i $GLOBAL_CONFIG_ADDR $DEFAILT_GLOBAL_CONFIG
+	done
+	;;
+full)
+	for i in $FANCTL1_ADDR $FANCTL2_ADDR
+	do
+		for j in $FANPWM1_ADDRLSB $FANPWM2_ADDRLSB $FANPWM3_ADDRLSB $FANPWM4_ADDRLSB $FANPWM5_ADDRLSB $FANPWM6_ADDRLSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_100_FANPWML
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_100_FANPWML"
+		done
+		for j in $FANPWM1_ADDRMSB $FANPWM2_ADDRMSB $FANPWM3_ADDRMSB $FANPWM4_ADDRMSB $FANPWM5_ADDRMSB $FANPWM6_ADDRMSB
+		do
+			i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_100_FANPWMH
+			#echo "i2cset -y $I2CBUS_ADDR $i $j $DEFAULT_100_FANPWMH"
+		done
+		#i2cset -y $I2CBUS_ADDR $i $GLOBAL_CONFIG_ADDR $DEFAILT_GLOBAL_CONFIG
+	done
+	;;
+*)
+	echo -e "$bold Usage: ./fanctl setup|read|stop|low|medium|medium-high|high|full $normal"
+	echo -e "$bold setup: initialize max31790 fan controller $normal"
+	echo -e "$bold read: read fan speed in rpm $normal"
+	echo -e "$bold stop: set fan speed to 0% PWM duty cycle $normal"
+	echo -e "$bold low: set fan speed to 39% PWM duty cycle $normal"
+	echo -e "$bold medium: set fan speed to 59% PWM duty cycle $normal"
+	echo -e "$bold medium-high: set fan speed to 78% PWM duty cycle $normal"
+	echo -e "$bold high: set fan speed to 94% PWM duty cycle $normal"
+	echo -e "$bold full: set fan speed to 100% PWM duty cycle $normal"
+	exit 1
+	;;
+esac
+exit 0

@@ -1,0 +1,16 @@
+[Unit]
+Description=Cyan Website HDR
+Requires=cyan-server.service
+After=cyan-server.service cyan-hdr.service
+Conflicts=cyan-website.service
+
+[Service]
+User=root
+Group=dev-grp0
+WorkingDirectory=/usr/lib/node_modules/cyan-webserver-hdr
+ExecStart=/usr/bin/node server.js
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

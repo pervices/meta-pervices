@@ -1,0 +1,15 @@
+[Unit]
+Description=Cyan fan controller setup service
+Before=getty@tty1.service
+After=dev-tty1.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStartPre=/etc/cyan/fanctl setup
+ExecStart=/etc/cyan/fanctl low
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
