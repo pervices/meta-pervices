@@ -12,7 +12,7 @@ KERNEL_MODULE_AUTOLOAD_crimson += "ads1015 max31790"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
 do_deploy_append() {
-	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_BASE_NAME}.${DTB_EXT}
-	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.${DTB_EXT}
+	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga_stratix10_socdk.dtb
+	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
 }
 
