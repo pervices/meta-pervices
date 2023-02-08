@@ -8,7 +8,6 @@ KERNEL_DEVICETREE = "socfpga_arria5_socdk.dtb"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 do_deploy_append() {
-        ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_BASE_NAME}.${DTB_EXT}
-        ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.${DTB_EXT}
+        ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
 }
 
