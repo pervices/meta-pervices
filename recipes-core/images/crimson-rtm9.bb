@@ -1,1 +1,1 @@
-require crimson-cyan-base-image.inc
+require crimson-base-image.inc
