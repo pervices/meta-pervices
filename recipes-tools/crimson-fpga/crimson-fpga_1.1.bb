@@ -23,15 +23,13 @@ do_install() {
 
 	chown -R root ${D}${base_libdir}/firmware
 	chgrp -R 880 ${D}${base_libdir}/firmware
-
-	install -d ${D}/preloader
-	install -m 0644 ${WORKDIR}/preloader-mkpimage.bin ${D}/preloader/
 	
 	ln -s fpga.rbf ${D}${base_libdir}/firmware/soc_system.rbf
 }
 
 do_deploy() {
 	install -d ${DEPLOYDIR}
-	cp ${D}/preloader/preloader-mkpimage.bin ${DEPLOYDIR}
+	cp ${WORKDIR}/preloader-mkpimage.bin ${DEPLOYDIR}
+	cp ${D}${base_libdir}/firmware/fpga.rbf ${DEPLOYDIR}/soc_system.rbf
 }
 addtask deploy after do_install
