@@ -9,14 +9,6 @@ ok="[$green   OK   $normal]"
 failed="[$red FAILED $normal]"
 warning="[$yellow WARNING$normal]"
 fpga="/lib/firmware/soc_system.rpd"
-version_path="/etc/cyan"
-version=$(tail -1 $version_path/cyan-fpga | cut -d '-' -f2)
-lwhps2fpga="/sys/class/fpga_bridge/br0"
-hps2fpga="/sys/class/fpga_bridge/br1"
-fpga2hps="/sys/class/fpga_bridge/br2"
-fpga2sdram="/sys/class/fpga_bridge/br3"
-fpga_manager="/sys/class/fpga_manager"
-fpga_update="/device-tree/overlays/fpga-update"
 
 case "$1" in
 soft)
