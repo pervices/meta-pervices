@@ -5,8 +5,8 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS_${PN} = "bash"
 RDEPENDS_${PN} = "bash"
-SRC_URI = "file://flash.sh \
-           file://burn-on-host-only.sh \
+SRC_URI = "file://flash \
+           file://burn.sh \
            file://tate-rx.hex \
            file://TATE_RX-xboot-boot.hex \
            file://tate-tx.hex \
@@ -14,11 +14,10 @@ SRC_URI = "file://flash.sh \
            file://tate-synth.hex \
            file://TATE_SYNTH-xboot-boot.hex \
            "
-FILES_${PN} += "${base_libdir}/mcu/ ${sysconfdir}/cyan/"
+FILES_${PN} += "${base_libdir}/mcu/"
 
 do_install() {
 	install -d -m 0755 ${D}${base_libdir}/mcu/
-	install -d -m 0755 ${D}${sysconfdir}/cyan/
 
 	install -m 0744 -D ${WORKDIR}/flash.sh ${D}${base_libdir}/mcu/
 	install -m 0744 -D ${WORKDIR}/burn-on-host-only.sh ${D}${base_libdir}/mcu/
@@ -31,8 +30,4 @@ do_install() {
 
 	chown -R root ${D}${base_libdir}/mcu
 	chgrp -R 880 ${D}${base_libdir}/mcu
-}
-
-do_install_append() {
-	echo "shipped-${PV}" >> ${D}${sysconfdir}/cyan/${PN}
 }
