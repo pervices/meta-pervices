@@ -23,7 +23,7 @@ do_install() {
 	install -m 0755 -D ${WORKDIR}/jesd_rst_status.sh ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/test_ddr.sh ${D}${bindir}
 
-	ln -s /lib/firmware/fpga.rpd ${D}${base_libdir}/firmware/soc_system.rpd
+	ln -s fpga.rpd ${D}${base_libdir}/firmware/soc_system.rpd
 
 	chown -R root ${D}${base_libdir}/firmware
 	chgrp -R 880 ${D}${base_libdir}/firmware
