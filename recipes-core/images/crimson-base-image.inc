@@ -31,13 +31,12 @@ IMAGE_INSTALL += "\
 	busybox \
 	cmake \
 	coreutils \
-	crimson-filesystem \
+	filesystem \
 	crimson-firmware \
-	crimson-fpga \
+	fpga \
 	mcu \
 	crimson-website \
-	crimson-default \
-	crimson-fsoverlay \
+	fsoverlay \
 	cronie \
 	cups \
 	diffutils \

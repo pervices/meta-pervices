@@ -1,0 +1,14 @@
+[Unit]
+Description=Filesystem overlay service
+Before=getty@tty1.service
+After=networking.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/etc/fsoverlay
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

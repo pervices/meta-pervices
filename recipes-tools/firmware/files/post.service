@@ -1,0 +1,15 @@
+[Unit]
+Description=Cyan POST service
+Requires=network-online.target
+Before=server.service
+After=network-online.target
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/usr/bin/pll_check
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,8 +1,8 @@
 [Unit]
 Description=Cyan Server
-Requires=network-online.target cyan-post.service
+Requires=network-online.target post.service
 Before=cyan-website.service cyan-website-hdr.service
-After=network-online.target cyan-post.service
+After=network-online.target post.service
 
 [Service]
 User=root

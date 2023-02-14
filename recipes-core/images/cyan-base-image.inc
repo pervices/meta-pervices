@@ -27,10 +27,9 @@ IMAGE_INSTALL += "\
 	busybox \
 	cmake \
 	coreutils \
-	cyan-filesystem \
-	cyan-fpga \
-	cyan-mcu \
-	cyan-default \
+	filesystem \
+	fpga \
+	mcu \
 	cronie \
 	cups \
 	diffutils \

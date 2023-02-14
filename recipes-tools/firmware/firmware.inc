@@ -7,7 +7,7 @@ SRC_URI_crimson = "git://github.com/pervices/firmware.git;protocol=https;branch=
                    file://crimson-server.service \
                   "
 SRC_URI_cyan = "git://github.com/pervices/firmware.git;protocol=https;branch=master-testing \
-                file://cyan-post.service \
+                file://post.service \
                 file://cyan-server.service \
                "
 SRCREV_crimson = "master"
@@ -22,7 +22,7 @@ INSANE_SKIP_${PN} = "ldflags"
 FILES_${PN} += "${bindir} ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
 SYSTEMD_SERVICE_${PN}_crimson = "crimson-server.service"
-SYSTEMD_SERVICE_${PN}_cyan = "cyan-server.service cyan-post.service"
+SYSTEMD_SERVICE_${PN}_cyan = "cyan-server.service post.service"
 
 do_configure_cyan() {
         cd ${WORKDIR}/git
@@ -78,7 +78,7 @@ do_install_cyan() {
         install -m 0755 -D ${WORKDIR}/git/script/buffer_lvl.sh ${D}${bindir}
         install -d -m 0755 ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-server.service ${D}${systemd_unitdir}/system/
-        install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-post.service ${D}${systemd_unitdir}/system/
+        install -m 0644 -D ${WORKDIR}/lib/systemd/system/post.service ${D}${systemd_unitdir}/system/
 }
 
 do_package_qa() {

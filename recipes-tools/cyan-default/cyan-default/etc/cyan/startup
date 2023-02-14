@@ -1,6 +1,0 @@
-#! /bin/bash -e
-# cyan tng miscellaneous startup script
-
-sed -i '/temp/d' /etc/cyan/cyan-fpga
-mkdir -p /var/cyan/history/log
-ln -sf /etc/cyan/make-tarball /var/cyan/
