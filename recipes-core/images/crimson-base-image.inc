@@ -34,7 +34,7 @@ IMAGE_INSTALL += "\
 	crimson-filesystem \
 	crimson-firmware \
 	crimson-fpga \
-	crimson-mcu \
+	mcu \
 	crimson-website \
 	crimson-default \
 	crimson-fsoverlay \
