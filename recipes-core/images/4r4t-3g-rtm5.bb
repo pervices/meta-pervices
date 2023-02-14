@@ -1,2 +1,2 @@
-require cyan-base-image.inc
-IMAGE_INSTALL += "cyan-firmware-${PN}"
+require base-image.inc
+IMAGE_INSTALL += "cyan-firmware-${PN} rsu"

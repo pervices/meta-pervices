@@ -1,20 +1,18 @@
-DESCRIPTION = "A barebone console-only image with minimal feature support for development/debug \
-of hardware peripherals. This image inherits from Altera's GSRD image with additional packages \
-to support SDR features."
-
-IMAGE_FEATURES += " \
-        dev-pkgs \
-	tools-sdk \
-        "
-
-EXTRA_IMAGE_FEATURES += "package-management"
-
+DESCRIPTION = "Base image for Per Vices SDR platforms"
 LICENSE = "MIT"
-
-TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
-    nativesdk-python-netserver nativesdk-python-pprint \
-    nativesdk-python-pickle nativesdk-python-shell \
-    nativesdk-orc nativesdk-swig"
+IMAGE_FEATURES += "dev-pkgs \
+                   tools-sdk \
+                  "
+EXTRA_IMAGE_FEATURES += "package-management"
+TOOLCHAIN_HOST_TASK_append = "nativesdk-python-cheetah \
+                              nativesdk-python-netserver \
+                              nativesdk-python-pprint \
+                              nativesdk-python-pickle \
+                              nativesdk-python-shell \
+                              nativesdk-orc nativesdk-swig \
+                             "
+inherit core-image
+inherit extrausers
 
 ##
 # REQUIRED
@@ -32,10 +30,9 @@ IMAGE_INSTALL += "\
 	cmake \
 	coreutils \
 	filesystem \
-	crimson-firmware \
 	fpga \
 	mcu \
-	crimson-website \
+	webserver \
 	fsoverlay \
 	cronie \
 	cups \
@@ -52,6 +49,7 @@ IMAGE_INSTALL += "\
 	findutils \
 	flashrom \
 	fuse \
+	fpga-overlay \
 	g++ \
 	gawk \
 	gcc \
@@ -118,7 +116,9 @@ IMAGE_INSTALL += "\
 	shadow \
 	sshfs-fuse \
 	strace \
-	subversion \
+	stress \
+	stress-ng \
+	stressapptest \
 	sudo \
 	sysfsutils \
 	systemd \
@@ -143,20 +143,16 @@ IMAGE_INSTALL += "\
 ##
 # OPTIONAL
 ##
-CORE_IMAGE_EXTRA_INSTALL += "\
-	ntpdate \
-	python-argparse \
-	python-cheetah \
-	python-modules \
-	"
+CORE_IMAGE_EXTRA_INSTALL += "ntpdate \
+                             python-argparse \
+                             python-cheetah \
+                             python-modules \
+                            "
 
-inherit core-image
-inherit extrausers
-EXTRA_USERS_PARAMS = "\
-	usermod -P root root; \
-	usermod -s /bin/bash root; \
-	usermod -a -G dev-grp0 dev0; \
-	usermod -a -G cli-grp0 client; \
-	"
+EXTRA_USERS_PARAMS = "usermod -P root root; \
+                      usermod -s /bin/bash root; \
+                      usermod -a -G dev-grp0 dev0; \
+                      usermod -a -G cli-grp0 client; \
+                     "
 
 export IMAGE_BASENAME = "sdimage"

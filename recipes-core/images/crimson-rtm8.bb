@@ -1,1 +1,2 @@
-require crimson-base-image.inc
+require base-image.inc
+IMAGE_INSTALL += "crimson-firmware"
