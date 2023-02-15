@@ -16,8 +16,8 @@ SRC_URI_cyan = "file://fpga.rpd \
                 file://jesd_rst_status.sh \
                 file://test_ddr.sh \
                "
-FILES_${PN} += "${base_libdir}/firmware/"
-FILES_${PN}_cyan += " ${bindir}"
+FILES_${PN}_crimson += "${base_libdir}/firmware/"
+FILES_${PN}_cyan += "${base_libdir}/firmware/ ${bindir}"
 
 inherit deploy
 
