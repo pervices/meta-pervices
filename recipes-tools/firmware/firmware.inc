@@ -77,8 +77,8 @@ do_install_cyan() {
         install -m 0755 -D ${WORKDIR}/git/script/pll_check ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/script/buffer_lvl.sh ${D}${bindir}
         install -d -m 0755 ${D}${systemd_unitdir}/system/
-        install -m 0644 -D ${WORKDIR}/lib/systemd/system/cyan-server.service ${D}${systemd_unitdir}/system/
-        install -m 0644 -D ${WORKDIR}/lib/systemd/system/post.service ${D}${systemd_unitdir}/system/
+        install -m 0644 -D ${WORKDIR}/cyan-server.service ${D}${systemd_unitdir}/system/
+        install -m 0644 -D ${WORKDIR}/post.service ${D}${systemd_unitdir}/system/
 }
 
 do_package_qa() {
