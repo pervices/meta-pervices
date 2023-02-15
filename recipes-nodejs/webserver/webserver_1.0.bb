@@ -22,7 +22,7 @@ SYSTEMD_SERVICE_${PN}_crimson = "crimson-webserver.service"
 inherit systemd npm-install-global allarch
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
-	install -m 0644 -D ${WORKDIR}/lib/systemd/system/${MACHINE}-webserver.service ${D}${systemd_unitdir}/system/
+	install -m 0644 -D ${WORKDIR}/${MACHINE}-webserver.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/etc/${MACHINE}-sdr.conf ${D}${sysconfdir}/sdr.conf
 	ln -s /usr/lib/node_modules/webserver/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/webserver/public/js/jquery.min.js
 	chown -R root ${D}${libdir}/node_modules/webserver
