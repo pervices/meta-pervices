@@ -110,6 +110,7 @@ IMAGE_INSTALL += "\
 	portmap \
 	python-core \
 	resolvconf \
+	rsu \
 	screen \
 	sed \
 	setserial \
