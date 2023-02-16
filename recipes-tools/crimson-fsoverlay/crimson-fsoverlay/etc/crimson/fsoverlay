@@ -3,6 +3,9 @@ mkdir -p /var/volatile/overlay/ssh/ol-up/
 mkdir -p /var/volatile/overlay/ssh/work/
 mkdir -p /var/volatile/overlay/home/ol-up/
 mkdir -p /var/volatile/overlay/home/work/
+mkdir -p /var/volatile/overlay/systemd/ol-up/
+mkdir -p /var/volatile/overlay/systemd/work/
 
 mount -t overlay -o lowerdir=/etc/ssh/,upperdir=/var/volatile/overlay/ssh/ol-up/,workdir=/var/volatile/overlay/ssh/work/ overlay /etc/ssh/
 mount -t overlay -o lowerdir=/home/,upperdir=/var/volatile/overlay/home/ol-up/,workdir=/var/volatile/overlay/home/work/ overlay /home/
+mount -t overlay -o lowerdir=/etc/systemd/system/multi-user.target.wants/,upperdir=/var/volatile/overlay/systemd/ol-up/,workdir=/var/volatile/overlay/systemd/work/ overlay /etc/systemd/system/multi-user.target.wants/

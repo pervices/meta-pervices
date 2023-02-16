@@ -35,6 +35,7 @@ IMAGE_INSTALL += "\
 	crimson-firmware \
 	crimson-fpga \
 	crimson-mcu \
+	crimson-fsoverlay \
 	crimson-website \
 	crimson-default \
 	cronie \
@@ -89,8 +90,10 @@ IMAGE_INSTALL += "\
 	net-tools \
 	nmap \
 	ntp \
+	ntp-utils \
 	nodejs \
 	openssh \
+	openssh-misc \
 	openssh-sftp \
 	openssh-sftp-server \
 	openssl \
@@ -99,6 +102,7 @@ IMAGE_INSTALL += "\
 	patch \
 	pciutils \
 	perl \
+	picocom \
 	polkit \
 	portmap \
 	python-core \
