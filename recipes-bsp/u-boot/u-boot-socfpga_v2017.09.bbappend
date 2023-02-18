@@ -4,13 +4,13 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/u-boot-socfpga_v2017.09:"
 #SRCREV = "ecab3e9091676588a2ab3178329cf91316073730"
 SRCREV = "pv/socfpga_v2017.09"
 SRC_URI = "git://github.com/pervices/u-boot-socfpga.git;branch=pv/socfpga_v2017.09;protocol=https"
-DEPENDS = "u-boot-mkimage-native"
 SRC_URI += "file://u-boot.cmd"
-
+DEPENDS = "u-boot-mkimage-native"
 FILES_${PN} += "/boot"
 UBOOT_SUFFIX ?= "img"
+
 do_compile_append() {
-	uboot-mkimage -A arm64 -O linux -T script -C none -a 0 -e 0 -n "PV U-BOOT Script" -d ${WORKDIR}/u-boot.cmd u-boot.scr
+	uboot-mkimage -A arm64 -O linux -T script -C none -a 0 -e 0 -n "Cyan U-BOOT Script" -d ${WORKDIR}/u-boot.cmd u-boot.scr
 }
 do_install_append() {
 	install -d ${D}/boot/u-boot-scripts
