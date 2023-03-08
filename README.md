@@ -1,17 +1,17 @@
 # Yocto 2.2 Morty BSP Layer for Per Vices SDRs
 
-[![PerVices](https://www.pervices.com/wp-content/uploads/elementor/thumbs/pv-logo-with-name-sans-serif-web-pf8rchrnf73tnf5j64959qjol29xs2fn0ztskr2uyk.png)](https://pervices.com)
-This branch is not an official release branch and is only used for developing and testing purposes.
-You can use this branch to build an SD card image that will work for both Crimson and Cyan from scrach. 
-It's also very easy to customize the image to fit your end applications.
+[![PerVices](https://www.pervices.com/wp-content/uploads/elementor/thumbs/pv-logo-with-name-sans-serif-web-pf8rchrnf73tnf5j64959qjol29xs2fn0ztskr2uyk.png)](https://pervices.com)  
+This branch is not an official release branch and is only used for developing and testing purposes.  
+You can use this branch to build an SD card image that will work for both Crimson and Cyan from scrach.  
+It's also very easy to customize the image to fit your end applications.  
 
 ## Before you start
 
-If you are not familiar with Yocto, you can refer to [Yocto Quick Start Guide], [Yocto Project Reference Manual], and [Yocto Project Mega Manual] to help setup the required software components.
-This guide assumes you already have all the required packages installed to start using Yocto. 
-**Note this manual only works for Yocto 2.2**. 
-**Note this manual is currently not compatible with all versions of Crimson, please contact Per Vices before trying to generate a new image**.
-**You need at least 50GB of disk space before attempting to build the SD card image**
+If you are not familiar with Yocto, you can refer to [Yocto Quick Start Guide], [Yocto Project Reference Manual], and [Yocto Project Mega Manual] to help setup the required software components.  
+This guide assumes you already have all the required packages installed to start using Yocto.  
+**Note this manual only works for Yocto 2.2**.  
+**Note this manual is currently not compatible with all versions of Crimson, please contact Per Vices before trying to generate a new image**.  
+**You need at least 50GB of disk space before attempting to build the SD card image**  
 
 ## Common Steps for both Crimson and Cyan
 
