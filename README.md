@@ -63,17 +63,17 @@ cp ../poky/meta-pervices/build-config/bblayers.conf conf/
 
 ## For Crimson only
 
-Step 9 Copy over the configuration file for Crimson
+Step 10 Copy over the configuration file for Crimson
 ```sh
 cp ../poky/meta-pervices/build-config/crimson-rtm9.conf conf/local.conf
 ```
 
-Step 10 Build the SD card image for Crimson
+Step 11 Build the SD card image for Crimson
 ```sh
 bitbake crimson-rtm9
 ```
 
-Step 11 Retrieve the SD card image
+Step 12 Retrieve the SD card image
 
 Once the build is finished successfully, the SD card image can be retrieved from the following path:
 ```sh
@@ -82,16 +82,16 @@ tmp/deploy/images/crimson/sdimage-crimson.wic
 
 ## For Cyan only
 
-Step 9 Copy over the configuration file for Cyan
+Step 10 Copy over the configuration file for Cyan
 ```sh
 cp ../poky/meta-pervices/build-config/cyan.conf conf/local.conf
 ```
 
-Step 10 Build the SD card image for Cyan
+Step 11 Build the SD card image for Cyan
 ```sh
 bitbake 4r4t-1g-rtm5
 ```
-Step 11 Retrieve the SD card image
+Step 12 Retrieve the SD card image
 
 Once the build is finished successfully, the SD card image can be retrieved from the following path:
 ```sh
