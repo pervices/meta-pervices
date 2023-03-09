@@ -93,6 +93,12 @@ Step 10 Copy over the configuration file for Cyan
 cp ../poky/meta-pervices/build-config/cyan.conf conf/local.conf
 ```
 
+Optional: You may want to edit the following lines in local.conf based on the number of available CPU cores and threads
+```sh
+BB_NUMBER_THREADS ?= "8"
+PARALLEL_MAKE ?= "-j 8"
+```
+
 Step 11 Build the SD card image for Cyan
 ```sh
 bitbake 4r4t-1g-rtm5
