@@ -11,7 +11,7 @@ If you are not familiar with Yocto, you can refer to [Yocto Quick Start Guide], 
 This guide assumes you already have all the required packages installed to start using Yocto.  
 **Note this manual only works for Yocto 2.2**.  
 **Note this manual is currently not compatible with all versions of Crimson, please contact Per Vices before trying to generate a new image**.  
-**You need at least 50GB of disk space before attempting to build the SD card image**  
+**Note You need at least 50GB of disk space before attempting to build an SD card image**  
 
 ## Common Steps for both Crimson and Cyan
 
@@ -73,6 +73,12 @@ Step 10 Build the SD card image for Crimson
 bitbake crimson-rtm9
 ```
 
+Step 11 Retrieve the SD card image
+
+Once the build is finished successfully, the SD card image can be retrieved from the following path:
+```sh
+tmp/deploy/images/crimson/sdimage-crimson.wic
+```
 
 ## For Cyan only
 
@@ -85,7 +91,12 @@ Step 10 Build the SD card image for Cyan
 ```sh
 bitbake 4r4t-1g-rtm5
 ```
+Step 11 Retrieve the SD card image
 
+Once the build is finished successfully, the SD card image can be retrieved from the following path:
+```sh
+tmp/deploy/images/cyan/sdimage-cyan-4r4t-1g-rtm5.wic
+```
 [Yocto Quick Start Guide]: <https://docs.yoctoproject.org/2.2/yocto-project-qs/yocto-project-qs.html>
 [Yocto Project Reference Manual]: <https://docs.yoctoproject.org/2.2/ref-manual/ref-manual.html>
 [Yocto Project Mega Manual]: <https://docs.yoctoproject.org/2.2/mega-manual/mega-manual.html>
