@@ -23,6 +23,7 @@ SRC_URI_cyan += "file://flash-cyan \
                  file://TATE_SYNTH-xboot-boot.hex \
                 "
 FILES_${PN} += "${base_libdir}/mcu/"
+INSANE_SKIP_${PN} = "ldflags"
 
 do_install_prepend() {
 	install -d -m 0755 ${D}${base_libdir}/mcu/
