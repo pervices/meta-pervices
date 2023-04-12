@@ -126,6 +126,7 @@ IMAGE_INSTALL += "\
 	tar \
 	tcl \
 	tcpdump \
+        tmux \
 	tzdata \
 	udev \
 	useradd \
