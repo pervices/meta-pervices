@@ -44,6 +44,7 @@ git -C poky clone -b angstrom-v2016.12-yocto2.2 https://github.com/Angstrom-dist
 Step 6 Clone the meta-nodejs repository
 ```sh
 git -C poky clone -b morty https://github.com/imyller/meta-nodejs.git
+git -C poky clone -b morty https://github.com/imyller/meta-nodejs-contrib.git
 ```
 
 Step 7 Clone the meta-pervices repository
