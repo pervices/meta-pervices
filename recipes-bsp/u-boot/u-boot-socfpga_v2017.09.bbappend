@@ -9,6 +9,8 @@ DEPENDS = "u-boot-mkimage-native"
 FILES_${PN} += "/boot"
 UBOOT_SUFFIX ?= "img"
 
+addtask deploy_after after do_install do_deploy before do_package
+
 do_compile_append() {
 	uboot-mkimage -A arm64 -O linux -T script -C none -a 0 -e 0 -d ${WORKDIR}/u-boot.cmd u-boot.scr
 }
@@ -16,7 +18,7 @@ do_install_append() {
 	install -d ${D}/boot/u-boot-scripts
 	install -m 0644 u-boot.scr ${D}/boot/u-boot-scripts
 }
-do_deploy_append () {
+do_deploy_after () {
 	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOYDIR}
 	cd ${DEPLOYDIR}
 	ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} u-boot-dtb.img
