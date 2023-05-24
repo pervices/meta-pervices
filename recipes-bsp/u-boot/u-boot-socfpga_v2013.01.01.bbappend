@@ -10,7 +10,7 @@ SRC_URI += "file://Enable-nand-command-by-default.patch \
            "
 FILES_${PN} += "/boot"
 do_compile_append() {
-	uboot-mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "Crimson U-BOOT Script" -d ${WORKDIR}/u-boot.cmd u-boot.scr
+	uboot-mkimage -A arm -O linux -T script -C none -a 0 -e 0 -d ${WORKDIR}/u-boot.cmd u-boot.scr
 }
 do_install_append() {
 	install -d ${D}/boot/u-boot-scripts
