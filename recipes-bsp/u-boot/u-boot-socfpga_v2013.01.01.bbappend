@@ -10,7 +10,7 @@ SRC_URI += "file://Enable-nand-command-by-default.patch \
            "
 FILES_${PN} += "/boot"
 
-addtask deploy_after after do_install do_deploy before do_package
+addtask post_deploy after do_install do_deploy before do_package
 
 do_compile_append() {
 	uboot-mkimage -A arm -O linux -T script -C none -a 0 -e 0 -d ${WORKDIR}/u-boot.cmd u-boot.scr
@@ -19,8 +19,11 @@ do_install_append() {
 	install -d ${D}/boot/u-boot-scripts
 	install -m 0644 u-boot.scr ${D}/boot/u-boot-scripts
 }
-do_deploy_after() {
+do_post_deploy() {
 	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOYDIR}
 	cd ${DEPLOYDIR}
 	ln -sf u-boot.img u-boot-arria5.img
+	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOY_DIR_IMAGE}
+	cd ${DEPLOY_DIR_IMAGE}
+	ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} u-boot-dtb.img
 }
