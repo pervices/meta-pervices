@@ -20,9 +20,5 @@ do_install_append() {
 }
 do_post_deploy () {
 	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOYDIR}
-	cd ${DEPLOYDIR}
-	ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} u-boot-dtb.img
 	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOY_DIR_IMAGE}
-	cd ${DEPLOY_DIR_IMAGE}
-	ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} u-boot-dtb.img
 }
