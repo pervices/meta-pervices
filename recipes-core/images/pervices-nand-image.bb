@@ -127,7 +127,6 @@ IMAGE_INSTALL += "\
 	useradd-client \
 	usbutils \
 	util-linux \
-	valgrind \
 	vim \
 	vim-vimrc \
 	watchdog \
