@@ -89,8 +89,10 @@ IMAGE_INSTALL += "\
 	net-tools \
 	nmap \
 	ntp \
+	ntp-utils \
 	nodejs \
 	openssh \
+	openssh-misc \
 	openssh-sftp \
 	openssh-sftp-server \
 	openssl \
@@ -99,6 +101,7 @@ IMAGE_INSTALL += "\
 	patch \
 	pciutils \
 	perl \
+	picocom \
 	polkit \
 	portmap \
 	python-core \
@@ -123,7 +126,6 @@ IMAGE_INSTALL += "\
 	useradd-client \
 	usbutils \
 	util-linux \
-	valgrind \
 	vim \
 	vim-vimrc \
 	watchdog \
