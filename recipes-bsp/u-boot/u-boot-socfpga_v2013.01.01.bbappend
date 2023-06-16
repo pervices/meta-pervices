@@ -19,15 +19,11 @@ do_compile_append() {
 do_install_append() {
 	install -d ${D}/boot/u-boot-scripts
 	install -m 0644 u-boot.scr ${D}/boot/u-boot-scripts
-	cp ${WORKDIR}/preloader-mkpimage.bin ${DEPLOYDIR}
+	cp ${WORKDIR}/preloader-mkpimage.bin ${DEPLOYDIR}/
 	cd ${DEPLOYDIR}
+	ln -sf u-boot.img u-boot-arria5.img
 	cat preloader-mkpimage.bin u-boot-arria5.img >> preloader-u-boot-arria5.img
 }
 do_post_deploy() {
-	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOYDIR}
-	cd ${DEPLOYDIR}
-	ln -sf u-boot.img u-boot-arria5.img
-	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOY_DIR_IMAGE}
-	cd ${DEPLOY_DIR_IMAGE}
-	ln -sf u-boot.img u-boot-arria5.img
+	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOYDIR}/
 }
