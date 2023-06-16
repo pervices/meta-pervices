@@ -8,7 +8,6 @@ RDEPENDS_${PN} = "bash"
 SRC_URI_crimson = "file://fpga.rbf \
                    file://crimson-update.sh \
                    file://update.dtb \
-                   file://preloader-mkpimage.bin \
                   "
 SRC_URI_cyan = "file://fpga.rpd \
                 file://cyan-update.sh \
@@ -33,7 +32,6 @@ do_install_crimson() {
 	chgrp -R 880 ${D}${base_libdir}/firmware
 	
 	ln -s fpga.rbf ${D}${base_libdir}/firmware/soc_system.rbf
-	cp ${WORKDIR}/preloader-mkpimage.bin ${DEPLOYDIR}
 	cp ${D}${base_libdir}/firmware/fpga.rbf ${DEPLOYDIR}/soc_system.rbf
 }
 
