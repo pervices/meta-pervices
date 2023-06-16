@@ -32,7 +32,7 @@ do_compile() {
         CPPFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall -march=armv7-a -mtune=cortex-a9 -mfpu=neon" \
         CXX="arm-linux-gnueabihf-g++" \
         CXXFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall -march=armv7-a -mtune=cortex-a9 -mfpu=neon" \
-        PRODUCT=VAUNT
+        PRODUCT=VAUNT HW_REV=RTM9
         make
         make DESTDIR=${WORKDIR}/git/ install
 }
