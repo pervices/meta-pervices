@@ -8,6 +8,7 @@ UBOOT_SUFFIX ?= "img"
 SRC_URI += "file://Enable-nand-command-by-default.patch \
             file://u-boot.cmd \
             file://preloader-mkpimage.bin \
+            file://u-boot-crimson.img \
            "
 FILES_${PN} += "/boot"
 
@@ -20,11 +21,13 @@ do_install_append() {
 	install -d ${D}/boot/u-boot-scripts
 	install -m 0644 u-boot.scr ${D}/boot/u-boot-scripts
 	cp ${WORKDIR}/preloader-mkpimage.bin ${D}/boot/
+	cp ${WORKDIR}/u-boot-crimson.img ${D}/boot/
 }
 do_post_deploy() {
 	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOY_DIR_IMAGE}/
 	cp ${D}/boot/preloader-mkpimage.bin ${DEPLOY_DIR_IMAGE}/
+	cp ${D}/boot/u-boot-crimson.img ${DEPLOY_DIR_IMAGE}/
 	cd ${DEPLOY_DIR_IMAGE}
 	ln -sf u-boot.img u-boot-arria5.img
-	cat preloader-mkpimage.bin u-boot-arria5.img >> preloader-u-boot-arria5.img
+	cat preloader-mkpimage.bin u-boot-crimson.img >> preloader-u-boot-arria5.img
 }
