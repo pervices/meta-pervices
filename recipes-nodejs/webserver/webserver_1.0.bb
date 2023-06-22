@@ -17,7 +17,7 @@ BRANCH = "master"
 S = "${WORKDIR}/git/${MACHINE}"
 RDEPENDS_${PN} = "nodejs"
 FILES_${PN} += "${systemd_unitdir}/system ${sysconfdir}"
-SYSTEMD_SERVICE_${PN}_crimson = "crimson-webserver.service"
+#SYSTEMD_SERVICE_${PN}_crimson = "crimson-webserver.service"
 #SYSTEMD_SERVICE_${PN}_cyan = "cyan-webserver.service"
 inherit systemd npm-install-global allarch
 do_install_append() {
