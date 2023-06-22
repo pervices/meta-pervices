@@ -10,9 +10,16 @@ KERNEL_DEVICETREE_crimson = "socfpga_arria5_socdk.dtb"
 KERNEL_MODULE_AUTOLOAD_cyan += "lm87 ads1015 max31790 max6639"
 KERNEL_MODULE_AUTOLOAD_crimson += "ads1015 max31790"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+SRC_URI += "file://socfpga_arria5.dtb"
+
+do_install_append() {
+	install -d ${D}/dtb
+	cp ${WORKDIR}/socfpga_arria5.dtb ${D}/dtb/
+}
 
 do_deploy_append() {
 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga_stratix10_socdk.dtb
-	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
+# 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
+	cp ${D}/dtb/socfpga_arria5.dtb ${DEPLOY_DIR_IMAGE}/socfpga.dtb
 }
 
