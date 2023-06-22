@@ -10,7 +10,9 @@ KERNEL_DEVICETREE_crimson = "socfpga_arria5_socdk.dtb"
 KERNEL_MODULE_AUTOLOAD_cyan += "lm87 ads1015 max31790 max6639"
 KERNEL_MODULE_AUTOLOAD_crimson += "ads1015 max31790"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+
 SRC_URI += "file://socfpga_arria5.dtb"
+FILES_${PN} += "/dtb"
 
 do_install_append() {
 	install -d ${D}/dtb
