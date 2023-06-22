@@ -20,6 +20,6 @@ do_install_append() {
 do_deploy_append() {
 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga_stratix10_socdk.dtb
 # 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
-	cp ${D}/dtb/socfpga_arria5.dtb ${DEPLOY_DIR_IMAGE}/socfpga.dtb
+	cp ${D}/dtb/socfpga_arria5.dtb ${DEPLOYDIR}/socfpga.dtb
 }
 
