@@ -7,7 +7,7 @@ Conflicts=cyan-website-hdr.service
 [Service]
 User=root
 Group=dev-grp0
-WorkingDirectory=/usr/lib/node_modules/webserver/tate
+WorkingDirectory=/usr/lib/node_modules/cyan-webserver
 ExecStart=/usr/bin/node server.js
 Type=simple
 Restart=always

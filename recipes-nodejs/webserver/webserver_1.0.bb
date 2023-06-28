@@ -17,13 +17,13 @@ BRANCH = "master"
 S = "${WORKDIR}/git/${MACHINE}"
 RDEPENDS_${PN} = "nodejs"
 FILES_${PN} += "${systemd_unitdir}/system ${sysconfdir}"
-SYSTEMD_SERVICE_${PN}_crimson = "crimson-website.service"
+SYSTEMD_SERVICE_${PN}_${MACINE} = "${MACHINE}-website.service"
 #SYSTEMD_SERVICE_${PN}_cyan = "cyan-webserver.service"
 inherit systemd npm-install-global allarch
 do_install_append() {
 	install -d -m 0755 ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/${MACHINE}-website.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/${MACHINE}-sdr.conf ${D}${sysconfdir}/sdr.conf
-	ln -s /usr/lib/node_modules/${MACHINE}-website/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/${MACHINE}-website/public/js/jquery.min.js
-	chown -R root ${D}${libdir}/node_modules/${MACHINE}-website
+	ln -s /usr/lib/node_modules/${MACHINE}-webserver/public/js/jquery-1.11.2.min.js ${D}${libdir}/node_modules/${MACHINE}-webserver/public/js/jquery.min.js
+	chown -R root ${D}${libdir}/node_modules/${MACHINE}-webserver
 }
