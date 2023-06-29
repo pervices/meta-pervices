@@ -93,12 +93,12 @@ do_install_prepend() {
 	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d/
 	install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
 	install -d -m 0755 ${D}${bindir}/
-	install -m 0755 -D ${WORKDIR}/motd ${D}${sysconfdir}/
+	install -m 0755 -D ${WORKDIR}/motd ${D}${sysconfdir}/${MACHINE}/
 	install -m 0644 -D ${WORKDIR}/issue.net ${D}${sysconfdir}/${MACHINE}/
 	install -m 0644 -D ${WORKDIR}/networking.service ${D}${systemd_unitdir}/system/
 	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d/
 	install -m 0644 -D ${WORKDIR}/expand_parti_sd-README.txt ${D}${sysconfdir}/${MACHINE}/
-	install -m 0644 -D ${WORKDIR}/expand_parti_sd.sh ${D}${bindir}/
+	install -m 0755 -D ${WORKDIR}/expand_parti_sd.sh ${D}${bindir}/
 	ln -s /usr/bin/arm-poky-linux-gnueabi-gcc ${D}${bindir}/arm-linux-gnueabihf-gcc
 }
 
