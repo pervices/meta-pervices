@@ -73,6 +73,7 @@ IMAGE_INSTALL += "\
 	liba52 \
 	libftdi \
 	libgcrypt \
+        libnewt \
 	libpam \
 	libpcap \
 	libudev \
