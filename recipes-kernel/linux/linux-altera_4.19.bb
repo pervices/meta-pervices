@@ -11,11 +11,11 @@ KERNEL_MODULE_AUTOLOAD_cyan += "lm87 ads1015 max31790 max6639"
 KERNEL_MODULE_AUTOLOAD_crimson += "ads1015 max31790"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
-SRC_URI += "file://socfpga_arria5.dtb"
+#SRC_URI += "file://socfpga_arria5.dtb"
 
 do_deploy_append() {
 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga_stratix10_socdk.dtb
-# 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
-	cp ${WORKDIR}/socfpga_arria5.dtb ${DEPLOYDIR}/socfpga.dtb
+ 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
+	#cp ${WORKDIR}/socfpga_arria5.dtb ${DEPLOYDIR}/socfpga.dtb
 }
 
