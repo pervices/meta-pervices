@@ -29,5 +29,6 @@ do_post_deploy() {
 	cp ${D}/boot/u-boot-crimson.img ${DEPLOY_DIR_IMAGE}/
 	cd ${DEPLOY_DIR_IMAGE}
 	ln -sf u-boot.img u-boot-arria5.img
-	cat preloader-mkpimage.bin u-boot-crimson.img >> preloader-u-boot-arria5.img
+	#cat preloader-mkpimage.bin u-boot-crimson.img >> preloader-u-boot-arria5.img
+	cat preloader-mkpimage.bin u-boot-arria5.img >> preloader-u-boot-arria5.img
 }
