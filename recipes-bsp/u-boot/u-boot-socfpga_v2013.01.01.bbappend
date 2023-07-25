@@ -23,7 +23,7 @@ do_install_append() {
 	install -m 0644 u-boot.scr ${D}/boot/u-boot-scripts
 	cp ${WORKDIR}/preloader-mkpimage.bin ${D}/boot/
 	cp ${WORKDIR}/u-boot-crimson.img ${D}/boot/
-        cp ${WORKDIR}/u-boot-crimsno-rtm10.img ${D}/boot/
+        cp ${WORKDIR}/u-boot-crimson-rtm10.img ${D}/boot/
 }
 do_post_deploy() {
 	cp ${D}/boot/u-boot-scripts/u-boot.scr ${DEPLOY_DIR_IMAGE}/
