@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec53
 SRC_URI_crimson = "git://github.com/pervices/firmware.git;protocol=https;branch=master \
                    file://crimson-server.service \
                   "
-SRC_URI_cyan = "git://github.com/pervices/firmware.git;protocol=https;branch=master-testing \
+SRC_URI_cyan = "git://github.com/pervices/firmware.git;protocol=https;branch=master \
                 file://post.service \
                 file://cyan-server.service \
                "
