@@ -11,7 +11,7 @@ SRC_URI_cyan = "git://github.com/pervices/firmware.git;protocol=https;branch=mas
                 file://cyan-server.service \
                "
 SRCREV_crimson = "master"
-SRCREV_cyan = "master-testing"
+SRCREV_cyan = "master"
 
 S = "${WORKDIR}/git"
 
