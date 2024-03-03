@@ -46,8 +46,8 @@ do_compile_crimson() {
 do_compile_cyan() {
         cd ${WORKDIR}/git
         make
-        ${CC} script/memtool.c -o script/memtool
-        ${CC} script/pll_check.c -o script/pll_check
+        ${CC} scripts/tate/memtool.c -o scripts/tate/memtool
+        ${CC} scripts/tate/pll_check.c -o scripts/tate/pll_check
         git describe --always --dirty --long >> ${PN}
 }
 
@@ -69,13 +69,13 @@ do_install_cyan() {
         install -m 0755 -D ${WORKDIR}/git/mcu ${D}${bindir}
         install -d -m 0755 ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git
         cp -r ${WORKDIR}/git ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/
-        install -m 0755 -D ${WORKDIR}/git/script/gpio_control ${D}${bindir}
-        install -m 0755 -D ${WORKDIR}/git/script/memtool ${D}${bindir}
-        install -m 0755 -D ${WORKDIR}/git/script/rfe_control ${D}${bindir}
-        install -m 0755 -D ${WORKDIR}/git/script/prog_primer ${D}${bindir}
-        install -m 0755 -D ${WORKDIR}/git/script/fpga_image_status ${D}${bindir}
-        install -m 0755 -D ${WORKDIR}/git/script/pll_check ${D}${bindir}
-        install -m 0755 -D ${WORKDIR}/git/script/buffer_lvl.sh ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/gpio_control ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/memtool ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/rfe_control ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/prog_primer ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/fpga_image_status ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/pll_check ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/buffer_lvl.sh ${D}${bindir}
         install -d -m 0755 ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/cyan-server.service ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/post.service ${D}${systemd_unitdir}/system/
