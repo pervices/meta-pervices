@@ -81,7 +81,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
 SYSTEMD_SERVICE_${PN}_crimson = "networking.service crimson-fanctl.service crimson-startup.service"
-SYSTEMD_SERVICE_${PN}_cyan = "networking.service cyan-set-baud.service cyan-fanctl.service button-off.service cyan-startup.service"
+SYSTEMD_SERVICE_${PN}_cyan = "networking.service cyan-set-baud.service cyan-fanctl.service button-off.service cyan-startup.service cyan-rf-fan-controller.service"
 inherit systemd autotools
 
 do_compile() {

@@ -1,12 +1,12 @@
 [Unit]
 Description=Cyan Fan controller
-# Before=getty@tty1.service
+Before=getty@tty1.service
 After=dev-tty1.device
 
 [Service]
 User=root
 Group=dev-grp0
-ExecStart=/usr/bin/cyan-rf-fan-controller.sh
+ExecStart=/etc/cyan/cyan-rf-fan-controller -l 50
 Type=simple
 RemainAfterExit=yes
 
