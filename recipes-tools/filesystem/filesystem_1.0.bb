@@ -131,4 +131,5 @@ do_install_cyan() {
     install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
     install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/startup ${D}${sysconfdir}/cyan/
     install -m 0644 -D ${WORKDIR}/cyan/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
+	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/cyan-rf-fan-controller ${D}${sysconfdir}/cyan/
 }
