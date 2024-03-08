@@ -50,7 +50,7 @@ SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/etc/cyan/startup \
                  file://cyan/usr/bin/button_press_off.sh \
                  file://cyan/usr/bin/execstop.sh \
-                 file://cyan/usr/bin/cyan-rf-fan-controller.sh \
+                 file://cyan/etc/cyan/cyan-rf-fan-controller \
                 "
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
