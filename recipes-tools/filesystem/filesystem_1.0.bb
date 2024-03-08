@@ -88,47 +88,47 @@ do_compile() {
 }
 
 do_install_prepend() {
-	install -d -m 0755 ${D}${systemd_unitdir}/system/
-	install -d -m 0755 ${D}${sysconfdir}/${MACHINE}/
-	install -d -m 0755 ${D}${sysconfdir}/udev/rules.d/
-	install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
-	install -d -m 0755 ${D}${bindir}/
-	install -m 0755 -D ${WORKDIR}/motd ${D}${sysconfdir}/${MACHINE}/
-	install -m 0644 -D ${WORKDIR}/issue.net ${D}${sysconfdir}/${MACHINE}/
-	install -m 0644 -D ${WORKDIR}/networking.service ${D}${systemd_unitdir}/system/
-	install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d/
-	install -m 0644 -D ${WORKDIR}/expand_parti_sd-README.txt ${D}${sysconfdir}/${MACHINE}/
-	install -m 0755 -D ${WORKDIR}/expand_parti_sd.sh ${D}${bindir}/
-	ln -s /usr/bin/arm-poky-linux-gnueabi-gcc ${D}${bindir}/arm-linux-gnueabihf-gcc
+    install -d -m 0755 ${D}${systemd_unitdir}/system/
+    install -d -m 0755 ${D}${sysconfdir}/${MACHINE}/
+    install -d -m 0755 ${D}${sysconfdir}/udev/rules.d/
+    install -d -m 0755 ${D}${sysconfdir}/sysctl.d/
+    install -d -m 0755 ${D}${bindir}/
+    install -m 0755 -D ${WORKDIR}/motd ${D}${sysconfdir}/${MACHINE}/
+    install -m 0644 -D ${WORKDIR}/issue.net ${D}${sysconfdir}/${MACHINE}/
+    install -m 0644 -D ${WORKDIR}/networking.service ${D}${systemd_unitdir}/system/
+    install -m 0644 -D ${WORKDIR}/udp_recvbuff.conf ${D}${sysconfdir}/sysctl.d/
+    install -m 0644 -D ${WORKDIR}/expand_parti_sd-README.txt ${D}${sysconfdir}/${MACHINE}/
+    install -m 0755 -D ${WORKDIR}/expand_parti_sd.sh ${D}${bindir}/
+    ln -s /usr/bin/arm-poky-linux-gnueabi-gcc ${D}${bindir}/arm-linux-gnueabihf-gcc
 }
 
 do_install_crimson() {
-	install -m 0644 -D ${WORKDIR}/crimson/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/logging ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/package-manager ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/make-tarball ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/sensors ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/startup ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-update ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-smart-update ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-smart-add-address ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-smart-update-address ${D}${sysconfdir}/crimson/
-	install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/fanctl ${D}${sysconfdir}/crimson/
-	install -m 0644 -D ${WORKDIR}/crimson/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
-	install -m 0644 -D ${WORKDIR}/crimson/etc/sdr.conf ${D}${sysconfdir}/
+    install -m 0644 -D ${WORKDIR}/crimson/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/logging ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/package-manager ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/make-tarball ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/sensors ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/startup ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-update ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-smart-update ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-smart-add-address ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/crimson-smart-update-address ${D}${sysconfdir}/crimson/
+    install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/fanctl ${D}${sysconfdir}/crimson/
+    install -m 0644 -D ${WORKDIR}/crimson/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
+    install -m 0644 -D ${WORKDIR}/crimson/etc/sdr.conf ${D}${sysconfdir}/
 }
 
-do_install_cyan() {	
-	install -m 0755 -D ${WORKDIR}/cyan/usr/bin/*.sh ${D}${bindir}
-	install -m 0644 -D ${WORKDIR}/cyan/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/logging ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/package-manager ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/make-tarball ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/sensors ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/cyan-update ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/fanctl ${D}${sysconfdir}/cyan/
-	install -m 0644 -D ${WORKDIR}/cyan/etc/cyan/stty.settings ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/startup ${D}${sysconfdir}/cyan/
-	install -m 0644 -D ${WORKDIR}/cyan/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
+do_install_cyan() {
+    install -m 0755 -D ${WORKDIR}/cyan/usr/bin/*.sh ${D}${bindir}
+    install -m 0644 -D ${WORKDIR}/cyan/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/logging ${D}${sysconfdir}/cyan/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/package-manager ${D}${sysconfdir}/cyan/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/make-tarball ${D}${sysconfdir}/cyan/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/sensors ${D}${sysconfdir}/cyan/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/cyan-update ${D}${sysconfdir}/cyan/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/fanctl ${D}${sysconfdir}/cyan/
+    install -m 0644 -D ${WORKDIR}/cyan/etc/cyan/stty.settings ${D}${sysconfdir}/cyan/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
+    install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/startup ${D}${sysconfdir}/cyan/
+    install -m 0644 -D ${WORKDIR}/cyan/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 }
