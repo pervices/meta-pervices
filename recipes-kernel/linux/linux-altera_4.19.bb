@@ -11,6 +11,14 @@ KERNEL_MODULE_AUTOLOAD_cyan += "lm87 ads1015 max31790 max6639"
 KERNEL_MODULE_AUTOLOAD_crimson += "ads1015 max31790"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
+do_configure_append_cyan() {
+	cp ${S}/arch/arm64/configs/s10_devkit_defconfig ${WORKDIR}/linux-${MACHINE}-standard-build/.config
+}
+
+do_configure_append_crimson() {
+	cp ${S}/arch/arm/configs/socfpga_defconfig ${WORKDIR}/linux-${MACHINE}-standard-build/.config
+}
+
 do_deploy_append() {
 	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga_stratix10_socdk.dtb
  	ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/socfpga.dtb
