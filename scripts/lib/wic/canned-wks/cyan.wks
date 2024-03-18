@@ -3,4 +3,4 @@
 # Cyan SDR platform. Boot files are located in the first vfat partition.
 
 part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 100
-part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4 --size 1400
