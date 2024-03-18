@@ -7,7 +7,7 @@ KBUILD_DEFCONFIG_cyan = "s10_devkit_defconfig"
 KBUILD_DEFCONFIG_crimson = "socfpga_defconfig"
 KERNEL_DEVICETREE_cyan = "altera/socfpga_stratix10_ovl1.dtb altera/socfpga_stratix10_socdk.dtb"
 KERNEL_DEVICETREE_crimson = "socfpga_arria5_socdk.dtb"
-KERNEL_MODULE_AUTOLOAD_cyan += "lm87 ads1015 max31790 max6639"
+KERNEL_MODULE_AUTOLOAD_cyan += "lm87 ads1015 max31790 max6639 at24"
 KERNEL_MODULE_AUTOLOAD_crimson += "ads1015 max31790"
 LIC_FILES_CHKSUM = "file://${S}/COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
