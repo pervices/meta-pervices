@@ -6,7 +6,9 @@
 
 #Use; 
 # $ sudo bash expand_rootfs.sh
-
+yellow="\e[1;33m"
+normal='\033[0m'
+bold="\e[1m"
 
 get_init_sys() {
     if command -v systemctl > /dev/null && systemctl | grep -q '\-\.mount'; then
@@ -91,5 +93,19 @@ EOF
     
     
 }
+
+seconds=30
+echo -e "[${yellow}WARNING${normal}] This program will automatically restart the unit once complete. Hit ${bold}Ctrl+C${normal} to exit if you do not wish to continue."
+echo -e ""
+while [ $seconds -ge 0 ]; do
+    tput cuu1
+    tput el
+    echo -e "Program will start in $seconds seconds..."
+    seconds=$((seconds-1))
+    sleep 1
+done
+tput cuu1
+tput el
+echo -e "Starting program..."
 
 do_expand_rootfs
