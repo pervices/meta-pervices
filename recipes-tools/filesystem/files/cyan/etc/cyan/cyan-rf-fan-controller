@@ -8,18 +8,24 @@
 #Board Power Status Variables
 BOARD_ON='on'
 
-#Tempurature Case Values
+#General temperature thresholds. Indicates maximum temperature of fan level, in degC.
 HRD_MIN=25
 MIN=30
 MED=35
-MAX=40
+HIGH=40
+
+#LTC5586 temperature thresholds. This is temperature within the IC (rather than thermistor on PCB), therefore need much higher thresholds.
+LTC_ERR=40			# IC temperature this low indicates something has gone wrong with reading/interpreting
+LTC_MIN=65
+LTC_MED=75
+LTC_HIGH=85
 
 #Fan levels
-HRDMIN_LVL=0
-MIN_LVL=1
-MED_LVL=2
-HIGH_LVL=3
-MAX_LVL=4
+HRDMIN_LVL=0	# low
+MIN_LVL=1		# medium
+MED_LVL=2		# medium-high
+HIGH_LVL=3		# high
+MAX_LVL=4		# max
 
 #Logs File location:
 LOG_LOCATION='/var/log/cyan_temp'
@@ -66,28 +72,31 @@ while true; do
 	for rx in ${rx_boards[*]}; do
 		echo 1 > "/var/cyan/state/$rx/board/temp"
 		sleep $PEEK_POKE_DELAY
-		temp=$(cat "/var/cyan/state/$rx/board/temp" | sed -n '1 p' | cut -d : -f 2 | cut -d C -f 1 | tr -d [:blank:])
-		if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && "$NUM_TEMP_RX" -gt "$LOG_THRESH" ]]; then
-			echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" $rx Temp "$temp" degC >> $LOG_LOCATION
+		RX_TEMP0=$(cat "/var/cyan/state/$rx/board/temp" | sed -n '1 p' | cut -d : -f 2 | cut -d C -f 1 | tr -d [:blank:])
+		RX_TEMP1=$(cat "/var/cyan/state/$rx/board/temp" | sed -n '2 p' | cut -d : -f 2 | cut -d C -f 1 | tr -d [:blank:])
+		if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$RX_TEMP0" -gt "$LOG_THRESH" || "$RX_TEMP1" -gt "$LOG_THRESH" ) ]]; then
+			echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" $rx Temp0 "$RX_TEMP0" degC, Temp1 "$RX_TEMP1" degC >> $LOG_LOCATION
 		fi
 
-		#Increase fan level based on thresholds
-		if [[ "$NUM_TEMP_RX" -gt "$HARD_MIN" && "$NUM_TEMP_RX" -lt "$MIN" ]]; then
+		# HARD_MIN < RX_TEMP0 < MIN   &&   LTC_ERR < RX_TEMP1 < LTC_MIN
+		if [[ "$RX_TEMP0" -gt "$HARD_MIN" && "$RX_TEMP0" -lt "$MIN" && "$RX_TEMP1" -gt "$LTC_ERR" && "$RX_TEMP1" -lt "$LTC_MIN" ]]; then
 			if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
 				FAN_LVL=$MIN_LVL
 			fi
 
-
-		elif [[ "$NUM_TEMP_RX" -lt "$MED" ]]; then
+		# MIN < RX_TEMP0 < MED   &&   LTC_MIN < RX_TEMP1 < LTC_MED
+		elif [[ "$RX_TEMP0" -lt "$MED" && "$RX_TEMP1" -lt "$LTC_MED" ]]; then
 			if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
 				FAN_LVL=$MED_LVL
 			fi
 
-		elif [[ "$NUM_TEMP_RX" -lt "$MAX" ]]; then
+		# MED < RX_TEMP0 < HIGH   &&   LTC_MED < RX_TEMP1 < LTC_HIGH
+		elif [[ "$RX_TEMP0" -lt "$HIGH" && "$RX_TEMP1" -lt "$LTC_HIGH"  ]]; then
 			if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
 				FAN_LVL=$HIGH_LVL
 			fi
 
+		# RX_TEMP0 > HIGH   ||   RX_TEMP1 > LTC_HIGH   ||   RX_TEMP1 < LTC_ERR
 		else
 			FAN_LVL=$MAX_LVL
 		fi
@@ -121,7 +130,7 @@ while true; do
 				FAN_LVL=$MED_LVL
 			fi
 
-		elif [[ "$TX_TEMP_A0" -lt "$MAX" && "$TX_TEMP_A1" -lt "$MAX"  ]]; then
+		elif [[ "$TX_TEMP_A0" -lt "$HIGH" && "$TX_TEMP_A1" -lt "$HIGH"  ]]; then
 			if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
 				FAN_LVL=$HIGH_LVL
 			fi
@@ -158,7 +167,7 @@ while true; do
 			FAN_LVL=$MED_LVL
 		fi
 
-	elif [[ "$TIME_TEMP_A0" -lt "$MAX" && "$TIME_TEMP_A1" -lt "$MAX"  ]]; then
+	elif [[ "$TIME_TEMP_A0" -lt "$HIGH" && "$TIME_TEMP_A1" -lt "$HIGH"  ]]; then
 		if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
 			FAN_LVL=$HIGH_LVL
 		fi
@@ -188,7 +197,7 @@ while true; do
 			FAN_LVL=$MED_LVL
 		fi
 
-	elif [[ "$DIG_TEMP0" -lt "$MAX" && "$DIG_TEMP1" -lt "$MAX" && "$DIG_TEMP2" -lt "$MAX" ]]; then
+	elif [[ "$DIG_TEMP0" -lt "$HIGH" && "$DIG_TEMP1" -lt "$HIGH" && "$DIG_TEMP2" -lt "$HIGH" ]]; then
 		if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
 			FAN_LVL=$HIGH_LVL
 		fi
@@ -219,7 +228,7 @@ while true; do
 			FAN_LVL=$MED_LVL
 		fi
 
-	elif [[ "$PWR_TEMP0" -lt "$MAX" && "$PWR_TEMP1" -lt "$MAX" && "$PWR_TEMP2" -lt "$MAX" ]]; then
+	elif [[ "$PWR_TEMP0" -lt "$HIGH" && "$PWR_TEMP1" -lt "$HIGH" && "$PWR_TEMP2" -lt "$HIGH" ]]; then
 		if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
 			FAN_LVL=$HIGH_LVL
 		fi
