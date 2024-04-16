@@ -95,7 +95,7 @@ EOF
 }
 
 seconds=5
-echo -e "[${yellow}WARNING${normal}] This program will automatically restart the unit once complete. Hit ${bold}Ctrl+C${normal} to exit if you do not wish to continue."
+echo -e "[${yellow}WARNING${normal}] This program will alter the existing partition table. Hit ${bold}Ctrl+C${normal} to exit if you do not wish to continue."
 echo -e ""
 while [ $seconds -ge 0 ]; do
     tput cuu1
@@ -108,6 +108,6 @@ tput cuu1
 tput el
 echo -e "Starting program..."
 
-do_expand_rootfs
+do_expand_rootfs > /dev/null 2>&1
 echo "Done"
 echo "Please reboot and run resize2fs /dev/mmcblk0p$PARTI_NUM as root"
