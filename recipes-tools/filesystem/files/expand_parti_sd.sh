@@ -94,7 +94,7 @@ EOF
     
 }
 
-seconds=30
+seconds=5
 echo -e "[${yellow}WARNING${normal}] This program will automatically restart the unit once complete. Hit ${bold}Ctrl+C${normal} to exit if you do not wish to continue."
 echo -e ""
 while [ $seconds -ge 0 ]; do
@@ -109,3 +109,5 @@ tput el
 echo -e "Starting program..."
 
 do_expand_rootfs
+echo "Done"
+echo "Please reboot and run resize2fs /dev/mmcblk0p$PARTI_NUM as root"
