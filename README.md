@@ -2,7 +2,7 @@
 
 [![PerVices](https://www.pervices.com/wp-content/uploads/elementor/thumbs/pv-logo-with-name-sans-serif-web-pf8rchrnf73tnf5j64959qjol29xs2fn0ztskr2uyk.png)](https://pervices.com)  
 This branch is not an official release branch and is only used for developing and testing purposes.  
-You can use this branch to build an SD card image that will work for both Crimson and Cyan from scrach.  
+You can use this branch to build an SD card image that will work for Crimson, Cyan, and Chestnut from scrach.
 It's also very easy to customize the image to fit your end applications.  
 
 ## Before you start
@@ -13,7 +13,7 @@ This guide assumes you already have all the required packages installed to start
 **Note this manual is currently not compatible with all versions of Crimson, please contact Per Vices before trying to generate a new image**.  
 **Note You need at least 50GB of disk space before attempting to build an SD card image**  
 
-## Common Steps for both Crimson and Cyan
+## Common Steps for Crimson, Cyan, and Chestnut
 
 Step 1 Clone the poky repository
 
@@ -109,6 +109,30 @@ Step 12 Retrieve the SD card image
 Once the build is finished successfully, the SD card image can be retrieved from the following path:
 ```sh
 tmp/deploy/images/cyan/sdimage-cyan-4r4t-1g-rtm5.wic
+```
+
+## For Chestnut only
+
+Step 10 Copy over the configuration file for Chestnut
+```sh
+cp ../poky/meta-pervices/build-config/chestnut.conf conf/local.conf
+```
+
+Optional: You may want to edit the following lines in local.conf based on the number of available CPU cores and threads
+```sh
+BB_NUMBER_THREADS ?= "8"
+PARALLEL_MAKE ?= "-j 8"
+```
+
+Step 11 Build the SD card image for Chestnut
+```sh
+bitbake chestnut-4r4t-500M-rtm1
+```
+Step 12 Retrieve the SD card image
+
+Once the build is finished successfully, the SD card image can be retrieved from the following path:
+```sh
+tmp/deploy/images/chestnut/sdimage-chestnut-4r4t-500M-rtm1.wic
 ```
 [Yocto Quick Start Guide]: <https://docs.yoctoproject.org/2.2/yocto-project-qs/yocto-project-qs.html>
 [Yocto Project Reference Manual]: <https://docs.yoctoproject.org/2.2/ref-manual/ref-manual.html>
