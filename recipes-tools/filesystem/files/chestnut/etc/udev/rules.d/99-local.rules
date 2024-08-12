@@ -1,0 +1,21 @@
+SUBSYSTEM=="tty", KERNELS=="1-1.1:1.0", ATTRS{bInterfaceNumber}=="00", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-0", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.1:1.1", ATTRS{bInterfaceNumber}=="01", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-1", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.1:1.2", ATTRS{bInterfaceNumber}=="02", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-2", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.1:1.3", ATTRS{bInterfaceNumber}=="03", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-3", GROUP="dev-grp0"
+
+SUBSYSTEM=="tty", KERNELS=="1-1.2:1.0", ATTRS{bInterfaceNumber}=="00", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-4", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.2:1.1", ATTRS{bInterfaceNumber}=="01", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-5", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.2:1.2", ATTRS{bInterfaceNumber}=="02", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-6", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.2:1.3", ATTRS{bInterfaceNumber}=="03", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-7", GROUP="dev-grp0"
+
+SUBSYSTEM=="tty", KERNELS=="1-1.3:1.0", ATTRS{bInterfaceNumber}=="00", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-8", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.3:1.1", ATTRS{bInterfaceNumber}=="01", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-9", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.3:1.2", ATTRS{bInterfaceNumber}=="02", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-10", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.3:1.3", ATTRS{bInterfaceNumber}=="03", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-11", GROUP="dev-grp0"
+
+SUBSYSTEM=="tty", KERNELS=="1-1.4:1.0", ATTRS{bInterfaceNumber}=="00", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-13", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.4:1.1", ATTRS{bInterfaceNumber}=="01", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-12", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.4:1.2", ATTRS{bInterfaceNumber}=="02", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-14", GROUP="dev-grp0"
+SUBSYSTEM=="tty", KERNELS=="1-1.4:1.3", ATTRS{bInterfaceNumber}=="03", ATTRS{interface}=="Quad RS232-HS", SYMLINK+="ttychestnut-rfe-15", GROUP="dev-grp0"
+
+SUBSYSTEM=="tty", KERNELS=="1-1.7:1.0", ATTRS{bInterfaceNumber}=="00", ATTRS{interface}=="FT232R USB UART", SYMLINK+="ttychestnut-time", GROUP="dev-grp0"

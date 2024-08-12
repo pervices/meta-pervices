@@ -1,0 +1,15 @@
+[Unit]
+Description=Chestnut fan controller setup service
+Before=getty@tty1.service
+After=dev-tty1.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStartPre=/etc/chestnut/fanctl setup
+ExecStart=/etc/chestnut/fanctl medium-high
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

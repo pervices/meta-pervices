@@ -1,0 +1,62 @@
+#! /bin/bash -e
+# chestnut tng logging script
+NOW=$(date '+%Y-%m-%d-%H-%M')
+FREESPACE=$(df -P . | awk 'NR==2 {print $4}')
+FREESPACE_H=$(df -BM -P . | awk 'NR==2 {print $4}')
+EXIST=0
+COUNT=0
+RM_COUNT=0
+ACTUAL_FILE=notExist
+NEXT_NUM=0
+SYMLINK=notExist
+
+if [ ! -e /var/log/lastlog ];
+then
+	touch /var/log/lastlog
+	chgrp utmp /var/log/lastlog
+	chmod 0644 /var/log/lastlog
+fi
+mkdir -p /var/chestnut/history/log && cd $_
+if [ ! -e chestnut-configuration ];
+then
+	touch chestnut-configuration
+	echo "The first time chestnut was boot was on $NOW" >> chestnut-configuration
+fi
+until [ $EXIST -eq 1 ]; do
+	if [ ! -e chestnut ]; then
+		let EXIST=1
+		RM_COUNT=$(( COUNT-1 ))
+		ln -sf $NOW.log chestnut
+		rm -f last.log
+		ln -sf chestnut last.log
+		rm -f tmp-$RM_COUNT.log
+		if [ $COUNT -eq 0 ]; then
+			ln -sf chestnut first.log
+		fi
+	else
+		let COUNT=COUNT+1
+	fi
+done
+while true; do
+	if [ $FREESPACE -lt 10240 ]; then
+		echo "[WARNING] current free space is less than 10MB, older log(s) will be deleted if it reaches 2MB"
+	fi
+	if [ $FREESPACE -lt 2048 ]; then
+		echo "[WARNING] current free space is less than 2MB, older log(s) will be deleted"
+		until [ $FREESPACE -ge 2048 ]; do
+			SYMLINK=$(readlink first.log)
+			ACTUAL_FILE=$(readlink $SYMLINK)
+			NEXT_NUM=$(readlink first.log | tr -dc '0-9' )
+			let NEXT_NUM=NEXT_NUM+1
+			rm first.log $ACTUAL_FILE $SYMLINK
+			ln -sf $NEXT_NUM.log first.log
+		done
+	fi
+	journalctl > tmp-chestnut
+	cp tmp-chestnut $NOW.log
+	if [ $(wc -c tmp-chestnut | awk '{print $1}' | tr -dc '0-9') -ge 1048576 ]; then
+		echo "[INFO] log file size exceeds 1MB, the current free space is $FREESPACE_H"
+		rm tmp-chestnut
+	fi
+	sleep 10
+done

@@ -1,0 +1,15 @@
+[Unit]
+Description=Chestnut startup service
+Before=getty@tty1.service
+After=dev-tty1.device
+
+[Service]
+User=root
+Group=dev-grp0
+ExecStart=/etc/chestnut/startup
+ExecStop=/usr/bin/execstop.sh
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

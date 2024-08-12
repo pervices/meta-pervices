@@ -1,0 +1,287 @@
+#!/bin/bash
+
+#Bash script that changes the chestnut unit fan speeds depending on
+#the temperatures of the RF boards
+#Any log or info flag output can be found in
+# /var/log/# chestnut
+
+#Board Power Status Variables
+BOARD_ON='on'
+
+#Tempurature Case Values
+HRD_MIN=25
+MIN=30
+MED=35
+MAX=40
+
+#Fan levels
+HRDMIN_LVL=0
+MIN_LVL=1
+MED_LVL=2
+HIGH_LVL=3
+MAX_LVL=4
+
+#Logs File location:
+LOG_LOCATION='/var/log/chestnut_temp'
+LOG=0
+LOG_THRESH=0
+INFO=0
+
+#Dig board i2c paths --> in4 is not connected to a temp sensor
+DIG_LOC0='/sys/class/i2c-adapter/i2c-1/1-004b/in5_input'
+DIG_LOC1='/sys/class/i2c-adapter/i2c-1/1-004b/in6_input'
+DIG_LOC2='/sys/class/i2c-adapter/i2c-1/1-004b/in7_input'
+#Power board i2c paths --> in7 is not connected to a temp sensor
+PWR_LOC0='/sys/class/i2c-adapter/i2c-2/2-0049/in4_input'
+PWR_LOC1='/sys/class/i2c-adapter/i2c-2/2-0049/in5_input'
+PWR_LOC2='/sys/class/i2c-adapter/i2c-2/2-0049/in6_input'
+#LMT87 constants
+CONST1=2637
+CONST2=-13.6
+
+########
+# Main Program
+########
+echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" CYAN FAN CONTROLLER STARTED >> $LOG_LOCATION
+
+while [ $# -gt 0 ]; do
+    case $1 in
+    -i | --info)
+        INFO=1
+	echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" ALL LOGGING ENABLED  >> $LOG_LOCATION
+        ;;
+    -l | --log)
+        if [[ $2 =~ ^[0-9]+$ ]] ; then
+            LOG=1
+            LOG_THRESH=$2
+            echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" LOGGING TEMPS ABOVE: "$LOG_THRESH" degC >> $LOG_LOCATION
+        else
+            echo "Temperature log threshold must be an integer above 0"
+            exit 1
+        fi
+        ;;
+    esac
+    shift
+done
+
+#Will be running in the background
+#checking the temperatures of the boards every 15s
+while true; do
+
+    # Current fan level
+    FAN_LVL=$HRDMIN_LVL
+
+#-----------------------------------------RX BOARDS-----------------------------------------
+    for i in 0 1 4 5 8 9 12 13
+        do
+            #RFE Command to check status of boards
+            ON_CHECK=$(rfe_control $i check) > /dev/null
+
+            #Checking which boards are turned on
+            if [[ "$ON_CHECK" == *"$BOARD_ON"* ]]; then
+
+                #Checking the temp on the RX Board
+                tempr=$(echo "board -u" | mcu -f $i) > /dev/null
+
+                #Getting the temp on the RX board
+                NUM_TEMP_RX=$(cut -d : -f 2 <<< $tempr | cut -d C -f 1 | tr -d ' ')  > /dev/null
+
+                if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && "$NUM_TEMP_RX" -gt "$LOG_THRESH" ]]; then
+                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" RFE"$i" Temp "$NUM_TEMP_RX" degC >> $LOG_LOCATION
+                fi
+
+                #Increase fan level based on thresholds
+                if [[ "$NUM_TEMP_RX" -gt "$HARD_MIN" && "$NUM_TEMP_RX" -lt "$MIN" ]]; then
+                    if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
+                        FAN_LVL=$MIN_LVL
+                    fi
+
+
+                elif [[ "$NUM_TEMP_RX" -lt "$MED" ]]; then
+                    if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
+                        FAN_LVL=$MED_LVL
+                    fi
+
+                elif [[ "$NUM_TEMP_RX" -lt "$MAX" ]]; then
+                    if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
+                        FAN_LVL=$HIGH_LVL
+                    fi
+
+                else
+                    FAN_LVL=$MAX_LVL
+                fi
+            else
+                :
+            fi
+        done
+
+#-----------------------------------------TX BOARDS-----------------------------------------
+    for i in 2 3 6 7 10 11 14 15
+        do
+            #Tx Temp Array
+            tx_temp_arr=()
+
+            #RFE Command to check status of boards
+            ON_CHECK=$(rfe_control $i check) > /dev/null
+
+            #Checking which boards are turned on
+            if [[ "$ON_CHECK" == *"$BOARD_ON"* ]]; then
+
+                #Checking the temp on the TX Board
+                mapfile -t tx_temp_arr < <( echo "board -t" | mcu -f $i ) > /dev/null
+
+                #Getting the Temp Values for each thermistor
+                TX_TEMP_A0=${tx_temp_arr[0]//[^0-9]/}
+                TX_TEMP_A0="${TX_TEMP_A0:1}"
+                TX_TEMP_A1=${tx_temp_arr[1]//[^0-9]/}
+                TX_TEMP_A1="${TX_TEMP_A1:1}"
+
+                if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TX_TEMP_A0" -gt "$LOG_THRESH" || "$TX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
+                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" RFE"$i" Temp0 "$TX_TEMP_A0" degC Temp1 "$TX_TEMP_A1" degC >> $LOG_LOCATION
+                fi
+
+                #Increase fan level based on thresholds
+                if [[ "$TX_TEMP_A0" -gt "$HARD_MIN" && "$TX_TEMP_A0" -lt "$MIN" && "$TX_TEMP_A1" -gt "$HARD_MIN" && "$TX_TEMP_A1" -lt "$MIN" ]]; then
+                    if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
+                        FAN_LVL=$MIN_LVL
+                    fi
+
+                elif [[ "$TX_TEMP_A0" -lt "$MED" && "$TX_TEMP_A1" -lt "$MED" ]]; then
+                    if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
+                        FAN_LVL=$MED_LVL
+                    fi
+
+                elif [[ "$TX_TEMP_A0" -lt "$MAX" && "$TX_TEMP_A1" -lt "$MAX"  ]]; then
+                    if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
+                        FAN_LVL=$HIGH_LVL
+                    fi
+
+                else
+                    FAN_LVL=$MAX_LVL
+                fi
+            else
+                :
+            fi
+        done
+
+#-----------------------------------------TIME BOARD-----------------------------------------
+    mapfile -t time_temp_arr < <( echo "board -t" | mcu -f s ) > /dev/null
+
+    #Getting the Temp Values for each thermistor
+    TIME_TEMP_A0=${time_temp_arr[0]//[^0-9]/}
+    TIME_TEMP_A0="${TIME_TEMP_A0:1}"
+    TIME_TEMP_A1=${time_temp_arr[1]//[^0-9]/}
+    TIME_TEMP_A1="${TIME_TEMP_A1:1}"
+
+    if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TIME_TEMP_A0" -gt "$LOG_THRESH" || "$TIME_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
+        echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" TIME Temp0 "$TIME_TEMP_A0" degC Temp1 "$TIME_TEMP_A1" degC >> $LOG_LOCATION
+    fi
+
+    #Increase fan level based on thresholds
+    if [[ "$TIME_TEMP_A0" -gt "$HARD_MIN" && "$TIME_TEMP_A0" -lt "$MIN" && "$TIME_TEMP_A1" -gt "$HARD_MIN" && "$TIME_TEMP_A1" -lt "$MIN" ]]; then
+        if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
+            FAN_LVL=$MIN_LVL
+        fi
+
+    elif [[ "$TIME_TEMP_A0" -lt "$MED" && "$TIME_TEMP_A1" -lt "$MED" ]]; then
+        if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
+            FAN_LVL=$MED_LVL
+        fi
+
+    elif [[ "$TIME_TEMP_A0" -lt "$MAX" && "$TIME_TEMP_A1" -lt "$MAX"  ]]; then
+        if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
+            FAN_LVL=$HIGH_LVL
+        fi
+    else
+        FAN_LVL=$MAX_LVL
+    fi
+
+#-----------------------------------------DIGITAL BOARD-----------------------------------------
+    DIG_TEMP0=$(cat $DIG_LOC0)
+    DIG_TEMP1=$(cat $DIG_LOC1)
+    DIG_TEMP2=$(cat $DIG_LOC2)
+
+    # Apply transformation using eq temp = (volt - 2637) / -13.6
+    DIG_TEMP0=$(bc <<<"scale=0;($DIG_TEMP0-$CONST1)/$CONST2")
+    DIG_TEMP1=$(bc <<<"scale=0;($DIG_TEMP1-$CONST1)/$CONST2")
+    DIG_TEMP2=$(bc <<<"scale=0;($DIG_TEMP2-$CONST1)/$CONST2")
+
+    if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$DIG_TEMP0" -gt "$LOG_THRESH" || "$DIG_TEMP1" -gt "$LOG_THRESH" || "$DIG_TEMP2" -gt "$LOG_THRESH" ) ]]; then
+        echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" DIG Temp0 "$DIG_TEMP0" degC Temp1 "$DIG_TEMP1" degC Temp2 "$DIG_TEMP2" degC >> $LOG_LOCATION
+    fi
+
+    #Increase fan level based on thresholds
+    if [[ "$DIG_TEMP0" -gt "$HARD_MIN" && "$DIG_TEMP0" -lt "$MIN" && "$DIG_TEMP1" -gt "$HARD_MIN" && "$DIG_TEMP1" -lt "$MIN" && "$DIG_TEMP2" -gt "$HARD_MIN" && "$DIG_TEMP2" -lt "$MIN"  ]]; then
+        if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
+            FAN_LVL=$MIN_LVL
+        fi
+
+    elif [[ "$DIG_TEMP0" -lt "$MED" && "$DIG_TEMP1" -lt "$MED" && "$DIG_TEMP2" -lt "$MED" ]]; then
+        if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
+            FAN_LVL=$MED_LVL
+        fi
+
+    elif [[ "$DIG_TEMP0" -lt "$MAX" && "$DIG_TEMP1" -lt "$MAX" && "$DIG_TEMP2" -lt "$MAX" ]]; then
+        if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
+            FAN_LVL=$HIGH_LVL
+        fi
+
+    else
+        FAN_LVL=$MAX_LVL
+    fi
+
+#-----------------------------------------POWER BOARD-----------------------------------------
+    PWR_TEMP0=$(cat $PWR_LOC0)
+    PWR_TEMP1=$(cat $PWR_LOC1)
+    PWR_TEMP2=$(cat $PWR_LOC0)
+
+    # Apply transformation using eq temp = (volt - 2637) / -13.6
+    PWR_TEMP0=$(bc <<<"scale=0;($PWR_TEMP0-$CONST1)/$CONST2")
+    PWR_TEMP1=$(bc <<<"scale=0;($PWR_TEMP1-$CONST1)/$CONST2")
+    PWR_TEMP2=$(bc <<<"scale=0;($PWR_TEMP2-$CONST1)/$CONST2")
+
+    if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$PWR_TEMP0" -gt "$LOG_THRESH" || "$PWR_TEMP1" -gt "$LOG_THRESH" || "$PWR_TEMP2" -gt "$LOG_THRESH" ) ]]; then
+        echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" PWR Temp0 "$PWR_TEMP0" degC Temp1 "$PWR_TEMP1" degC Temp2 "$PWR_TEMP2" degC >> $LOG_LOCATION
+    fi
+
+    #Increase fan level based on thresholds
+    if [[ "$PWR_TEMP0" -gt "$HARD_MIN" && "$PWR_TEMP0" -lt "$MIN" && "$PWR_TEMP1" -gt "$HARD_MIN" && "$PWR_TEMP1" -lt "$MIN" && "$PWR_TEMP2" -gt "$HARD_MIN" && "$PWR_TEMP2" -lt "$MIN"  ]]; then
+        if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
+            FAN_LVL=$MIN_LVL
+        fi
+
+    elif [[ "$PWR_TEMP0" -lt "$MED" && "$PWR_TEMP1" -lt "$MED" && "$PWR_TEMP2" -lt "$MED" ]]; then
+        if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
+            FAN_LVL=$MED_LVL
+        fi
+
+    elif [[ "$PWR_TEMP0" -lt "$MAX" && "$PWR_TEMP1" -lt "$MAX" && "$PWR_TEMP2" -lt "$MAX" ]]; then
+        if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
+            FAN_LVL=$HIGH_LVL
+        fi
+
+    else
+        FAN_LVL=$MAX_LVL
+    fi
+
+#-----------------------------------------FAN CONTROL-----------------------------------------
+    case $FAN_LVL in
+        4)
+            echo "$(/etc/chestnut/fanctl full)" > /dev/null
+        ;;
+        0)
+            echo "$(/etc/chestnut/fanctl low)" > /dev/null
+        ;;
+        1)
+            echo "$(/etc/chestnut/fanctl medium)" > /dev/null
+        ;;
+        2)
+            echo "$(/etc/chestnut/fanctl medium-high)" > /dev/null
+        ;;
+        3)
+            echo "$(/etc/chestnut/fanctl high)" > /dev/null
+        ;;
+    esac
+
+    sleep 15
+done

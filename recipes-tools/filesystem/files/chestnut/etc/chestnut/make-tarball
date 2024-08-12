@@ -1,0 +1,32 @@
+#! /bin/bash -e
+# This script is used to help creating a tarball to bundle all the logs
+# Enter ./make-tarball.sh to execute, the tarball is called log.tar.gz
+SERVER_LOG=NULL
+JOURNAL_LOG=NULL
+HOME_DIR=/var/chestnut
+JOURNAL_DIR=/var/log/journal
+if [ -e $HOME_DIR/chestnut.log ];
+then
+	SERVER_LOG=1
+else
+	SERVER_LOG=0
+fi
+if [ "$(ls -A $JOURNAL_DIR)" ];
+then
+	JOURNAL_LOG=1
+else
+	JOURNAL_LOG=0
+fi
+if [ $SERVER_LOG -eq 0 -a $JOURNAL_LOG -eq 0 ];
+then
+	echo "Nothing to pack"
+	exit 0
+elif [ $SERVER_LOG -eq 0 ];
+then
+	cd $HOME_DIR && sync && sudo tar -zcf log.tar.gz -P $JOURNAL_DIR && echo "Packed general logs in /var/log/journal, missing chestnut.log" || echo "Packing unsuccessful"
+elif [ $JOURNAL_LOG -eq 0 ];
+then
+	cd $HOME_DIR && sync && tar -zcf log.tar.gz chestnut.log && echo "Packed chestnut.log, missing general logs in /var/log/journal" || echo "Packing unsuccessful"
+else
+	cd $HOME_DIR && sync && tar -zcf log.tar.gz -P $JOURNAL_DIR chestnut.log && echo "Packing successful" || echo "Packing unsuccessful"
+fi

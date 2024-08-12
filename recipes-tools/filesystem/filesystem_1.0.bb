@@ -52,6 +52,30 @@ SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/usr/bin/execstop.sh \
                  file://cyan/etc/cyan/cyan-rf-fan-controller \
                 "
+
+SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
+                    file://chestnut/lib/systemd/system/chestnut-log.service \
+                    file://chestnut/lib/systemd/system/chestnut-sensors.service \
+                    file://chestnut/lib/systemd/system/chestnut-fanctl.service \
+                    file://chestnut/lib/systemd/system/chestnut-fpga-image-status.service \
+                    file://chestnut/lib/systemd/system/button-off.service \
+                    file://chestnut/lib/systemd/system/chestnut-set-baud.service \
+                    file://chestnut/lib/systemd/system/chestnut-startup.service \
+                    file://chestnut/lib/systemd/system/chestnut-rf-fan-controller.service \
+                    file://chestnut/etc/chestnut/logging \
+                    file://chestnut/etc/chestnut/package-manager \
+                    file://chestnut/etc/chestnut/make-tarball \
+                    file://chestnut/etc/chestnut/sensors \
+                    file://chestnut/etc/chestnut/chestnut-update \
+                    file://chestnut/etc/chestnut/fanctl \
+                    file://chestnut/etc/chestnut/stty.settings \
+                    file://chestnut/etc/chestnut/set_baud \
+                    file://chestnut/etc/chestnut/startup \
+                    file://chestnut/usr/bin/button_press_off.sh \
+                    file://chestnut/usr/bin/execstop.sh \
+                    file://chestnut/etc/chestnut/chestnut-rf-fan-controller \
+                    "
+
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
                pam-plugin-cracklib \
@@ -132,4 +156,20 @@ do_install_cyan() {
     install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/startup ${D}${sysconfdir}/cyan/
     install -m 0644 -D ${WORKDIR}/cyan/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
 	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/cyan-rf-fan-controller ${D}${sysconfdir}/cyan/
+}
+
+do_install_chestnut() {
+    install -m 0755 -D ${WORKDIR}/chestnut/usr/bin/*.sh ${D}${bindir}
+    install -m 0644 -D ${WORKDIR}/chestnut/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/logging ${D}${sysconfdir}/chestnut/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/package-manager ${D}${sysconfdir}/chestnut/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/make-tarball ${D}${sysconfdir}/chestnut/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/sensors ${D}${sysconfdir}/chestnut/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/chestnut-update ${D}${sysconfdir}/chestnut/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/fanctl ${D}${sysconfdir}/chestnut/
+    install -m 0644 -D ${WORKDIR}/chestnut/etc/chestnut/stty.settings ${D}${sysconfdir}/chestnut/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/set_baud ${D}${sysconfdir}/chestnut/
+    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/startup ${D}${sysconfdir}/chestnut/
+    install -m 0644 -D ${WORKDIR}/chestnut/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
+	install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/chestnut-rf-fan-controller ${D}${sysconfdir}/chestnut/
 }

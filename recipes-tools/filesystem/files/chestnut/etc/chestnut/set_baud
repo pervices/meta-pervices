@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for i in {0..16}
+do
+	/bin/stty < /dev/ttyUSB$i `cat /etc/chestnut/stty.settings` || \
+	/bin/stty < /dev/ttyUSB$i `cat /etc/chestnut/stty.settings` || \
+	/bin/stty < /dev/ttyUSB$i `cat /etc/chestnut/stty.settings`
+done
