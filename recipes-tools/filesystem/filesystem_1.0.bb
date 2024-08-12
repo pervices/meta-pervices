@@ -63,10 +63,8 @@ SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
                     file://chestnut/lib/systemd/system/chestnut-startup.service \
                     file://chestnut/lib/systemd/system/chestnut-rf-fan-controller.service \
                     file://chestnut/etc/chestnut/logging \
-                    file://chestnut/etc/chestnut/package-manager \
                     file://chestnut/etc/chestnut/make-tarball \
                     file://chestnut/etc/chestnut/sensors \
-                    file://chestnut/etc/chestnut/chestnut-update \
                     file://chestnut/etc/chestnut/fanctl \
                     file://chestnut/etc/chestnut/stty.settings \
                     file://chestnut/etc/chestnut/set_baud \
