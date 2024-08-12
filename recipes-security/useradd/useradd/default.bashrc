@@ -7,6 +7,8 @@ if [ -x /etc/crimson/motd ]; then
     /etc/crimson/./motd   # Print welcome message
 elif [ -x /etc/cyan/motd ]; then
     /etc/cyan/./motd   # Print welcome message
+elif [ -x /etc/chestnut/motd ]; then
+    /etc/chestnut/./motd   # Print welcome message
 fi
 
 # If not running interactively, don't do anything
