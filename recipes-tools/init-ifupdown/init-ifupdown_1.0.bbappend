@@ -14,3 +14,7 @@ do_install_append_crimson () {
 do_install_append_cyan () {
 	install -m 0644 ${WORKDIR}/interfaces-cyan ${D}${sysconfdir}/network/interfaces
 }
+
+do_install_append_chestnut () {
+	install -m 0644 ${WORKDIR}/interfaces-cyan ${D}${sysconfdir}/network/interfaces
+}
