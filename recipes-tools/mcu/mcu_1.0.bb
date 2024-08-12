@@ -22,6 +22,14 @@ SRC_URI_cyan += "file://flash-cyan \
                  file://tate-synth.hex \
                  file://TATE_SYNTH-xboot-boot.hex \
                 "
+SRC_URI_chestnut += "file://flash-chestnut \
+                    file://lily-rx.hex \
+                    file://LILY_RX-xboot-boot.hex \
+                    file://lily-tx.hex \
+                    file://LILY_TX-xboot-boot.hex \
+                    file://lily-synth.hex \
+                    file://LILY_SYNTH-xboot-boot.hex \
+                    "
 FILES_${PN} += "${base_libdir}/mcu/"
 INSANE_SKIP_${PN} = "ldflags"
 
@@ -47,6 +55,15 @@ do_install_cyan() {
         install -m 0644 -D ${WORKDIR}/TATE_RX-xboot-boot.hex ${D}${base_libdir}/mcu/
         install -m 0644 -D ${WORKDIR}/TATE_TX-xboot-boot.hex ${D}${base_libdir}/mcu/
         install -m 0644 -D ${WORKDIR}/TATE_SYNTH-xboot-boot.hex ${D}${base_libdir}/mcu/
+}
+
+do_install_chestnut() {
+        install -m 0644 -D ${WORKDIR}/lily-rx.hex ${D}${base_libdir}/mcu/
+        install -m 0644 -D ${WORKDIR}/lily-tx.hex ${D}${base_libdir}/mcu/
+        install -m 0644 -D ${WORKDIR}/lily-synth.hex ${D}${base_libdir}/mcu/
+        install -m 0644 -D ${WORKDIR}/LILY_RX-xboot-boot.hex ${D}${base_libdir}/mcu/
+        install -m 0644 -D ${WORKDIR}/LILY_TX-xboot-boot.hex ${D}${base_libdir}/mcu/
+        install -m 0644 -D ${WORKDIR}/LILY_SYNTH-xboot-boot.hex ${D}${base_libdir}/mcu/
 }
 
 do_install_append() {
