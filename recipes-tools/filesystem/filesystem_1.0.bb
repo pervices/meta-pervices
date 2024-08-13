@@ -160,10 +160,8 @@ do_install_chestnut() {
     install -m 0755 -D ${WORKDIR}/chestnut/usr/bin/*.sh ${D}${bindir}
     install -m 0644 -D ${WORKDIR}/chestnut/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/logging ${D}${sysconfdir}/chestnut/
-    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/package-manager ${D}${sysconfdir}/chestnut/
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/make-tarball ${D}${sysconfdir}/chestnut/
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/sensors ${D}${sysconfdir}/chestnut/
-    install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/chestnut-update ${D}${sysconfdir}/chestnut/
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/fanctl ${D}${sysconfdir}/chestnut/
     install -m 0644 -D ${WORKDIR}/chestnut/etc/chestnut/stty.settings ${D}${sysconfdir}/chestnut/
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/set_baud ${D}${sysconfdir}/chestnut/
