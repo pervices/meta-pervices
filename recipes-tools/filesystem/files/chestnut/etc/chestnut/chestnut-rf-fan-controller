@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#Bash script that changes the chestnut unit fan speeds depending on
-#the temperatures of the RF boards
-#Any log or info flag output can be found in
-# /var/log/# chestnut
+# Bash script that changes the chestnut unit fan speeds depending on
+# the temperatures of the RF boards
+# Any log or info flag output can be found in
+# /var/log/chestnut_temp
 
 #Board Power Status Variables
 BOARD_ON='on'
@@ -39,6 +39,14 @@ PWR_LOC2='/sys/class/i2c-adapter/i2c-2/2-0049/in6_input'
 CONST1=2637
 CONST2=-13.6
 
+# State tree paths
+STATE_BASE='/var/chestnut/state'
+TIME_TEMP_PATH="$STATE_BASE/time/board/temp"
+NUM_TX_PATH="$STATE_BASE/system/num_tx"
+NUM_RX_PATH="$STATE_BASE/system/num_tx"
+
+CHARS=( {a..z} )
+
 ########
 # Main Program
 ########
@@ -71,38 +79,40 @@ while true; do
     # Current fan level
     FAN_LVL=$HRDMIN_LVL
 
-#-----------------------------------------RX BOARDS-----------------------------------------
-    for i in 0 1 4 5 8 9 12 13
-        do
-            #RFE Command to check status of boards
-            ON_CHECK=$(rfe_control $i check) > /dev/null
+    systemctl is-active --quiet chestnut-server
+    SERVER_ACTIVE=$?
 
-            #Checking which boards are turned on
-            if [[ "$ON_CHECK" == *"$BOARD_ON"* ]]; then
+    if [[ $SERVER_ACTIVE == 0 ]]; then
+        #-------------------------------------------RF BOARDS------------------------------------------------
+        # Number of rx/tx boards
+        NUM_TX=$(cat "$NUM_TX_PATH")
+        NUM_RX=$(cat "$NUM_RX_PATH")
+        if [[ $NUM_RX == $NUM_TX ]]; then
+            for ((i=0; i<$NUM_TX; i++))
+            do
+                # -------------------------------------RX----------------------------------------------------
+                mapfile -t rx_temp_arr < <( cat "$STATE_BASE/rx_${CHARS[$i]}/board/temp" ) > /dev/null
+                RX_TEMP_A0=${rx_temp_arr[0]//[^0-9]/}
+                RX_TEMP_A0="${RX_TEMP_A0:1}"
+                RX_TEMP_A1=${rx_temp_arr[1]//[^0-9]/}
+                RX_TEMP_A1="${RX_TEMP_A1:1}"
 
-                #Checking the temp on the RX Board
-                tempr=$(echo "board -u" | mcu -f $i) > /dev/null
-
-                #Getting the temp on the RX board
-                NUM_TEMP_RX=$(cut -d : -f 2 <<< $tempr | cut -d C -f 1 | tr -d ' ')  > /dev/null
-
-                if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && "$NUM_TEMP_RX" -gt "$LOG_THRESH" ]]; then
-                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" RFE"$i" Temp "$NUM_TEMP_RX" degC >> $LOG_LOCATION
+                if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$RX_TEMP_A0" -gt "$LOG_THRESH" || "$RX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
+                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" RX_"${CHARS[$i]}" Temp0 "$RX_TEMP_A0" degC Temp1 "$RX_TEMP_A1" degC >> $LOG_LOCATION
                 fi
 
                 #Increase fan level based on thresholds
-                if [[ "$NUM_TEMP_RX" -gt "$HARD_MIN" && "$NUM_TEMP_RX" -lt "$MIN" ]]; then
+                if [[ "$RX_TEMP_A0" -gt "$HARD_MIN" && "$RX_TEMP_A0" -lt "$MIN" && "$RX_TEMP_A1" -gt "$HARD_MIN" && "$RX_TEMP_A1" -lt "$MIN" ]]; then
                     if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
                         FAN_LVL=$MIN_LVL
                     fi
 
-
-                elif [[ "$NUM_TEMP_RX" -lt "$MED" ]]; then
+                elif [[ "$RX_TEMP_A0" -lt "$MED" && "$RX_TEMP_A1" -lt "$MED" ]]; then
                     if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
                         FAN_LVL=$MED_LVL
                     fi
 
-                elif [[ "$NUM_TEMP_RX" -lt "$MAX" ]]; then
+                elif [[ "$RX_TEMP_A0" -lt "$MAX" && "$RX_TEMP_A1" -lt "$MAX"  ]]; then
                     if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
                         FAN_LVL=$HIGH_LVL
                     fi
@@ -110,25 +120,10 @@ while true; do
                 else
                     FAN_LVL=$MAX_LVL
                 fi
-            else
-                :
-            fi
-        done
 
-#-----------------------------------------TX BOARDS-----------------------------------------
-    for i in 2 3 6 7 10 11 14 15
-        do
-            #Tx Temp Array
-            tx_temp_arr=()
-
-            #RFE Command to check status of boards
-            ON_CHECK=$(rfe_control $i check) > /dev/null
-
-            #Checking which boards are turned on
-            if [[ "$ON_CHECK" == *"$BOARD_ON"* ]]; then
-
+                # -------------------------------------TX----------------------------------------------------
                 #Checking the temp on the TX Board
-                mapfile -t tx_temp_arr < <( echo "board -t" | mcu -f $i ) > /dev/null
+                mapfile -t tx_temp_arr < <( cat "$STATE_BASE/tx_${CHARS[$i]}/board/temp" ) > /dev/null
 
                 #Getting the Temp Values for each thermistor
                 TX_TEMP_A0=${tx_temp_arr[0]//[^0-9]/}
@@ -137,7 +132,7 @@ while true; do
                 TX_TEMP_A1="${TX_TEMP_A1:1}"
 
                 if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TX_TEMP_A0" -gt "$LOG_THRESH" || "$TX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" RFE"$i" Temp0 "$TX_TEMP_A0" degC Temp1 "$TX_TEMP_A1" degC >> $LOG_LOCATION
+                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" TX_"${CHARS[$i]}" Temp0 "$TX_TEMP_A0" degC Temp1 "$TX_TEMP_A1" degC >> $LOG_LOCATION
                 fi
 
                 #Increase fan level based on thresholds
@@ -159,40 +154,49 @@ while true; do
                 else
                     FAN_LVL=$MAX_LVL
                 fi
-            else
-                :
+
+            done
+        else
+            # Different number of tx and rx boards reported in the state tree, something is wrong. Set to max for safety.
+            # Log error no matter what logging parameters are.
+            echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" ERROR: Server reported different values for num_rx and num_tx. Server values: num_rx="${NUM_RX}", num_tx="${NUM_TX}" >> $LOG_LOCATION
+            FAN_LVL=$MAX_LVL
+        fi
+
+        #---------------------------------------------------TIME BOARD-----------------------------------------------------------------
+        mapfile -t time_temp_arr < <( cat $TIME_TEMP_PATH ) > /dev/null
+
+        #Getting the Temp Values for each thermistor
+        TIME_TEMP_A0=${time_temp_arr[0]//[^0-9]/}
+        TIME_TEMP_A0="${TIME_TEMP_A0:1}"
+        TIME_TEMP_A1=${time_temp_arr[1]//[^0-9]/}
+        TIME_TEMP_A1="${TIME_TEMP_A1:1}"
+
+        if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TIME_TEMP_A0" -gt "$LOG_THRESH" || "$TIME_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
+            echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" TIME Temp0 "$TIME_TEMP_A0" degC Temp1 "$TIME_TEMP_A1" degC >> $LOG_LOCATION
+        fi
+
+        #Increase fan level based on thresholds
+        if [[ "$TIME_TEMP_A0" -gt "$HARD_MIN" && "$TIME_TEMP_A0" -lt "$MIN" && "$TIME_TEMP_A1" -gt "$HARD_MIN" && "$TIME_TEMP_A1" -lt "$MIN" ]]; then
+            if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
+                FAN_LVL=$MIN_LVL
             fi
-        done
 
-#-----------------------------------------TIME BOARD-----------------------------------------
-    mapfile -t time_temp_arr < <( echo "board -t" | mcu -f s ) > /dev/null
+        elif [[ "$TIME_TEMP_A0" -lt "$MED" && "$TIME_TEMP_A1" -lt "$MED" ]]; then
+            if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
+                FAN_LVL=$MED_LVL
+            fi
 
-    #Getting the Temp Values for each thermistor
-    TIME_TEMP_A0=${time_temp_arr[0]//[^0-9]/}
-    TIME_TEMP_A0="${TIME_TEMP_A0:1}"
-    TIME_TEMP_A1=${time_temp_arr[1]//[^0-9]/}
-    TIME_TEMP_A1="${TIME_TEMP_A1:1}"
-
-    if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TIME_TEMP_A0" -gt "$LOG_THRESH" || "$TIME_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-        echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" TIME Temp0 "$TIME_TEMP_A0" degC Temp1 "$TIME_TEMP_A1" degC >> $LOG_LOCATION
-    fi
-
-    #Increase fan level based on thresholds
-    if [[ "$TIME_TEMP_A0" -gt "$HARD_MIN" && "$TIME_TEMP_A0" -lt "$MIN" && "$TIME_TEMP_A1" -gt "$HARD_MIN" && "$TIME_TEMP_A1" -lt "$MIN" ]]; then
-        if [[ "$FAN_LVL" -lt "$MIN_LVL" ]]; then
-            FAN_LVL=$MIN_LVL
+        elif [[ "$TIME_TEMP_A0" -lt "$MAX" && "$TIME_TEMP_A1" -lt "$MAX"  ]]; then
+            if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
+                FAN_LVL=$HIGH_LVL
+            fi
+        else
+            FAN_LVL=$MAX_LVL
         fi
 
-    elif [[ "$TIME_TEMP_A0" -lt "$MED" && "$TIME_TEMP_A1" -lt "$MED" ]]; then
-        if [[ "$FAN_LVL" -lt "$MED_LVL" ]]; then
-            FAN_LVL=$MED_LVL
-        fi
-
-    elif [[ "$TIME_TEMP_A0" -lt "$MAX" && "$TIME_TEMP_A1" -lt "$MAX"  ]]; then
-        if [[ "$FAN_LVL" -lt "$HIGH_LVL" ]]; then
-            FAN_LVL=$HIGH_LVL
-        fi
     else
+        # Server is not active so we can't read RF board and time board temps. Set to max for safety.
         FAN_LVL=$MAX_LVL
     fi
 
