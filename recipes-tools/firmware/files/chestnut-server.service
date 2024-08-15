@@ -1,7 +1,6 @@
 [Unit]
 Description=Chestnut Server
 Requires=network-online.target post.service
-Before=chestnut-website.service chestnut-website-hdr.service
 After=network-online.target post.service
 
 [Service]
