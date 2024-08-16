@@ -67,7 +67,7 @@ do_compile_chestnut() {
         cd ${WORKDIR}/git
         make
         ${CC} scripts/tate/memtool.c -o scripts/tate/memtool
-        ${CC} scripts/tate/pll_check.c -o scripts/tate/pll_check
+        ${CC} scripts/tate/pll_check.c -o scripts/tate/pll_check -DLILY
         git describe --always --dirty --long >> ${PN}
 }
 
