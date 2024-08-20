@@ -1,0 +1,31 @@
+#!/bin/bash
+
+while getopts "h?s:" opt; do
+    case "$opt" in
+    h|\?)
+        echo "Usage: $0 [-h help] [-s speed 0-120]"
+        exit 0
+        ;;
+    s)  speed=$OPTARG
+            if [ "$speed" -gt "120" ] || [ "$speed" -lt "0" ]; then
+                echo "Speed must be within 0 to 120"
+                exit 1
+            fi
+            device_id=$(i2cget -y 1 0x2e 0x3d)
+            if [[ "$device_id" == "0x58" ]]; then
+                echo "Fan Controller found"
+            else
+                echo "Fan Controller NOT found"
+                exit 1
+            fi
+            printf "Setting MAX6639 I2C fan controller (0x2E) fan 1 speed to $(printf '0x%x' $speed) \n"
+            i2cset -y 1 0x2e 0x04 0x38
+            i2cset -y 1 0x2e 0x11 0x02
+            i2cset -y 1 0x2e 0x26 $(printf '0x%x' $speed)
+            exit 0
+        ;;
+    esac
+done
+
+echo "Usage: $0 [-h help] [-s speed 0-120]"
+exit 1

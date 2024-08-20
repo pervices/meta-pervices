@@ -1,0 +1,8 @@
+[Unit]
+Description=Digital Board Fan Service
+
+[Service]
+ExecStart=/etc/chestnut/fpga_fan_script -s 70
+
+[Install]
+WantedBy=multi-user.target
