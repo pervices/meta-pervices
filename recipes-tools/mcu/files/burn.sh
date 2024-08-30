@@ -1,20 +1,16 @@
 #!/bin/bash
 
 function help_summary {
-    echo -e "Usage : $0 [b(ootlader)|a(pplication)|c(complete)] [rx | rx3 | bbrx | tx | tx3 | time] [rtm4 | rtm5 | rtm6 | rtm8 | rtm9 | tate ]\n"
+    echo -e "Usage : $0 [b(ootlader)|a(pplication)|c(complete)] [rx | rx3 | bbrx | tx | tx3 | time | time3 | time1on3 | avery-rx] [rtm4 | rtm5 | rtm6 | rtm8 | rtm9 | rtm10 | rtm11 | tate | lily]\n"
     echo -e "Examples:"
-    echo -e "\t Flash RTM4 Tx bootloader code:"
-    echo -e "\t\t $0 b tx rtm4\n"
-    echo -e "\t Flash RTM5 Rx application code:"
-    echo -e "\t\t $0 a rx rtm5\n"
-    echo -e "\t Flash RTM6 Time bootloader and application code:"
-    echo -e "\t\t $0 c time rtm6\n"
+    echo -e "\t Flash Crimson RTM10 Rx application code:"
+    echo -e "\t\t $0 a rx rtm10\n"
+    echo -e "\t Flash Cyan RTM6 Time bootloader and application code:"
+    echo -e "\t\t $0 c time tate\n"
+    echo -e "\t Flash Chestnut RTM1 Tx bootloader and application code:"
+    echo -e "\t\t $0 c tx lily\n"
     exit
 }
-
-PATH_TIME="/dev/ttycrimson-time"
-PATH_RX="/dev/ttycrimson-rx"
-PATH_TX="/dev/ttycrimson-tx"
 
 HEXFILE_TIME_APP="/dev/null"
 HEXFILE_TIME_BOOT="/dev/null "
@@ -108,18 +104,29 @@ then
     return 1
 fi
 
-if [ "$2" != 'time' ] && [ "$2" != 'time3' ] && [ "$2" != 'tx' ] && [ "$2" != 'tx3' ] && [ "$2" != 'rx' ] && [ "$2" != 'rx3' ] && [ "$2" != 'bbrx' ] && [ "$2" != 'all' ]
+if [ "$2" != 'time' ] && [ "$2" != 'time3' ] && [ "$2" != 'time1on3' ] && [ "$2" != 'tx' ] && [ "$2" != 'tx3' ] && [ "$2" != 'rx' ] && [ "$2" != 'rx3' ] && [ "$2" != 'bbrx' ] && [ "$2" != 'avery-rx' ]
 then
     help_summary
     return 1
 fi
 
 
-if [ "$3" != 'rtm4' ] && [ "$3" != 'rtm5' ] && [ "$3" != 'rtm6' ] && [ "$3" != 'rtm8' ] && [ "$3" != 'rtm9' ] && [ "$3" != 'tate' ]
+if [ "$3" != 'rtm4' ] && [ "$3" != 'rtm5' ] && [ "$3" != 'rtm6' ] && [ "$3" != 'rtm8' ] && [ "$3" != 'rtm9' ] && [ "$3" != 'rtm10' ]  && [ "$3" != 'rtm11' ] && [ "$3" != 'tate' ] && [ "$3" != 'lily' ]
 then
     help_summary
     return 1
 fi
+
+# Default to hexfiles for crimson RTM5+ these properties overwritten below for
+# any case that is different
+HEXFILE_TIME_APP="vaunt-synth.hex"
+HEXFILE_TIME_BOOT="VAUNT_SYNTH-xboot-boot.hex "
+HEXFILE_RX_APP="vaunt-rx.hex"
+HEXFILE_RX_BOOT="VAUNT_RX-xboot-boot.hex"
+HEXFILE_TX_APP="vaunt-tx.hex"
+HEXFILE_TX_BOOT="VAUNT_TX-xboot-boot.hex"
+HEXFILE_AVERYRX_APP="vaunt-avery-rx.hex"
+HEXFILE_AVERYRX_BOOT="VAUNT_AVERY_RX-xboot-boot.hex"
 
 if [ "$3" == 'rtm4' ]
 then
@@ -132,57 +139,34 @@ then
     HEXFILE_TX_BOOT="TX-xboot-boot.hex"
 fi
 
+
 if [ "$3" == 'rtm5' ]
 then
     AVRDUDE_FUSE_REV="-U fuse0:w:0x05:m"
-    HEXFILE_TIME_APP="vaunt-synth.hex"
-    HEXFILE_TIME_BOOT="VAUNT_SYNTH-xboot-boot.hex "
-    HEXFILE_RX_APP="vaunt-rx.hex"
-    HEXFILE_RX_BOOT="VAUNT_RX-xboot-boot.hex"
-    HEXFILE_TX_APP="vaunt-tx.hex"
-    HEXFILE_TX_BOOT="VAUNT_TX-xboot-boot.hex"
-fi
-
-if [ "$3" == 'rtm6' ]
+elif [ "$3" == 'rtm6' ]
 then
     AVRDUDE_FUSE_REV="-U fuse0:w:0x06:m"
-    HEXFILE_TIME_APP="vaunt-synth.hex"
-    HEXFILE_TIME_BOOT="VAUNT_SYNTH-xboot-boot.hex "
-    HEXFILE_RX_APP="vaunt-rx.hex"
-    HEXFILE_RX_BOOT="VAUNT_RX-xboot-boot.hex"
-    HEXFILE_TX_APP="vaunt-tx.hex"
-    HEXFILE_TX_BOOT="VAUNT_TX-xboot-boot.hex"
-fi
-
-if [ "$3" == 'rtm8' ]
+elif [ "$3" == 'rtm8' ]
 then
     AVRDUDE_FUSE_REV="-U fuse0:w:0x08:m"
-    HEXFILE_TIME_APP="vaunt-synth.hex"
-    HEXFILE_TIME_BOOT="VAUNT_SYNTH-xboot-boot.hex "
-    HEXFILE_RX_APP="vaunt-rx.hex"
-    HEXFILE_RX_BOOT="VAUNT_RX-xboot-boot.hex"
-    HEXFILE_TX_APP="vaunt-tx.hex"
-    HEXFILE_TX_BOOT="VAUNT_TX-xboot-boot.hex"
-fi
-
-if [ "$3" == 'rtm9' ]
+elif [ "$3" == 'rtm9' ]
 then
     AVRDUDE_FUSE_REV="-U fuse0:w:0x09:m"
-    HEXFILE_TIME_APP="vaunt-synth.hex"
-    HEXFILE_TIME_BOOT="VAUNT_SYNTH-xboot-boot.hex "
-    HEXFILE_RX_APP="vaunt-rx.hex"
-    HEXFILE_RX_BOOT="VAUNT_RX-xboot-boot.hex"
-    HEXFILE_TX_APP="vaunt-tx.hex"
-    HEXFILE_TX_BOOT="VAUNT_TX-xboot-boot.hex"
-fi
-
-if [ "$3" == 'tate' ]
+elif [ "$3" == 'rtm10' ]
+then
+    AVRDUDE_FUSE_REV="-U fuse0:w:0x0a:m"
+elif [ "$3" == 'rtm11' ]
+then
+    AVRDUDE_FUSE_REV="-U fuse0:w:0x0b:m"
+elif [ "$3" == 'tate' ]
 then
     AVRDUDE_FUSE_REV="-U fuse0:w:0x99:m"
     HEXFILE_TIME_APP="tate-synth.hex"
     HEXFILE_TIME_BOOT="TATE_SYNTH-xboot-boot.hex "
     HEXFILE_TIME3_APP="tate-synth3.hex"
     HEXFILE_TIME3_BOOT="TATE_SYNTH3-xboot-boot.hex "
+    HEXFILE_TIME1ON3_APP="tate-synth1on3.hex"
+    HEXFILE_TIME1ON3_BOOT="TATE_SYNTH1ON3-xboot-boot.hex "
     HEXFILE_RX_APP="tate-rx.hex"
     HEXFILE_RX_BOOT="TATE_RX-xboot-boot.hex"
     HEXFILE_RX3_APP="tate-rx3.hex"
@@ -193,11 +177,20 @@ then
     HEXFILE_TX_BOOT="TATE_TX-xboot-boot.hex"
     HEXFILE_TX3_APP="tate-tx3.hex"
     HEXFILE_TX3_BOOT="TATE_TX3-xboot-boot.hex"
+elif [ "$3" == 'lily' ]
+then
+    AVRDUDE_FUSE_REV="-U fuse0:w:0x98:m"
+    HEXFILE_TIME_APP="lily-synth.hex"
+    HEXFILE_TIME_BOOT="LILY_SYNTH-xboot-boot.hex "
+    HEXFILE_RX_APP="lily-rx.hex"
+    HEXFILE_RX_BOOT="LILY_RX-xboot-boot.hex"
+    HEXFILE_TX_APP="lily-tx.hex"
+    HEXFILE_TX_BOOT="LILY_TX-xboot-boot.hex"
 fi
 
 BOARD_OPERATION="$1"
 
-if [ "$2" = 'time' ] || [ "$2" = 'all' ]
+if [ "$2" = 'time' ]
 then
 	echo "Ready to program Time board. Press Enter to continue."
 	read
@@ -213,7 +206,15 @@ then
 	echo "-- Finished programming the Time3 board --"
 fi
 
-if [ "$2" = 'rx' ] || [ "$2" = 'all' ]
+if [ "$2" = 'time1on3' ]
+then
+	echo "Ready to program Time 1GSPS-on-3GSPS board. Press Enter to continue."
+	read
+        burn_seq "$BOARD_OPERATION" "$HEXFILE_TIME1ON3_BOOT" "$HEXFILE_TIME1ON3_APP"
+	echo "-- Finished programming the Time1on3 board --"
+fi
+
+if [ "$2" = 'rx' ]
 then
 	echo "Ready to program Rx board. Press Enter to continue."
 	read
@@ -237,7 +238,7 @@ then
 	echo "-- Finished programming the BBRx board --"
 fi
 
-if [ "$2" = 'tx' ] || [ "$2" = 'all' ]
+if [ "$2" = 'tx' ]
 then
 	echo "Ready to program Tx board. Press Enter to continue."
 	read
@@ -251,6 +252,14 @@ then
 	read
         burn_seq "$BOARD_OPERATION" "$HEXFILE_TX3_BOOT" "$HEXFILE_TX3_APP"
 	echo "-- Finished programming the Tx3 board --"
+fi
+
+if [ "$2" = 'avery-rx' ]
+then
+	echo "Ready to program Avery-RX board. Press Enter to continue."
+	read
+        burn_seq "$BOARD_OPERATION" "$HEXFILE_AVERYRX_BOOT" "$HEXFILE_AVERYRX_APP"
+	echo "-- Finished programming the Avery-RX board --"
 fi
 
 exit
