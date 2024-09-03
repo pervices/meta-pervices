@@ -28,7 +28,7 @@ FILES_${PN} += "${bindir} ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN
 
 SYSTEMD_SERVICE_${PN}_crimson = "crimson-server.service"
 SYSTEMD_SERVICE_${PN}_cyan = "cyan-server.service post.service"
-SYSTEMD_SERVICE_${PN}_chestnut = "chestnut-server.service post.service"
+SYSTEMD_SERVICE_chestnut = "chestnut-server.service post.service"
 
 do_configure_cyan() {
         cd ${WORKDIR}/git
