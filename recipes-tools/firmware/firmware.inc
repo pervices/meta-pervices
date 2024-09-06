@@ -47,7 +47,7 @@ do_compile_cyan() {
         cd ${WORKDIR}/git
         make
         ${CC} scripts/tate/memtool.c -o scripts/tate/memtool
-        ${CC} scripts/tate/pll_check.c -o scripts/tate/pll_check
+        ${CC} scripts/tate/pll_check.c -o scripts/tate/pll_check -DTATE_NRNT
         git describe --always --dirty --long >> ${PN}
 }
 
