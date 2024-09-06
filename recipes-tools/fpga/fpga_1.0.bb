@@ -5,12 +5,10 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS_${PN} = "bash"
 RDEPENDS_${PN} = "bash"
-SRC_URI_crimson = "file://fpga.rbf \
-                   file://crimson-update.sh \
+SRC_URI_crimson = "file://crimson-update.sh \
                    file://update.dtb \
                   "
-SRC_URI_cyan = "file://fpga.rpd \
-                file://cyan-update.sh \
+SRC_URI_cyan = "file://cyan-update.sh \
                 file://get_chipid_temperature.sh \
                 file://jesd_rst_status.sh \
                 file://test_ddr.sh \
@@ -24,22 +22,17 @@ do_install_crimson() {
 	install -d -m 0755 ${D}${base_libdir}/firmware/
 	install -d ${DEPLOYDIR}
 
-	install -m 0644 -D ${WORKDIR}/fpga.rbf ${D}${base_libdir}/firmware/
 	install -m 0744 -D ${WORKDIR}/crimson-update.sh ${D}${base_libdir}/firmware/update.sh
 	install -m 0644 -D ${WORKDIR}/update.dtb ${D}${base_libdir}/firmware/
 
 	chown -R root ${D}${base_libdir}/firmware
 	chgrp -R 880 ${D}${base_libdir}/firmware
-	
-	ln -s fpga.rbf ${D}${base_libdir}/firmware/soc_system.rbf
-	cp ${D}${base_libdir}/firmware/fpga.rbf ${DEPLOYDIR}/soc_system.rbf
 }
 
 do_install_cyan() {
 	install -d -m 0755 ${D}${base_libdir}/firmware/
 	install -d -m 0755 ${D}${bindir}
 
-	install -m 0644 -D ${WORKDIR}/fpga.rpd ${D}${base_libdir}/firmware/
 	install -m 0744 -D ${WORKDIR}/cyan-update.sh ${D}${base_libdir}/firmware/update.sh
 	install -m 0755 -D ${WORKDIR}/get_chipid_temperature.sh ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/jesd_rst_status.sh ${D}${bindir}
@@ -47,8 +40,6 @@ do_install_cyan() {
 
 	chown -R root ${D}${base_libdir}/firmware
 	chgrp -R 880 ${D}${base_libdir}/firmware
-	
-	ln -s fpga.rpd ${D}${base_libdir}/firmware/soc_system.rpd
 }
 
 do_deploy() {
