@@ -19,8 +19,9 @@ while getopts "h?s:" opt; do
                 exit 1
             fi
             printf "Setting MAX6639 I2C fan controller (0x2E) fan 1 speed to $(printf '0x%x' $speed) \n"
-            i2cset -y 1 0x2e 0x04 0x38
-            i2cset -y 1 0x2e 0x11 0x02
+            i2cset -y 1 0x2e 0x04 0x38  # PWM output frequency range HIGH
+            i2cset -y 1 0x2e 0x11 0x02  # PWM polarity
+            i2cset -y 1 0x2e 0x13 0x43  # PWM frequency
             i2cset -y 1 0x2e 0x26 $(printf '0x%x' $speed)
             exit 0
         ;;
