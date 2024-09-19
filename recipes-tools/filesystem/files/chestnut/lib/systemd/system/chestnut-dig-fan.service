@@ -2,7 +2,7 @@
 Description=Digital Board Fan Service
 
 [Service]
-ExecStart=/etc/chestnut/fpga_fan_script -s 70
+ExecStart=/etc/chestnut/fpga_fan_script -s 120
 
 [Install]
 WantedBy=multi-user.target
