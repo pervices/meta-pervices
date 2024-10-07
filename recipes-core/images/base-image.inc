@@ -143,6 +143,8 @@ IMAGE_INSTALL += "\
 	zlib \
 	"
 
+IMAGE_INSTALL_cyan += "sequencer"
+
 ##
 # OPTIONAL
 ##
