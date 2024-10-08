@@ -118,6 +118,9 @@ do_install_chestnut() {
         install -d -m 0755 ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/chestnut-server.service ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/post.service ${D}${systemd_unitdir}/system/
+
+        install -m 0644 -D ${WORKDIR}/chestnut-server.service ${D}/etc/systemd/system/multi-user.target.wants/chestnut-server.service
+        install -m 0644 -D ${WORKDIR}/post.service ${D}/etc/systemd/system/multi-user.target.wants/post.service
 }
 
 do_package_qa() {
