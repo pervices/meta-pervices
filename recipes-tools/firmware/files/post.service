@@ -7,7 +7,7 @@ After=network-online.target
 [Service]
 User=root
 Group=dev-grp0
-ExecStart=/usr/bin/pll_check
+ExecStart=/usr/bin/pll_check.sh
 Type=oneshot
 RemainAfterExit=yes
 
