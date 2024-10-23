@@ -98,6 +98,7 @@ do_install_cyan() {
         install -m 0755 -D ${WORKDIR}/git/scripts/tate/buffer_lvl.sh ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/scripts/tate/jesd_gp.sh ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/scripts/tate/jesd_debug.sh ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/pll_check.sh ${D}${bindir}
         install -d -m 0755 ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/cyan-server.service ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/post.service ${D}${systemd_unitdir}/system/
@@ -119,6 +120,7 @@ do_install_chestnut() {
         install -m 0755 -D ${WORKDIR}/git/scripts/tate/buffer_lvl.sh ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/scripts/tate/jesd_gp.sh ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/scripts/tate/jesd_debug.sh ${D}${bindir}
+        install -m 0755 -D ${WORKDIR}/git/scripts/tate/pll_check.sh ${D}${bindir}
         install -d -m 0755 ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/chestnut-server.service ${D}${systemd_unitdir}/system/
         install -m 0644 -D ${WORKDIR}/post.service ${D}${systemd_unitdir}/system/
