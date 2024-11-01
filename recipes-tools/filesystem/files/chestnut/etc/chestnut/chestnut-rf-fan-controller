@@ -40,7 +40,7 @@ CONST1=2637
 CONST2=-13.6
 
 # State tree paths
-STATE_BASE='/var/chestnut/state'
+STATE_BASE='/var/volatile/chestnut/state'
 TIME_TEMP_PATH="$STATE_BASE/time/board/temp"
 NUM_TX_PATH="$STATE_BASE/system/num_tx"
 NUM_RX_PATH="$STATE_BASE/system/num_tx"
