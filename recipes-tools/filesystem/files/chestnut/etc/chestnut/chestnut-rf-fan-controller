@@ -8,11 +8,17 @@
 #Board Power Status Variables
 BOARD_ON='on'
 
-#Tempurature Case Values
+#Tempurature Case Values - General
 HRD_MIN=25
 MIN=30
 MED=35
 MAX=40
+
+#Tempurature Case Values - LTC5586 : This temperature is taken from the IC itself, so it will be higher than the thermistors on the PCB
+LTC_HRD_MIN=50
+LTC_MIN=60
+LTC_MED=70
+LTC_MAX=80
 
 #Fan levels
 HRDMIN_LVL=0
@@ -95,9 +101,9 @@ while true; do
                 RX_TEMP_A0=${rx_temp_arr[0]//[^0-9]/}
                 RX_TEMP_A0="${RX_TEMP_A0:1}"
                 RX_TEMP_A1=${rx_temp_arr[1]//[^0-9]/}
-                RX_TEMP_A1="${RX_TEMP_A1:1}"
+                RX_TEMP_A1="${RX_TEMP_A1:1}"    # This is the LTC5586 temp, so use different thresholds
 
-                if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$RX_TEMP_A0" -gt "$LOG_THRESH" || "$RX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
+                if [[ "$RX_TEMP_A0" -gt "$HARD_MIN" && "$RX_TEMP_A0" -lt "$MIN" && "$RX_TEMP_A1" -gt "$LTC_HARD_MIN" && "$RX_TEMP_A1" -lt "$LTC_MIN" ]]; then
                     echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" RX_"${CHARS[$i]}" Temp0 "$RX_TEMP_A0" degC Temp1 "$RX_TEMP_A1" degC >> $LOG_LOCATION
                 fi
 
