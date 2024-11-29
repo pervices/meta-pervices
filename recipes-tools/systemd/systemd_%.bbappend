@@ -1,5 +1,6 @@
 #FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-SRC_URI = "git://github.com/systemd/systemd.git;protocol=https"
+SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=main"
+
 do_install_append() {
 	sed -i 's:#Storage=auto:Storage=volatile:g' ${D}${sysconfdir}/systemd/journald.conf
 	sed -i 's:#RateLimitIntervalSec:RateLimitIntervalSec:g' ${D}${sysconfdir}/systemd/journald.conf
