@@ -5,10 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 DEPENDS = "zlib libaio"
 
-SRC_URI = "http://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.gz"
-
-SRC_URI[md5sum] = "e0f6497a8c06f5d652bc2ad88d449c12"
-SRC_URI[sha256sum] = "37cc73e42f5bdb0e0571ba88f6a69b8f05ee28e51afcafc2231c1058b1a5dd18"
+SRC_URI = "https://github.com/ColinIanKing/stress-ng/tarball/V0.13.05"
+SRC_URI[md5sum] = "48ac92b114ccaafad53c687bf21abce1"
+SRC_URI[sha256sum] = "9fe0af83b559442f8a395463c779723fe4c0e190772ca21de1ddb4e3debabc86"
 
 CFLAGS += "-Wall -Wextra -DVERSION='"$(VERSION)"' -O2"
 
