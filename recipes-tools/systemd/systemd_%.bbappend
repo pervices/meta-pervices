@@ -1,5 +1,5 @@
 #FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-#SRC_URI += "file://0001-tempfiles-don-t-create-var-tmp-log-directories.patch"
+SRC_URI = "git://github.com/systemd/systemd.git;protocol=https"
 do_install_append() {
 	sed -i 's:#Storage=auto:Storage=volatile:g' ${D}${sysconfdir}/systemd/journald.conf
 	sed -i 's:#RateLimitIntervalSec:RateLimitIntervalSec:g' ${D}${sysconfdir}/systemd/journald.conf
