@@ -1,5 +1,5 @@
 SUMMARY = "A tool to load and stress a computer system"
-HOMEPAGE = "http://kernel.ubuntu.com/~cking/stress-ng/"
+HOMEPAGE = "https://github.com/ColinIanKing/stress-ng"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
