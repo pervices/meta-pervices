@@ -1,7 +1,7 @@
 SUMMARY = "A tool to load and stress a computer system"
 HOMEPAGE = "https://github.com/ColinIanKing/stress-ng"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 DEPENDS = "zlib libaio"
 
