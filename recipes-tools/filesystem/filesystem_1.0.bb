@@ -29,6 +29,7 @@ SRC_URI_crimson += "file://crimson/etc/udev/rules.d/99-local.rules \
                     file://crimson/etc/sdr.conf \
                     file://crimson/etc/crimson/startup \
                     file://crimson/lib/systemd/system/crimson-startup.service \
+                    file://crimson/usr/bin/dump_state_tree.sh \
                    "
 SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/lib/systemd/system/cyan-log.service \
@@ -53,6 +54,7 @@ SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/usr/bin/execstop.sh \
                  file://cyan/etc/cyan/cyan-rf-fan-controller \
                  file://cyan/etc/cyan/fpga_fan_script \
+                 file://cyan/usr/bin/dump_state_tree.sh \
                 "
 
 SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
@@ -76,6 +78,7 @@ SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
                     file://chestnut/usr/bin/execstop.sh \
                     file://chestnut/etc/chestnut/chestnut-rf-fan-controller \
                     file://chestnut/etc/chestnut/fpga_fan_script \
+                    file://chestnut/usr/bin/dump_state_tree.sh \
                     "
 
 PAM_PLUGINS = "libpam-runtime \
@@ -144,6 +147,7 @@ do_install_prepend() {
 }
 
 do_install_crimson() {
+    install -m 0755 -D ${WORKDIR}/crimson/usr/bin/*.sh ${D}${bindir}
     install -m 0644 -D ${WORKDIR}/crimson/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
     install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/logging ${D}${sysconfdir}/crimson/
     install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/package-manager ${D}${sysconfdir}/crimson/
