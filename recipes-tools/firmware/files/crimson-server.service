@@ -8,7 +8,7 @@ After=network-online.target
 User=root
 Group=dev-grp0
 ExecStart=/usr/bin/server -d
-Type=simple
+Type=notify
 Restart=always
 
 [Install]
