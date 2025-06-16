@@ -68,19 +68,19 @@ CHARS=( {a..z} )
 ########
 # Main Program
 ########
-echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" CYAN FAN CONTROLLER STARTED >> $LOG_LOCATION
+echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" CYAN FAN CONTROLLER STARTED >> $LOG_LOCATION
 
 while [ $# -gt 0 ]; do
     case $1 in
     -i | --info)
         INFO=1
-	echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" ALL LOGGING ENABLED  >> $LOG_LOCATION
+	echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" ALL LOGGING ENABLED  >> $LOG_LOCATION
         ;;
     -l | --log)
         if [[ $2 =~ ^[0-9]+$ ]] ; then
             LOG=1
             LOG_THRESH=$2
-            echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" LOGGING TEMPS ABOVE: "$LOG_THRESH" degC >> $LOG_LOCATION
+            echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" LOGGING TEMPS ABOVE: "$LOG_THRESH" degC >> $LOG_LOCATION
         else
             echo "Temperature log threshold must be an integer above 0"
             exit 1
@@ -92,7 +92,6 @@ done
 
 #Will be running in the background
 #checking the temperatures of the boards every 15s
-if [[ $TEMP_READFLAG -eq 1 ]]; then
 while true; do
 
     # Current fan level
@@ -220,6 +219,7 @@ while true; do
     fi
 
 #-----------------------------------------DIGITAL BOARD-----------------------------------------
+if [[ $TEMP_READFLAG -eq 1 ]]; then
     DIG_TEMP0=$(cat $DIG_LOC0)
     DIG_TEMP1=$(cat $DIG_LOC1)
     DIG_TEMP2=$(cat $DIG_LOC2)
@@ -252,7 +252,7 @@ while true; do
     else
         FAN_LVL=$MAX_LVL
     fi
-
+fi
 #-----------------------------------------POWER BOARD-----------------------------------------
     PWR_TEMP0=$(cat $PWR_LOC0)
     PWR_TEMP1=$(cat $PWR_LOC1)
@@ -308,4 +308,3 @@ while true; do
 
     sleep 15
 done
-fi
