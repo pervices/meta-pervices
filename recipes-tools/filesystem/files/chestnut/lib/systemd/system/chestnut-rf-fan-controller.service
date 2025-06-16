@@ -6,7 +6,7 @@ After=dev-tty1.device
 [Service]
 User=root
 Group=dev-grp0
-ExecStart=/etc/chestnut/chestnut-rf-fan-controller -l 50
+ExecStart=/usr/bin/chestnut-rf-fan-controller -l 50
 Type=simple
 RemainAfterExit=yes
 
