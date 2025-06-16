@@ -19,6 +19,7 @@ LTC_HRD_MIN=50
 LTC_MIN=60
 LTC_MED=70
 LTC_MAX=80
+TEMP_READFLAG=1
 
 #Fan levels
 HRDMIN_LVL=0
@@ -51,6 +52,17 @@ TIME_TEMP_PATH="$STATE_BASE/time/board/temp"
 NUM_TX_PATH="$STATE_BASE/system/num_tx"
 NUM_RX_PATH="$STATE_BASE/system/num_tx"
 
+RTM_VERSION="$STATE_BASE/fpga/about/imgparam/rtm"
+
+RTM=$(cat $RTM_VERSION)
+
+if [[ $RTM ==6 ]]; then
+	TEMP_READFLAG=0
+	echo "Chestnut RTM 1 does not support temperature readings"
+else
+	TEMP_READFLAG=1
+fi
+
 CHARS=( {a..z} )
 
 ########
@@ -80,6 +92,7 @@ done
 
 #Will be running in the background
 #checking the temperatures of the boards every 15s
+if [[ $TEMP_READFLAG -eq 1 ]]; then
 while true; do
 
     # Current fan level
@@ -295,3 +308,4 @@ while true; do
 
     sleep 15
 done
+fi
