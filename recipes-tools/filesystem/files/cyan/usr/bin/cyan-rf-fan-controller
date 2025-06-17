@@ -58,19 +58,19 @@ CHARS=( {a..z} )
 ########
 # Main Program
 ########
-echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" CYAN FAN CONTROLLER STARTED >> $LOG_LOCATION
+echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" CYAN FAN CONTROLLER STARTED >> $LOG_LOCATION
 
 while [ $# -gt 0 ]; do
     case $1 in
     -i | --info)
         INFO=1
-	echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" ALL LOGGING ENABLED  >> $LOG_LOCATION
+	echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" ALL LOGGING ENABLED  >> $LOG_LOCATION
         ;;
     -l | --log)
         if [[ $2 =~ ^[0-9]+$ ]] ; then
             LOG=1
             LOG_THRESH=$2
-            echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" LOGGING TEMPS ABOVE: "$LOG_THRESH" degC >> $LOG_LOCATION
+            echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" LOGGING TEMPS ABOVE: "$LOG_THRESH" degC >> $LOG_LOCATION
         else
             echo "Temperature log threshold must be an integer above 0"
             exit 1
@@ -115,7 +115,7 @@ while true; do
                 RX_TEMP_A1="${RX_TEMP_A1:1}"    # This is the LTC5586 temp, so use different thresholds
 
                 if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$RX_TEMP_A0" -gt "$LOG_THRESH" || "$RX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" RX_"${CHARS[$i]}" Temp0 "$RX_TEMP_A0" degC Temp1 "$RX_TEMP_A1" degC >> $LOG_LOCATION
+                    echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" RX_"${CHARS[$i]}" Temp0 "$RX_TEMP_A0" degC Temp1 "$RX_TEMP_A1" degC >> $LOG_LOCATION
                 fi
 
                 #Increase fan level based on thresholds
@@ -149,7 +149,7 @@ while true; do
                 TX_TEMP_A1="${TX_TEMP_A1:1}"
 
                 if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TX_TEMP_A0" -gt "$LOG_THRESH" || "$TX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-                    echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" TX_"${CHARS[$i]}" Temp0 "$TX_TEMP_A0" degC Temp1 "$TX_TEMP_A1" degC >> $LOG_LOCATION
+                    echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" TX_"${CHARS[$i]}" Temp0 "$TX_TEMP_A0" degC Temp1 "$TX_TEMP_A1" degC >> $LOG_LOCATION
                 fi
 
                 #Increase fan level based on thresholds
@@ -176,7 +176,7 @@ while true; do
         else
             # Different number of tx and rx boards reported in the state tree, something is wrong. Set to max for safety.
             # Log error no matter what logging parameters are.
-            echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" ERROR: Server reported different values for num_rx and num_tx. Server values: num_rx="${NUM_RX}", num_tx="${NUM_TX}" >> $LOG_LOCATION
+            echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" ERROR: Server reported different values for num_rx and num_tx. Server values: num_rx="${NUM_RX}", num_tx="${NUM_TX}" >> $LOG_LOCATION
             FAN_LVL=$MAX_LVL
         fi
 
@@ -190,7 +190,7 @@ while true; do
         TIME_TEMP_A1="${TIME_TEMP_A1:1}"
 
         if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TIME_TEMP_A0" -gt "$LOG_THRESH" || "$TIME_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-            echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" TIME Temp0 "$TIME_TEMP_A0" degC Temp1 "$TIME_TEMP_A1" degC >> $LOG_LOCATION
+            echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" TIME Temp0 "$TIME_TEMP_A0" degC Temp1 "$TIME_TEMP_A1" degC >> $LOG_LOCATION
         fi
 
         #Increase fan level based on thresholds
@@ -229,7 +229,7 @@ if [[ $TEMP_READFLAG -eq 0 ]]; then
     DIG_TEMP2=$(bc <<<"scale=0;($DIG_TEMP2-$CONST1)/$CONST2")
 
     if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$DIG_TEMP0" -gt "$LOG_THRESH" || "$DIG_TEMP1" -gt "$LOG_THRESH" || "$DIG_TEMP2" -gt "$LOG_THRESH" ) ]]; then
-        echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" DIG Temp0 "$DIG_TEMP0" degC Temp1 "$DIG_TEMP1" degC Temp2 "$DIG_TEMP2" degC >> $LOG_LOCATION
+        echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" DIG Temp0 "$DIG_TEMP0" degC Temp1 "$DIG_TEMP1" degC Temp2 "$DIG_TEMP2" degC >> $LOG_LOCATION
     fi
 
     #Increase fan level based on thresholds
@@ -263,7 +263,7 @@ fi
     PWR_TEMP2=$(bc <<<"scale=0;($PWR_TEMP2-$CONST1)/$CONST2")
 
     if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$PWR_TEMP0" -gt "$LOG_THRESH" || "$PWR_TEMP1" -gt "$LOG_THRESH" || "$PWR_TEMP2" -gt "$LOG_THRESH" ) ]]; then
-        echo "$(date +%Y%m%dT%H%M.%N)" "$(basename "$0")" PWR Temp0 "$PWR_TEMP0" degC Temp1 "$PWR_TEMP1" degC Temp2 "$PWR_TEMP2" degC >> $LOG_LOCATION
+        echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" PWR Temp0 "$PWR_TEMP0" degC Temp1 "$PWR_TEMP1" degC Temp2 "$PWR_TEMP2" degC >> $LOG_LOCATION
     fi
 
     #Increase fan level based on thresholds
