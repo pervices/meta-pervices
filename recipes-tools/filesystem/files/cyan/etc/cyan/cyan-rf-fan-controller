@@ -19,7 +19,7 @@ LTC_HRD_MIN=50
 LTC_MIN=60
 LTC_MED=70
 LTC_MAX=80
-
+TEMP_READFLAG=0
 #Fan levels
 HRDMIN_LVL=0
 MIN_LVL=1
@@ -51,6 +51,8 @@ TIME_TEMP_PATH="$STATE_BASE/time/board/temp"
 NUM_TX_PATH="$STATE_BASE/system/num_tx"
 NUM_RX_PATH="$STATE_BASE/system/num_tx"
 
+RTM_VERSION="$STATE_BASE/fpga/about/imgparam/rtm"
+
 CHARS=( {a..z} )
 
 ########
@@ -77,6 +79,15 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
+
+RTM=$(cat $RTM_VERSION)
+
+if [[ $RTM == 6 ]]; then
+    TEMP_READFLAG=1
+	echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" CYAN RTM 6 DOES NOT SUPPORT DIG TEMPERATURE READINGS >> $LOG_LOCATION
+else
+	TEMP_READFLAG=0
+fi
 
 #Will be running in the background
 #checking the temperatures of the boards every 15s
@@ -207,6 +218,7 @@ while true; do
     fi
 
 #-----------------------------------------DIGITAL BOARD-----------------------------------------
+if [[ $TEMP_READFLAG -eq 0 ]]; then
     DIG_TEMP0=$(cat $DIG_LOC0)
     DIG_TEMP1=$(cat $DIG_LOC1)
     DIG_TEMP2=$(cat $DIG_LOC2)
@@ -239,7 +251,7 @@ while true; do
     else
         FAN_LVL=$MAX_LVL
     fi
-
+fi
 #-----------------------------------------POWER BOARD-----------------------------------------
     PWR_TEMP0=$(cat $PWR_LOC0)
     PWR_TEMP1=$(cat $PWR_LOC1)
