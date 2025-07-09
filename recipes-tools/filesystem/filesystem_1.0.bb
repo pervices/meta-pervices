@@ -52,7 +52,7 @@ SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/etc/cyan/startup \
                  file://cyan/usr/bin/button_press_off.sh \
                  file://cyan/usr/bin/execstop.sh \
-                 file://cyan/etc/cyan/cyan-rf-fan-controller \
+                 file://cyan/usr/bin/cyan-rf-fan-controller \
                  file://cyan/etc/cyan/fpga_fan_script \
                  file://cyan/usr/bin/dump_state_tree.sh \
                 "
@@ -76,7 +76,7 @@ SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
                     file://chestnut/etc/chestnut/startup \
                     file://chestnut/usr/bin/button_press_off.sh \
                     file://chestnut/usr/bin/execstop.sh \
-                    file://chestnut/etc/chestnut/chestnut-rf-fan-controller \
+                    file://chestnut/usr/bin/chestnut-rf-fan-controller \
                     file://chestnut/etc/chestnut/fpga_fan_script \
                     file://chestnut/usr/bin/dump_state_tree.sh \
                     "
