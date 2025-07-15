@@ -176,7 +176,7 @@ do_install_cyan() {
     install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/set_baud ${D}${sysconfdir}/cyan/
     install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/startup ${D}${sysconfdir}/cyan/
     install -m 0644 -D ${WORKDIR}/cyan/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
-	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/cyan-rf-fan-controller ${D}${sysconfdir}/cyan/
+	install -m 0744 -D ${WORKDIR}/cyan/usr/bin/cyan-rf-fan-controller ${D}${sysconfdir}/cyan/
 	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/fpga_fan_script ${D}${sysconfdir}/cyan/
 }
 
@@ -191,6 +191,6 @@ do_install_chestnut() {
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/set_baud ${D}${sysconfdir}/chestnut/
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/startup ${D}${sysconfdir}/chestnut/
     install -m 0644 -D ${WORKDIR}/chestnut/etc/udev/rules.d/* ${D}${sysconfdir}/udev/rules.d/
-	install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/chestnut-rf-fan-controller ${D}${sysconfdir}/chestnut/
+	install -m 0744 -D ${WORKDIR}/chestnut/usr/bin/chestnut-rf-fan-controller ${D}${sysconfdir}/chestnut/
 	install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/fpga_fan_script ${D}${sysconfdir}/chestnut/
 }
