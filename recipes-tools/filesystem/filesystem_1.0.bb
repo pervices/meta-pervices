@@ -55,6 +55,8 @@ SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/usr/bin/cyan-rf-fan-controller \
                  file://cyan/etc/cyan/fpga_fan_script \
                  file://cyan/usr/bin/dump_state_tree.sh \
+                 file://cyan/usr/bin/print-dig-pwr-pmbus-info.sh \
+                 file://cyan/usr/bin/print-psu-pmbus-info.sh \
                 "
 
 SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
@@ -79,6 +81,8 @@ SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
                     file://chestnut/usr/bin/chestnut-rf-fan-controller \
                     file://chestnut/etc/chestnut/fpga_fan_script \
                     file://chestnut/usr/bin/dump_state_tree.sh \
+                    file://chestnut/usr/bin/print-dig-pwr-pmbus-info.sh \
+                    file://chestnut/usr/bin/print-psu-pmbus-info.sh \
                     "
 
 PAM_PLUGINS = "libpam-runtime \
