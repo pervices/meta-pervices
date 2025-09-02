@@ -146,7 +146,7 @@ index 94b48a4..0000000
 -
 -SRC := rsu_client.c
 -
--CFLAGS := -I../include/
+-CFLAGS := -I../include/ -Wall -Wsign-compare -Wpedantic -Werror -Wfatal-errors
 -LDFLAGS := -L../lib/ -lrsu -lz
 -
 -all: rsu_client
@@ -180,7 +180,7 @@ index 0000000..23f0a1e
 +	librsu_image.c librsu_image.h librsu_ll.h librsu_ll_qspi.c librsu_misc.c librsu_misc.h librsu_qspi.h
 +librsu_la_CFLAGS = $(AM_CFLAGS)
 +librsu_la_LDFLAGS = $(LTLDFLAGS)
-+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib
++AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib -DLIBRSU_VER=0
 +LIBS = -lz
 diff --git a/lib/makefile b/lib/makefile
 deleted file mode 100644
@@ -197,7 +197,7 @@ index 6433558..0000000
 -
 -SRC := $(wildcard *.c)
 -
--CFLAGS := -I../include/ -fPIC -fPIE
+-CFLAGS := -I../include/ -fPIC -fPIE -Wall -Wsign-compare -Wpedantic -Werror -Wfatal-errors
 -CFLAGS += -fstack-protector-strong
 -CFLAGS += -O2 -D_FORTIFY_SOURCE=2
 -CFLAGS += -Wformat -Wformat-security
@@ -216,7 +216,7 @@ index 6433558..0000000
 -	$(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $(SRC:.c=.o)
 -
 -%.o : %.c
--	$(CROSS_COMPILE)gcc $(CFLAGS) -fPIC -c $< -o $@
+-	$(CROSS_COMPILE)gcc $(CFLAGS) -DLIBRSU_VER=$(LIBRSU_VER) -fPIC -c $< -o $@
 -
 -clean:
 -	rm -rf $(SRC:.c=.o) librsu.so
