@@ -11,11 +11,11 @@ PV = "1.0.0"
 
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://github.com/altera-opensource/intel-rsu.git;protocol=http;branch=master \
+SRC_URI = "git://github.com/altera-opensource/intel-rsu.git;protocol=http;branch=b1e2127ed3a0894a2b12dba01aed5fc5fb7f159b \
            file://0001-intel-rsu-implement-automake-for-intel-rsu-package.patch \
            file://qspi.sh \
            "
-SRCREV = "master"
+SRCREV = "b1e2127ed3a0894a2b12dba01aed5fc5fb7f159b"
 
 inherit autotools
 
