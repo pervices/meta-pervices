@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=mas
 SRCREV = "master"
 S = "${WORKDIR}/git"
 
-DEPENDS = "coreutils-native libbsd"
+DEPENDS = "coreutils-native libbsd gmp mpfr zlib libmikmod libjpeg-turbo"
 
 PROVIDES = "stress-ng"
 RPROVIDES_${PN} = "stress-ng"
