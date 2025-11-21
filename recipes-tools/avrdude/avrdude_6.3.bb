@@ -7,7 +7,7 @@ DEPENDS = "libusb1 libusb-compat libftdi elfutils readline ncurses"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
-SRC_URI = "http://download.savannah.gnu.org/releases/avrdude/avrdude-6.3.tar.gz \
+SRC_URI = "files://avrdude-6.3.tar.gz \
 	   file://fix-stdint.patch \ 
 	  "
 
