@@ -31,7 +31,7 @@ do_install_crimson() {
 	install -d -m 0755 ${D}${base_libdir}/firmware/
 	install -d ${DEPLOYDIR}
 
-	install -m 0644 -D ${WORKDIR}/fpga.rbf ${D}${base_libdir}/firmware/
+        install -m 0644 -D ${WORKDIR}/soc_system.rbf ${D}${base_libdir}/firmware/
 	install -m 0744 -D ${WORKDIR}/crimson-update.sh ${D}${base_libdir}/firmware/update.sh
 	install -m 0644 -D ${WORKDIR}/update.dtb ${D}${base_libdir}/firmware/
 
