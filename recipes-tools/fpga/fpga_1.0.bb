@@ -38,8 +38,8 @@ do_install_crimson() {
 	chown -R root ${D}${base_libdir}/firmware
 	chgrp -R 880 ${D}${base_libdir}/firmware
 	
-	ln -s fpga.rbf ${D}${base_libdir}/firmware/soc_system.rbf
-	cp ${D}${base_libdir}/firmware/fpga.rbf ${DEPLOYDIR}/soc_system.rbf
+	ln -s fpga.rbf ${D}${base_libdir}/firmware/soc_system_crimson.rbf
+	cp ${D}${base_libdir}/firmware/soc_system_crimson.rbf ${DEPLOYDIR}/soc_system.rbf
 }
 
 do_install_cyan() {
