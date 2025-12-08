@@ -39,7 +39,7 @@ do_install_crimson() {
 	chgrp -R 880 ${D}${base_libdir}/firmware
 	
 	ln -s soc_system_crimson.rbf ${D}${base_libdir}/firmware/soc_system.rbf
-	cp ${D}${base_libdir}/firmware/soc_system_crimson.rbf ${DEPLOYDIR}/soc_system.rbf
+	cp soc_system_crimson.rbf ${DEPLOYDIR}/soc_system.rbf
 }
 
 do_install_cyan() {
