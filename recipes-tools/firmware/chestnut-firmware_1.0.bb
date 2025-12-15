@@ -1,6 +1,6 @@
 require firmware.inc
 
-do_configure_append() {
+do_configure:append() {
 	./configure --prefix=/usr \
                     --host=arm-unknown-linux-gnueabihf \
                     CFLAGS="-Wall -O3 -pipe -fomit-frame-pointer -Wall -march=armv8-a -mtune=cortex-a53 -Werror -lm -pthread" \

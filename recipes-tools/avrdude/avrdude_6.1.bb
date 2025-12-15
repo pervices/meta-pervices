@@ -5,7 +5,7 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS = ""
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}${PV}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}${PV}:"
 
 SRC_URI = "http://download.savannah.gnu.org/releases/avrdude/avrdude-6.1.tar.gz \
 		file://fix-stdint.patch \ 

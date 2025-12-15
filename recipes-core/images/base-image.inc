@@ -4,11 +4,11 @@ IMAGE_FEATURES += "dev-pkgs \
                    tools-sdk \
                   "
 EXTRA_IMAGE_FEATURES += "package-management"
-TOOLCHAIN_HOST_TASK_append = " nativesdk-python-cheetah \
-                               nativesdk-python-netserver \
-                               nativesdk-python-pprint \
-                               nativesdk-python-pickle \
-                               nativesdk-python-shell \
+TOOLCHAIN_HOST_TASK:append = " nativesdk-python3-cheetah \
+                               nativesdk-python3-netserver \
+                               nativesdk-python3-pprint \
+                               nativesdk-python3-pickle \
+                               nativesdk-python3-shell \
                                nativesdk-orc nativesdk-swig \
                               "
 inherit core-image
@@ -49,7 +49,6 @@ IMAGE_INSTALL += "\
 	findutils \
 	flashrom \
 	fuse \
-	fpga-overlay \
 	g++ \
 	gawk \
 	gcc \
@@ -64,7 +63,6 @@ IMAGE_INSTALL += "\
 	i2c-tools \
 	init-ifupdown \
 	initscripts \
-	iperf \
 	iproute2 \
 	iptables \
 	iputils \
@@ -74,7 +72,6 @@ IMAGE_INSTALL += "\
 	libftdi \
 	libgcrypt \
         libnewt \
-	libpam \
 	libpcap \
 	libudev \
 	libusb1 \
@@ -107,9 +104,7 @@ IMAGE_INSTALL += "\
 	pciutils \
 	perl \
 	picocom \
-	polkit \
-	portmap \
-	python-core \
+	python3-core \
 	resolvconf \
 	rsu \
 	screen \
@@ -123,15 +118,12 @@ IMAGE_INSTALL += "\
 	stressapptest \
 	sudo \
 	sysfsutils \
-	systemd \
 	tar \
 	tcl \
 	tcpdump \
         tmux \
 	tzdata \
 	udev \
-	useradd \
-	useradd-client \
 	usbutils \
 	util-linux \
 	valgrind \
@@ -143,21 +135,15 @@ IMAGE_INSTALL += "\
 	zlib \
 	"
 
-IMAGE_INSTALL_append_cyan = " sequencer"
+IMAGE_INSTALL:append:cyan = " sequencer"
 
 ##
 # OPTIONAL
 ##
-CORE_IMAGE_EXTRA_INSTALL += "ntpdate \
-                             python-argparse \
-                             python-cheetah \
-                             python-modules \
+CORE_IMAGE_EXTRA_INSTALL += "sntp \
+                             python3-configargparse \
+                             python3-cheetah \
+                             python3-pyasn1-modules \
                             "
-
-EXTRA_USERS_PARAMS = "usermod -P root root; \
-                      usermod -s /bin/bash root; \
-                      usermod -a -G dev-grp0 dev0; \
-                      usermod -a -G cli-grp0 client; \
-                     "
 
 export IMAGE_BASENAME = "sdimage"

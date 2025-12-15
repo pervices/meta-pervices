@@ -1,8 +1,16 @@
+From 2cc6dc5fcfa0be604b5f1845d4eb60ae5dbd8584 Mon Sep 17 00:00:00 2001
 From: Rok Mandeljc <rok.mandeljc@gmail.com>
 Date: Mon, 14 Apr 2014 15:02:37 +0200
-Subject: [PATCH 1/1] Removed HAVE_STDINT guards in flip1.c and flip2.c since
- they cause errors under MinGW
+Subject: [PATCH] Removed HAVE_STDINT guards in flip1.c and flip2.c since
 
+ they cause errors under MinGW
+---
+ flip1.c | 5 -----
+ flip2.c | 5 -----
+ 2 files changed, 10 deletions(-)
+
+diff --git a/flip1.c b/flip1.c
+index 6d634ec..dfb5730 100644
 --- a/flip1.c
 +++ b/flip1.c
 @@ -29,12 +29,7 @@
@@ -16,9 +24,10 @@ Subject: [PATCH 1/1] Removed HAVE_STDINT guards in flip1.c and flip2.c since
 -#include <inttypes.h>
 -#endif
  
- #include "flip1.h"
- #include "dfu.h"
-
+ 
+ #include "avrdude.h"
+diff --git a/flip2.c b/flip2.c
+index aca455c..f8801fd 100644
 --- a/flip2.c
 +++ b/flip2.c
 @@ -26,12 +26,7 @@
@@ -32,8 +41,5 @@ Subject: [PATCH 1/1] Removed HAVE_STDINT guards in flip1.c and flip2.c since
 -#include <inttypes.h>
 -#endif
  
- #include "flip2.h"
- #include "dfu.h"
--- 
-1.9.0
-
+ #include "avrdude.h"
+ #include "libavrdude.h"

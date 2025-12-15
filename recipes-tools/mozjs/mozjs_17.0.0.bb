@@ -22,7 +22,7 @@ SRC_URI[sha256sum] = "321e964fe9386785d3bf80870640f2fa1c683e32fe988eeb201b04471c
 
 S = "${WORKDIR}/${BPN}${PV}/js/src"
 
-inherit autotools pkgconfig perlnative pythonnative
+inherit autotools pkgconfig perlnative python3native
 
 DEPENDS += "nspr zlib"
 
@@ -37,7 +37,7 @@ EXTRA_OECONF = " \
     --enable-threadsafe \
     --disable-static \
 "
-EXTRA_OECONF_append_armv4 += " \
+EXTRA_OECONF:append:armv4 = " \
     --disable-methodjit \
 "
 
@@ -60,8 +60,8 @@ do_unpack() {
 
 
 PACKAGES =+ "lib${PN}"
-FILES_lib${PN} += "${libdir}/lib*.so"
-FILES_${PN}-dev += "${bindir}/js17-config"
+FILES:lib${PN} += "${libdir}/lib*.so"
+FILES:${PN}-dev += "${bindir}/js17-config"
 
 # Fails to build with thumb-1 (qemuarm)
 #| {standard input}: Assembler messages:

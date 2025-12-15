@@ -1,5 +1,0 @@
-bridge enable;
-mw 0xFFD24800 0xFFFFFFFF;
-mw 0xFFD12044 0x12000001;
-mw 0xFFD12048 0x12000000;
-gpio set portb20

@@ -4,7 +4,7 @@ including the popular bitbang mode."
 HOMEPAGE = "http://www.intra2net.com/en/developer/libftdi/"
 SECTION = "libs"
 
-LICENSE = "LGPLv2.1 & GPLv2"
+LICENSE = "LGPL-2.1-only & GPL-2.0-only"
 LIC_FILES_CHKSUM= "\
     file://COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe \
     file://COPYING.LIB;md5=db979804f025cf55aabec7129cb671ed \
@@ -26,6 +26,6 @@ inherit cmake binconfig pkgconfig
 
 EXTRA_OECMAKE = "-DLIB_SUFFIX=${@d.getVar('baselib', True).replace('lib', '')}"
 
-FILES_${PN}-dev += "${libdir}/cmake"
+FILES:${PN}-dev += "${libdir}/cmake"
 
 BBCLASSEXTEND = "native"

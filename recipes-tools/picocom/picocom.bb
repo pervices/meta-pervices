@@ -1,6 +1,6 @@
 SUMMARY = "Lightweight and minimal (~20K) dumb-terminal emulation program"
 SECTION = "console/utils"
-LICENSE = "GPLv2+"
+LICENSE = "GPL-2.0-or-later"
 HOMEPAGE = "http://code.google.com/p/picocom/"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3000e4830620e310fe65c0eb69df9e8a"
 

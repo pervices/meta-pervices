@@ -3,11 +3,11 @@ AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
-DEPENDS = "libusb1 libusb-compat libftdi elfutils readline ncurses"
+DEPENDS = "libusb1 libusb-compat libftdi elfutils readline ncurses bison-native flex-native"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}-${PV}:"
 
-SRC_URI = "http://download.savannah.gnu.org/releases/avrdude/avrdude-6.3.tar.gz \
+SRC_URI = "file://avrdude-6.3.tar.gz \
 	   file://fix-stdint.patch \ 
 	  "
 

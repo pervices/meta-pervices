@@ -3,59 +3,66 @@ AUTHOR = "Shiqi Feng <shiqi.f@pervices.com>"
 SECTION = "common"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
-SRC_URI_crimson = "git://github.com/pervices/firmware.git;protocol=https;branch=master \
+SRC_URI:crimson = "git://github.com/pervices/firmware.git;protocol=https;branch=master \
                    file://crimson-server.service \
                   "
-SRC_URI_cyan = "git://github.com/pervices/firmware.git;protocol=https;branch=master \
+SRC_URI:cyan = "git://github.com/pervices/firmware.git;protocol=https;branch=master \
                 file://post.service \
                 file://cyan-server.service \
                "
-SRC_URI_chestnut =  "git://github.com/pervices/firmware.git;protocol=https;branch=master \
+SRC_URI:chestnut =  "git://github.com/pervices/firmware.git;protocol=https;branch=master \
                     file://post.service \
                     file://chestnut-server.service \
                     "
-SRCREV_crimson = "master"
-SRCREV_cyan = "master"
-SRCREV_chestnut = "master"
+SRCREV:crimson = "master"
+SRCREV:cyan = "master"
+SRCREV:chestnut = "master"
 
 S = "${WORKDIR}/git"
 
 inherit systemd
 inherit autotools
 
-INSANE_SKIP_${PN} = "ldflags"
+CFLAGS:append = " -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"
+CXXFLAGS:append = " -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"
+
+INSANE_SKIP:${PN} = "ldflags buildpaths debug-files staticdev"
+INSANE_SKIP:${PN}-src = "buildpaths debug-files staticdev"
+INSANE_SKIP:${PN}-dev = "buildpaths debug-files staticdev"
+INSANE_SKIP:${PN}-staticdev = "buildpaths debug-files staticdev"
+
 FILES_${PN} += "${bindir} ${systemd_unitdir}/system ${D}${prefix}/src/debug/${PN}/${PV}-${PR}/git "
 
-SYSTEMD_SERVICE_${PN}_crimson = "crimson-server.service"
-SYSTEMD_SERVICE_${PN}_cyan = "cyan-server.service post.service"
-SYSTEMD_SERVICE_${PN}_chestnut = "chestnut-server.service post.service"
+SYSTEMD_SERVICE_${PN}:crimson = "crimson-server.service"
+SYSTEMD_SERVICE_${PN}:cyan = "cyan-server.service post.service"
+SYSTEMD_SERVICE_${PN}:chestnut = "chestnut-server.service post.service"
 
-do_configure_cyan() {
+do_configure:cyan() {
         cd ${WORKDIR}/git
         ./autogen.sh clean
         ./autogen.sh 
 }
 
-do_configure_chestnut() {
+do_configure:chestnut() {
         cd ${WORKDIR}/git
         ./autogen.sh clean
         ./autogen.sh
 }
 
-do_configure_crimson() {
+do_configure:crimson() {
         cd ${WORKDIR}/git
         ./autogen.sh clean
-	./autogen.sh
+	    ./autogen.sh
         ./configure --prefix=/usr --host=arm-unknown-linux-gnueabihf
 }
 
-do_compile_crimson() {
+do_compile:crimson() {
 	cd ${WORKDIR}/git
 	make
 	make DESTDIR=${WORKDIR}/git/ install
 }
 
-do_compile_cyan() {
+do_compile:cyan() {
         cd ${WORKDIR}/git
         make
         ${CC} scripts/tate/memtool.c -o scripts/tate/memtool
@@ -63,7 +70,7 @@ do_compile_cyan() {
         git describe --always --dirty --long >> ${PN}
 }
 
-do_compile_chestnut() {
+do_compile:chestnut() {
         cd ${WORKDIR}/git
         make
         ${CC} scripts/tate/memtool.c -o scripts/tate/memtool
@@ -71,7 +78,7 @@ do_compile_chestnut() {
         git describe --always --dirty --long >> ${PN}
 }
 
-do_install_crimson() {
+do_install:crimson() {
 	install -d -m 0755 ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/server ${D}${bindir}
 	install -m 0755 -D ${WORKDIR}/git/mem ${D}${bindir}
@@ -82,7 +89,7 @@ do_install_crimson() {
         install -m 0644 -D ${WORKDIR}/crimson-server.service ${D}${systemd_unitdir}/system/
 }
 
-do_install_cyan() {
+do_install:cyan() {
         install -d -m 0755 ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/server ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/mem ${D}${bindir}
@@ -104,7 +111,7 @@ do_install_cyan() {
         install -m 0644 -D ${WORKDIR}/post.service ${D}${systemd_unitdir}/system/
 }
 
-do_install_chestnut() {
+do_install:chestnut() {
         install -d -m 0755 ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/server ${D}${bindir}
         install -m 0755 -D ${WORKDIR}/git/mem ${D}${bindir}
@@ -129,6 +136,6 @@ do_install_chestnut() {
         install -m 0644 -D ${WORKDIR}/post.service ${D}/etc/systemd/system/multi-user.target.wants/post.service
 }
 
-do_package_qa() {
+do_package:qa() {
 	echo "Success"
 }

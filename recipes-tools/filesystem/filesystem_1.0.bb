@@ -4,8 +4,8 @@ SECTION = "common"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM="file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 DEPENDS_${PN} = "bash"
-RDEPENDS_${PN} = "bash tcl"
-SRC_URI_prepend += "file://motd \
+RDEPENDS:${PN} = "bash tcl"
+SRC_URI:prepend += "file://motd \
                     file://udp_recvbuff.conf \
                     file://issue.net \
                     file://networking.service \
@@ -13,7 +13,7 @@ SRC_URI_prepend += "file://motd \
                     file://expand_parti_sd.sh \
                    "
 
-SRC_URI_crimson += "file://crimson/etc/udev/rules.d/99-local.rules \
+SRC_URI:crimson += "file://crimson/etc/udev/rules.d/99-local.rules \
                     file://crimson/lib/systemd/system/crimson-log.service \
                     file://crimson/lib/systemd/system/crimson-sensors.service \
                     file://crimson/lib/systemd/system/crimson-fanctl.service \
@@ -31,7 +31,7 @@ SRC_URI_crimson += "file://crimson/etc/udev/rules.d/99-local.rules \
                     file://crimson/lib/systemd/system/crimson-startup.service \
                     file://crimson/usr/bin/dump_state_tree.sh \
                    "
-SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
+SRC_URI:cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/lib/systemd/system/cyan-log.service \
                  file://cyan/lib/systemd/system/cyan-sensors.service \
                  file://cyan/lib/systemd/system/cyan-fanctl.service \
@@ -59,7 +59,7 @@ SRC_URI_cyan += "file://cyan/etc/udev/rules.d/99-local.rules \
                  file://cyan/usr/bin/print-psu-pmbus-info.sh \
                 "
 
-SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
+SRC_URI:chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
                     file://chestnut/lib/systemd/system/chestnut-log.service \
                     file://chestnut/lib/systemd/system/chestnut-sensors.service \
                     file://chestnut/lib/systemd/system/chestnut-fanctl.service \
@@ -85,7 +85,6 @@ SRC_URI_chestnut += "file://chestnut/etc/udev/rules.d/99-local.rules \
 
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-access \
-               pam-plugin-cracklib \
                pam-plugin-debug \
                pam-plugin-echo \
                pam-plugin-exec \
@@ -100,8 +99,6 @@ PAM_PLUGINS = "libpam-runtime \
                pam-plugin-rhosts \
                pam-plugin-stress \
                pam-plugin-succeed-if \
-               pam-plugin-tally \
-               pam-plugin-tally2 \
                pam-plugin-time \
                pam-plugin-timestamp \
                pam-plugin-umask \
@@ -110,9 +107,9 @@ PAM_PLUGINS = "libpam-runtime \
               "
 PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
-FILES_${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
-SYSTEMD_SERVICE_${PN}_crimson = "networking.service crimson-fanctl.service crimson-startup.service"
-SYSTEMD_SERVICE_${PN}_cyan =    "networking.service \
+FILES:${PN} += "${bindir} ${sysconfdir} ${systemd_unitdir}/system ${base_libdir}"
+SYSTEMD_SERVICE:${PN}:crimson = "networking.service crimson-fanctl.service crimson-startup.service"
+SYSTEMD_SERVICE:${PN}:cyan =    "networking.service \
                                 cyan-set-baud.service \
                                 cyan-fanctl.service \
                                 button-off.service \
@@ -120,7 +117,7 @@ SYSTEMD_SERVICE_${PN}_cyan =    "networking.service \
                                 cyan-rf-fan-controller.service \
                                 cyan-dig-fan.service \
                                 "
-SYSTEMD_SERVICE_${PN}_chestnut = "networking.service \
+SYSTEMD_SERVICE:${PN}:chestnut = "networking.service \
                                   chestnut-set-baud.service \
                                   chestnut-fanctl.service \
                                   button-off.service \
@@ -133,7 +130,7 @@ inherit systemd autotools
 do_compile() {
 }
 
-do_install_prepend() {
+do_install:prepend() {
     install -d -m 0755 ${D}${systemd_unitdir}/system/
     install -d -m 0755 ${D}${sysconfdir}/${MACHINE}/
     install -d -m 0755 ${D}${sysconfdir}/udev/rules.d/
@@ -148,7 +145,7 @@ do_install_prepend() {
     ln -s /usr/bin/arm-poky-linux-gnueabi-gcc ${D}${bindir}/arm-linux-gnueabihf-gcc
 }
 
-do_install_crimson() {
+do_install:crimson() {
     install -m 0755 -D ${WORKDIR}/crimson/usr/bin/*.sh ${D}${bindir}
     install -m 0644 -D ${WORKDIR}/crimson/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
     install -m 0744 -D ${WORKDIR}/crimson/etc/crimson/logging ${D}${sysconfdir}/crimson/
@@ -165,7 +162,7 @@ do_install_crimson() {
     install -m 0644 -D ${WORKDIR}/crimson/etc/sdr.conf ${D}${sysconfdir}/
 }
 
-do_install_cyan() {
+do_install:cyan() {
     install -m 0755 -D ${WORKDIR}/cyan/usr/bin/*.sh ${D}${bindir}
     install -m 0644 -D ${WORKDIR}/cyan/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
     install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/logging ${D}${sysconfdir}/cyan/
@@ -182,7 +179,7 @@ do_install_cyan() {
 	install -m 0744 -D ${WORKDIR}/cyan/etc/cyan/fpga_fan_script ${D}${sysconfdir}/cyan/
 }
 
-do_install_chestnut() {
+do_install:chestnut() {
     install -m 0755 -D ${WORKDIR}/chestnut/usr/bin/*.sh ${D}${bindir}
     install -m 0644 -D ${WORKDIR}/chestnut/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
     install -m 0744 -D ${WORKDIR}/chestnut/etc/chestnut/logging ${D}${sysconfdir}/chestnut/

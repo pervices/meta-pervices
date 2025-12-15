@@ -1,42 +1,31 @@
 SUMMARY = "Tools to change and administer password and group data"
-HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
-BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
+HOMEPAGE = "http://github.com/shadow-maint/shadow"
+DESCRIPTION = "${SUMMARY}"
+BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
 SECTION = "base/utils"
-LICENSE = "BSD | Artistic-1.0"
-LIC_FILES_CHKSUM = "file://COPYING;md5=ed80ff1c2b40843cf5768e5229cf16e5 \
-                    file://src/passwd.c;beginline=8;endline=30;md5=d83888ea14ae61951982d77125947661"
+LICENSE = "BSD-3-Clause"
+LIC_FILES_CHKSUM = "file://COPYING;md5=c9a450b7be84eac23e6353efecb60b5b \
+                    file://src/passwd.c;beginline=2;endline=7;md5=67bcf314687820b2f010d4863fce3fc5 \
+                    "
 
-DEPENDS = "shadow-native"
-DEPENDS_class-native = ""
-DEPENDS_class-nativesdk = ""
+DEPENDS = "virtual/crypt"
 
-SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
-           file://shadow-4.1.3-dots-in-usernames.patch \
-           file://usermod-fix-compilation-failure-with-subids-disabled.patch \
-           file://fix-installation-failure-with-subids-disabled.patch \
-           file://0001-su.c-fix-to-exec-command-correctly.patch \
-           file://0001-Do-not-read-login.defs-before-doing-chroot.patch \
-           file://check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch \
+GITHUB_BASE_URI = "https://github.com/shadow-maint/shadow/releases"
+SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+           file://0001-lib-copydir-copy_entry-use-temporary-stat-buffer.patch \
            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
+           file://useradd \
            "
 
-SRC_URI_append_class-target = " \
+SRC_URI:append:class-target = " \
            file://login_defs_pam.sed \
            file://shadow-update-pam-conf.patch \
            "
 
-SRC_URI_append_class-native = " \
-           file://disable-syslog.patch \
-           file://allow-for-setting-password-in-clear-text.patch \
+SRC_URI:append:class-native = " \
            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
-           file://0001-useradd.c-create-parent-directories-when-necessary.patch \
            "
-SRC_URI_append_class-nativesdk = " \
-           file://disable-syslog.patch \
-           "
-
-SRC_URI[md5sum] = "2bfafe7d4962682d31b5eba65dba4fc8"
-SRC_URI[sha256sum] = "3b0893d1476766868cd88920f4f1231c4795652aa407569faff802bcda0f3d41"
+SRC_URI[sha256sum] = "a305edf5d19bddbdf5e836d2d609fa8bff2d35458819de4d9f06306a1cf24342"
 
 # Additional Policy files for PAM
 PAM_SRC_URI = "file://pam.d/chfn \
@@ -47,21 +36,23 @@ PAM_SRC_URI = "file://pam.d/chfn \
                file://pam.d/passwd \
                file://pam.d/su"
 
-inherit autotools gettext
+inherit autotools gettext github-releases pkgconfig
 
-EXTRA_OECONF += "--without-audit \
-                 --without-libcrack \
-                 --without-selinux \
+export CONFIG_SHELL="/bin/sh"
+
+EXTRA_OECONF += "--without-libcrack \
                  --with-group-name-max-length=24 \
                  --enable-subordinate-ids=yes \
+                 --without-sssd \
                  ${NSCDOPT}"
 
+CFLAGS:append:libc-musl = " -DLIBBSD_OVERLAY"
+
 NSCDOPT = ""
-NSCDOPT_class-native = "--without-nscd"
-NSCDOPT_class-nativesdk = "--without-nscd"
-NSCDOPT_libc-uclibc = " --without-nscd"
-NSCDOPT_libc-glibc = "${@bb.utils.contains('DISTRO_FEATURES', 'libc-spawn', '--with-nscd', '--without-nscd', d)}"
-          
+NSCDOPT:class-native = "--without-nscd"
+NSCDOPT:class-nativesdk = "--without-nscd"
+NSCDOPT:libc-glibc = "--with-nscd"
+
 PAM_PLUGINS = "libpam-runtime \
                pam-plugin-faildelay \
                pam-plugin-securetty \
@@ -69,23 +60,28 @@ PAM_PLUGINS = "libpam-runtime \
                pam-plugin-env \
                pam-plugin-group \
                pam-plugin-limits \
-               pam-plugin-lastlog \
                pam-plugin-motd \
                pam-plugin-mail \
                pam-plugin-shells \
                pam-plugin-rootok"
 
-PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
-PACKAGECONFIG_class-native = ""
-PACKAGECONFIG_class-nativesdk = ""
+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)}"
+PACKAGECONFIG:class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)} libbsd"
+PACKAGECONFIG:class-nativesdk = ""
 PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
 PACKAGECONFIG[attr] = "--with-attr,--without-attr,attr"
 PACKAGECONFIG[acl] = "--with-acl,--without-acl,acl"
+PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit"
+PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux libsemanage"
+PACKAGECONFIG[libbsd] = "--with-libbsd,--without-libbsd,libbsd"
+PACKAGECONFIG[logind] = "--enable-logind,--disable-logind,systemd"
 
-RDEPENDS_${PN} = "shadow-securetty \
-                  base-passwd"
-RDEPENDS_${PN}_class-native = ""
-RDEPENDS_${PN}_class-nativesdk = ""
+RDEPENDS:${PN} = "shadow-securetty \
+                  base-passwd \
+                  util-linux-sulogin"
+RDEPENDS:${PN}:class-native = ""
+RDEPENDS:${PN}:class-nativesdk = ""
 
 do_install() {
 	oe_runmake DESTDIR="${D}" sbindir="${base_sbindir}" usbindir="${sbindir}" install
@@ -107,22 +103,23 @@ do_install() {
 	# Disable checking emails.
 	sed -i 's/MAIL_CHECK_ENAB/#MAIL_CHECK_ENAB/g' ${D}${sysconfdir}/login.defs
 
+	# Comment out SU_NAME to work correctly with busybox
+	# See Bug#5359 and Bug#7173
+	sed -i 's:^SU_NAME:#SU_NAME:g' ${D}${sysconfdir}/login.defs
+
 	# Use proper encryption for passwords
 	sed -i 's/^#ENCRYPT_METHOD.*$/ENCRYPT_METHOD SHA512/' ${D}${sysconfdir}/login.defs
 
-	# Now we don't have a mail system. Disable mail creation for now.
-	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
-	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
-
-	# Use users group by default
-	sed -i 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
+	install -d ${D}${sysconfdir}/default
+	install -m 0644 ${WORKDIR}/useradd ${D}${sysconfdir}/default
 }
 
-do_install_append() {
+do_install:append() {
 	# Ensure that the image has as a /var/spool/mail dir so shadow can
 	# put mailboxes there if the user reconfigures shadow to its
 	# defaults (see sed below).
-	install -d ${D}${localstatedir}/spool/mail
+	install -m 0775 -d ${D}${localstatedir}/spool/mail
+	chown root:mail ${D}${localstatedir}/spool/mail
 
 	if [ -e ${WORKDIR}/pam.d ]; then
 		install -d ${D}${sysconfdir}/pam.d/
@@ -131,7 +128,7 @@ do_install_append() {
 		sed -i -f ${WORKDIR}/login_defs_pam.sed ${D}${sysconfdir}/login.defs
 	fi
 
-	install -d ${D}${sbindir} ${D}${base_sbindir} ${D}${base_bindir} 
+	install -d ${D}${sbindir} ${D}${base_sbindir} ${D}${base_bindir}
 
 	# Move binaries to the locations we want
 	rm ${D}${sbindir}/vigr
@@ -147,24 +144,61 @@ do_install_append() {
 	# Handle link properly after rename, otherwise missing files would
 	# lead rpm failed dependencies.
 	ln -sf newgrp.${BPN} ${D}${bindir}/sg
+
+	# usermod requires the subuid/subgid files to be in place before being
+	# able to use the -v/-V flags otherwise it fails:
+	# usermod: /etc/subuid does not exist, you cannot use the flags -v or -V
+	install -d ${D}${sysconfdir}
+	touch ${D}${sysconfdir}/subuid
+	touch ${D}${sysconfdir}/subgid
 }
+
+# Make executables look for dynamically linked libraries in a custom location, and install
+# the needed libraries there. That way we can use them from sstate
+# in setscene tasks without worrying about the dependency libraries being available.
+do_install:append:class-native() {
+        binaries=$(find ${D}${base_bindir}/ ${D}${base_sbindir}/ ${D}${bindir}/ ${D}${sbindir}/ -executable -type f)
+        chrpath -k -r ${STAGING_DIR_NATIVE}/lib-shadow-deps $binaries
+        mkdir -p ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+        libattr=${@bb.utils.contains('DISTRO_FEATURES', 'xattr', "${STAGING_LIBDIR_NATIVE}/libattr.so.*", '', d)}
+        install $libattr ${STAGING_LIBDIR_NATIVE}/libbsd.so.* ${STAGING_LIBDIR_NATIVE}/libmd.so.* ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+        install ${D}${libdir}/*.so.* ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+}
+
+SYSROOT_DIRS:append:class-native = " ${STAGING_DIR_NATIVE}/lib-shadow-deps/"
+INSANE_SKIP:${PN}:class-native = "already-stripped"
+
+PACKAGES =+ "${PN}-base"
+FILES:${PN}-base = "\
+    ${base_bindir}/login.shadow \
+    ${base_bindir}/su.shadow \
+    ${bindir}/sg \
+    ${bindir}/newgrp.shadow \
+    ${bindir}/groups.shadow \
+    ${sysconfdir}/pam.d/login \
+    ${sysconfdir}/pam.d/su \
+    ${sysconfdir}/login.defs \
+"
+RDEPENDS:${PN} += "${PN}-base"
 
 inherit update-alternatives
 
 ALTERNATIVE_PRIORITY = "200"
 
-ALTERNATIVE_${PN} = "passwd chfn newgrp chsh groups chpasswd login vipw vigr su"
+ALTERNATIVE:${PN} = "passwd chfn chsh chpasswd vipw vigr nologin"
+ALTERNATIVE_LINK_NAME[chfn] = "${bindir}/chfn"
+ALTERNATIVE_LINK_NAME[chsh] = "${bindir}/chsh"
 ALTERNATIVE_LINK_NAME[chpasswd] = "${sbindir}/chpasswd"
-ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
 ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
 ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
+ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
+
+ALTERNATIVE:${PN}-base = "newgrp groups login su"
+ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
 ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
 
-ALTERNATIVE_${PN}-doc = "passwd.5 getspnam.3"
-ALTERNATIVE_LINK_NAME[passwd.5] = "${mandir}/man5/passwd.5"
-ALTERNATIVE_LINK_NAME[getspnam.3] = "${mandir}/man3/getspnam.3"
-
-pkg_postinst_${PN} () {
+PACKAGE_WRITE_DEPS += "shadow-native"
+pkg_postinst:${PN}:class-target () {
 	if [ "x$D" != "x" ]; then
 	  rootarg="--root $D"
 	else

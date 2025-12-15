@@ -1,4 +1,4 @@
-do_install_append() {
+do_install:append() {
 	sed -i 's:d root root 0755 /var/volatile/log none:#d root root 0755 /var/volatile/log none:g' ${D}${sysconfdir}/default/volatiles/00_core
 	sed -i 's:d root root 1777 /var/volatile/tmp none:#d root root 1777 /var/volatile/tmp none:g' ${D}${sysconfdir}/default/volatiles/00_core
 	sed -i 's:l root root 0755 /var/log /var/volatile/log:#l root root 0755 /var/log /var/volatile/log:g' ${D}${sysconfdir}/default/volatiles/00_core
