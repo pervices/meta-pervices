@@ -55,6 +55,10 @@ RTM_VERSION="$STATE_BASE/fpga/about/imgparam/rtm"
 
 CHARS=( {a..z} )
 
+# Debug mode to output temp and fan speed
+DEBUG=0
+# Track previous fan level to see if it changed
+PREV_FAN_LVL=0
 ########
 # Main Program
 ########
@@ -75,6 +79,11 @@ while [ $# -gt 0 ]; do
             echo "Temperature log threshold must be an integer above 0"
             exit 1
         fi
+        ;;
+    -d | --debug)
+        # Debug mode will output fan speed and all read temperatures to stdout, or journalctl when run as a service
+        DEBUG=1
+        echo "DEBUG MODE ENABLED"
         ;;
     esac
     shift
@@ -125,8 +134,14 @@ while true; do
                 RX_TEMP_A1=${rx_temp_arr[1]//[^0-9]/}
                 RX_TEMP_A1="${RX_TEMP_A1:1}"    # This is the LTC5586 temp, so use different thresholds
 
+                # Log the temperature if info flag was set or temperature is beyond the logging threshold
+                RX_TEMP_OUTPUT=RX_"${CHARS[$i]} Temp0 $RX_TEMP_A0 degC Temp1 $RX_TEMP_A1 degC"
                 if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$RX_TEMP_A0" -gt "$LOG_THRESH" || "$RX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-                    echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" RX_"${CHARS[$i]}" Temp0 "$RX_TEMP_A0" degC Temp1 "$RX_TEMP_A1" degC >> $LOG_LOCATION
+                    echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" $RX_TEMP_OUTPUT >> $LOG_LOCATION
+                fi
+                # If debug is enabled, always print the temperature to stdout
+                if [[ "$DEBUG" -eq 1 ]]; then
+                    echo $RX_TEMP_OUTPUT
                 fi
 
                 #Increase fan level based on thresholds
@@ -159,8 +174,14 @@ while true; do
                 TX_TEMP_A1=${tx_temp_arr[1]//[^0-9]/}
                 TX_TEMP_A1="${TX_TEMP_A1:1}"
 
+                # Log the temperature if info flag was set or temperature is beyond the logging threshold
+                TX_TEMP_OUTPUT="TX_${CHARS[$i]} Temp0 $TX_TEMP_A0 degC Temp1 $TX_TEMP_A1 degC"
                 if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TX_TEMP_A0" -gt "$LOG_THRESH" || "$TX_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-                    echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" TX_"${CHARS[$i]}" Temp0 "$TX_TEMP_A0" degC Temp1 "$TX_TEMP_A1" degC >> $LOG_LOCATION
+                    echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" $TX_TEMP_OUTPUT >> $LOG_LOCATION
+                fi
+                # If debug is enabled, always print the temperature to stdout
+                if [[ "$DEBUG" -eq 1 ]]; then
+                    echo $TX_TEMP_OUTPUT
                 fi
 
                 #Increase fan level based on thresholds
@@ -200,8 +221,14 @@ while true; do
         TIME_TEMP_A1=${time_temp_arr[1]//[^0-9]/}
         TIME_TEMP_A1="${TIME_TEMP_A1:1}"
 
+        # Log the temperature if info flag was set or temperature is beyond the logging threshold
+        TIME_TEMP_OUTPUT="TIME Temp0 $TIME_TEMP_A0 degC Temp1 $TIME_TEMP_A1 degC"
         if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$TIME_TEMP_A0" -gt "$LOG_THRESH" || "$TIME_TEMP_A1" -gt "$LOG_THRESH" ) ]]; then
-            echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" TIME Temp0 "$TIME_TEMP_A0" degC Temp1 "$TIME_TEMP_A1" degC >> $LOG_LOCATION
+            echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" $TIME_TEMP_OUTPUT >> $LOG_LOCATION
+        fi
+        # If debug is enabled, always print the temperature to stdout
+        if [[ "$DEBUG" -eq 1 ]]; then
+            echo $TIME_TEMP_OUTPUT
         fi
 
         #Increase fan level based on thresholds
@@ -239,8 +266,14 @@ while true; do
         DIG_TEMP1=$(bc <<<"scale=0;($DIG_TEMP1-$CONST1)/$CONST2")
         DIG_TEMP2=$(bc <<<"scale=0;($DIG_TEMP2-$CONST1)/$CONST2")
 
+        # Log the temperature if info flag was set or temperature is beyond the logging threshold
+        DIG_TEMP_OUTPUT="DIG Temp0 $DIG_TEMP0 degC Temp1 $DIG_TEMP1 degC Temp2 $DIG_TEMP2 degC"
         if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$DIG_TEMP0" -gt "$LOG_THRESH" || "$DIG_TEMP1" -gt "$LOG_THRESH" || "$DIG_TEMP2" -gt "$LOG_THRESH" ) ]]; then
-           echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" DIG Temp0 "$DIG_TEMP0" degC Temp1 "$DIG_TEMP1" degC Temp2 "$DIG_TEMP2" degC >> $LOG_LOCATION 
+            echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" $DIG_TEMP_OUTPUT >> $LOG_LOCATION
+        fi
+        # If debug is enabled, always print the temperature to stdout
+        if [[ "$DEBUG" -eq 1 ]]; then
+            echo $DIG_TEMP_OUTPUT
         fi
 
         #Increase fan level based on thresholds
@@ -273,8 +306,14 @@ while true; do
     PWR_TEMP1=$(bc <<<"scale=0;($PWR_TEMP1-$CONST1)/$CONST2")
     PWR_TEMP2=$(bc <<<"scale=0;($PWR_TEMP2-$CONST1)/$CONST2")
 
+    # Log the temperature if info flag was set or temperature is beyond the logging threshold
+    PWR_TEMP_OUTPUT="PWR Temp0 $PWR_TEMP0 degC Temp1 $PWR_TEMP1 degC Temp2 $PWR_TEMP2 degC"
     if [[ "$INFO" -eq 1 ]] || [[ "$LOG" -eq 1 && ( "$PWR_TEMP0" -gt "$LOG_THRESH" || "$PWR_TEMP1" -gt "$LOG_THRESH" || "$PWR_TEMP2" -gt "$LOG_THRESH" ) ]]; then
-        echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" PWR Temp0 "$PWR_TEMP0" degC Temp1 "$PWR_TEMP1" degC Temp2 "$PWR_TEMP2" degC >> $LOG_LOCATION
+        echo "$(date +%Y%m%dT%H%M%S.%N)" "$(basename "$0")" $PWR_TEMP_OUTPUT >> $LOG_LOCATION
+    fi
+    # If debug is enabled, always print the temperature to stdout
+    if [[ "$DEBUG" -eq 1 ]]; then
+        echo $PWR_TEMP_OUTPUT
     fi
 
     #Increase fan level based on thresholds
@@ -297,6 +336,11 @@ while true; do
         FAN_LVL=$MAX_LVL
     fi
 
+    # If fan level has changed and debug is enabled, print new level
+    if [[ "$DEBUG" -eq 1 && "$FAN_LVL" -ne $PREV_FAN_LVL ]]; then
+        echo "FAN LEVEL: $FAN_LVL"
+    fi
+    PREV_FAN_LVL=$FAN_LVL
     #-----------------------------------------FAN CONTROL-----------------------------------------
     case $FAN_LVL in
         4)
