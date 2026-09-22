@@ -1,0 +1,299 @@
+Index: git/arch/arm/dts/socfpga_stratix10.dtsi
+===================================================================
+--- git.orig/arch/arm/dts/socfpga_stratix10.dtsi
++++ git/arch/arm/dts/socfpga_stratix10.dtsi
+@@ -96,7 +96,24 @@
+ 			resets = <&rst EMAC0_RESET>, <&rst EMAC0_OCP_RESET>;
+ 			reset-names = "stmmaceth";
+ 			altr,sysmgr-syscon = <&sysmgr 0x44 0>;
+-			status = "disabled";
++			phy-mode = "rgmii";
++			phy-addr = <0xffffffff>; /* probe for phy addr */
++			max-speed = <1000>;
++
++			txd0-skew-ps = <0>; /* -420ps */
++			txd1-skew-ps = <0>; /* -420ps */
++			txd2-skew-ps = <0>; /* -420ps */
++			txd3-skew-ps = <0>; /* -420ps */
++			txen-skew-ps = <0>; /* -420ps */
++			txc-skew-ps = <900>; /* 0ps */
++
++			rxd0-skew-ps = <420>; /* 0ps */
++			rxd1-skew-ps = <420>; /* 0ps */
++			rxd2-skew-ps = <420>; /* 0ps */
++			rxd3-skew-ps = <420>; /* 0ps */
++			rxdv-skew-ps = <420>; /* 0ps */
++			rxc-skew-ps = <1680>; /* 780ps */
++			status = "okay";
+ 		};
+ 
+ 		gmac1: ethernet@ff802000 {
+@@ -108,6 +125,23 @@
+ 			resets = <&rst EMAC1_RESET>, <&rst EMAC1_OCP_RESET>;
+ 			reset-names = "stmmaceth";
+ 			altr,sysmgr-syscon = <&sysmgr 0x48 0>;
++			phy-mode = "rgmii";
++			phy-addr = <0xffffffff>; /* probe for phy addr */
++			max-speed = <1000>;
++
++			txd0-skew-ps = <0>; /* -420ps */
++			txd1-skew-ps = <0>; /* -420ps */
++			txd2-skew-ps = <0>; /* -420ps */
++			txd3-skew-ps = <0>; /* -420ps */
++			txen-skew-ps = <0>; /* -420ps */
++			txc-skew-ps = <1860>; /* 960ps */
++
++			rxd0-skew-ps = <0>; /* -420ps */
++			rxd1-skew-ps = <0>; /* -420ps */
++			rxd2-skew-ps = <0>; /* -420ps */
++			rxd3-skew-ps = <0>; /* -420ps */
++			rxdv-skew-ps = <0>; /* -420ps */
++			rxc-skew-ps = <1860>; /* 960ps */
+ 			status = "disabled";
+ 		};
+ 
+@@ -129,7 +163,7 @@
+ 			compatible = "snps,dw-apb-gpio";
+ 			reg = <0xffc03200 0x100>;
+ 			resets = <&rst GPIO0_RESET>;
+-			status = "disabled";
++			status = "okay";
+ 
+ 			porta: gpio-controller@0 {
+ 				compatible = "snps,dw-apb-gpio-port";
+@@ -150,7 +184,7 @@
+ 			compatible = "snps,dw-apb-gpio";
+ 			reg = <0xffc03300 0x100>;
+ 			resets = <&rst GPIO1_RESET>;
+-			status = "disabled";
++			status = "okay";
+ 
+ 			portb: gpio-controller@0 {
+ 				compatible = "snps,dw-apb-gpio-port";
+@@ -195,7 +229,7 @@
+ 			interrupts = <0 105 4>;
+ 			resets = <&rst I2C2_RESET>;
+ 			reset-names = "i2c";
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		i2c3: i2c@ffc02b00 {
+@@ -259,7 +293,13 @@
+ 			cdns,fifo-depth = <128>;
+ 			cdns,fifo-width = <4>;
+ 			cdns,trigger-address = <0x00000000>;
+-			status = "disabled";
++			sram-size = <1024>;
++			bus-num = <0>;
++			spi-max-frequency = <50000000>;
++			spi-tx-bus-width = <1>;
++			spi-rx-bus-width = <4>;
++			bootph-all;
++			status = "okay";
+ 		};
+ 
+ 		rst: rstmgr@ffd11000 {
+@@ -290,7 +330,7 @@
+ 			reg-io-width = <4>;
+ 			num-chipselect = <4>;
+ 			bus-num = <0>;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		spi1: spi@ffda5000 {
+@@ -354,7 +394,7 @@
+ 			resets = <&rst UART0_RESET>;
+ 			clock-frequency = <100000000>;
+ 			bootph-all;
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		uart1: serial1@ffc02100 {
+@@ -381,7 +421,7 @@
+ 			phy-names = "usb2-phy";
+ 			resets = <&rst USB0_RESET>, <&rst USB0_OCP_RESET>;
+ 			reset-names = "dwc2", "dwc2-ecc";
+-			status = "disabled";
++			status = "okay";
+ 		};
+ 
+ 		usb1: usb@ffb40000 {
+Index: git/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
+===================================================================
+--- git.orig/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
++++ git/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
+@@ -10,7 +10,7 @@
+ /{
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+-		u-boot,spl-boot-order = &mmc,&flash0,&nand;
++		u-boot,spl-boot-order = &mmc;
+ 	};
+ 
+ 	aliases {
+@@ -32,7 +32,7 @@
+ };
+ 
+ &nand {
+-	status = "okay";
++	status = "disabled";
+ 	nand-bus-width = <16>;
+ 	bootph-all;
+ };
+@@ -42,15 +42,6 @@
+ 	bootph-all;
+ };
+ 
+-&flash0 {
+-	compatible = "jedec,spi-nor";
+-	spi-max-frequency = <100000000>;
+-	spi-tx-bus-width = <4>;
+-	spi-rx-bus-width = <4>;
+-	bootph-all;
+-	/delete-property/ cdns,read-delay;
+-};
+-
+ &sysmgr {
+ 	bootph-all;
+ };
+Index: git/arch/arm/dts/socfpga_stratix10_socdk.dts
+===================================================================
+--- git.orig/arch/arm/dts/socfpga_stratix10_socdk.dts
++++ git/arch/arm/dts/socfpga_stratix10_socdk.dts
+@@ -10,74 +10,40 @@
+ 
+ 	aliases {
+ 		ethernet0 = &gmac0;
++		i2c = &i2c2;
+ 		i2c0 = &i2c1;
++		spi1 = &spi0;
++		spi2 = &spi1;
+ 		serial0 = &uart0;
+ 	};
+ 
+-	leds {
+-		compatible = "gpio-leds";
+-		hps0 {
+-			label = "hps_led0";
+-			gpios = <&portb 20 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		hps1 {
+-			label = "hps_led1";
+-			gpios = <&portb 19 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		hps2 {
+-			label = "hps_led2";
+-			gpios = <&portb 21 GPIO_ACTIVE_HIGH>;
+-		};
+-	};
+-
+ 	memory {
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+ 		device_type = "memory";
+-		/* 4GB */
+-		reg = <0 0x00000000 0 0x80000000>,
+-		      <1 0x80000000 0 0x80000000>;
++		/* 1GB */
++		reg = <0 0x00000000 0 0x40000000>;
+ 		bootph-all;
+ 	};
+ };
+ 
++&gpio0 {
++	status = "okay";
++};
++
+ &gpio1 {
+ 	status = "okay";
+ };
+ 
+ &gmac0 {
+ 	status = "okay";
+-	phy-mode = "rgmii";
+-	phy-handle = <&phy0>;
+-
+-	max-frame-size = <3800>;
++};
+ 
+-	mdio0 {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		compatible = "snps,dwmac-mdio";
+-		phy0: ethernet-phy@0 {
+-			reg = <4>;
+-
+-			txd0-skew-ps = <0>; /* -420ps */
+-			txd1-skew-ps = <0>; /* -420ps */
+-			txd2-skew-ps = <0>; /* -420ps */
+-			txd3-skew-ps = <0>; /* -420ps */
+-			rxd0-skew-ps = <420>; /* 0ps */
+-			rxd1-skew-ps = <420>; /* 0ps */
+-			rxd2-skew-ps = <420>; /* 0ps */
+-			rxd3-skew-ps = <420>; /* 0ps */
+-			txen-skew-ps = <0>; /* -420ps */
+-			txc-skew-ps = <900>; /* 0ps */
+-			rxdv-skew-ps = <420>; /* 0ps */
+-			rxc-skew-ps = <1680>; /* 780ps */
+-		};
+-	};
++&gmac1 {
++	status = "disabled";
+ };
+ 
+-&i2c1 {
++&i2c2 {
+ 	status = "okay";
+ };
+ 
+@@ -86,18 +52,19 @@
+ 	cap-sd-highspeed;
+ 	cap-mmc-highspeed;
+ 	broken-cd;
++	num-slots = <1>;
+ 	bus-width = <4>;
+ 	drvsel = <3>;
+ 	smplsel = <2>;
+ };
+ 
+ &qspi {
+-	flash0: flash@0 {
++	flash0: mt25qu01g@0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+-		compatible = "n25q00a";
++		compatible = "micron,mt25qu01g","spi-flash";
+ 		reg = <0>;
+-		spi-max-frequency = <50000000>;
++		spi-max-frequency = <25000000>;
+ 
+ 		m25p,fast-read;
+ 		cdns,page-size = <256>;
+@@ -115,17 +82,16 @@
+ 
+ 			qspi_boot: partition@0 {
+ 				label = "u-boot";
+-				reg = <0x0 0x04200000>;
+-			};
+-
+-			root: partition@4200000 {
+-				label = "root";
+-				reg = <0x04200000 0x0BE00000>;
++				reg = <0x0 0x04000000>;
+ 			};
+ 		};
+ 	};
+ };
+ 
++&spi0 {
++	status = "okay";
++};
++
+ &uart0 {
+ 	status = "okay";
+ };

@@ -1,0 +1,298 @@
+Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+===================================================================
+--- kernel-source.orig/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
++++ kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+@@ -20,24 +20,6 @@
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+-	leds {
+-		compatible = "gpio-leds";
+-		led-hps0 {
+-			label = "hps_led0";
+-			gpios = <&portb 20 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		led-hps1 {
+-			label = "hps_led1";
+-			gpios = <&portb 19 GPIO_ACTIVE_HIGH>;
+-		};
+-
+-		led-hps2 {
+-			label = "hps_led2";
+-			gpios = <&portb 21 GPIO_ACTIVE_HIGH>;
+-		};
+-	};
+-
+ 	memory@80000000 {
+ 		device_type = "memory";
+ 		/* We expect the bootloader to fill in the reg */
+@@ -81,6 +63,10 @@
+ 	};
+ };
+ 
++&gpio0 {
++	status = "okay";
++};
++
+ &gpio1 {
+ 	status = "okay";
+ };
+@@ -99,18 +85,24 @@
+ 		phy0: ethernet-phy@0 {
+ 			reg = <4>;
+ 
+-			txd0-skew-ps = <0>; /* -420ps */
+-			txd1-skew-ps = <0>; /* -420ps */
+-			txd2-skew-ps = <0>; /* -420ps */
+-			txd3-skew-ps = <0>; /* -420ps */
+-			rxd0-skew-ps = <420>; /* 0ps */
+-			rxd1-skew-ps = <420>; /* 0ps */
+-			rxd2-skew-ps = <420>; /* 0ps */
+-			rxd3-skew-ps = <420>; /* 0ps */
+-			txen-skew-ps = <0>; /* -420ps */
+-			txc-skew-ps = <900>; /* 0ps */
+-			rxdv-skew-ps = <420>; /* 0ps */
+-			rxc-skew-ps = <1680>; /* 780ps */
++			/*
++			 * All skews are offset since hardware skew values for the ksz9031
++			 * range from a negative skew to a positive skew.
++			 * See the micrel-ksz90x1.txt Documentation file for details.
++			 */
++			 txd0-skew-ps = <0>; /* -420ps */
++			 txd1-skew-ps = <0>; /* -420ps */
++			 txd2-skew-ps = <0>; /* -420ps */
++			 txd3-skew-ps = <0>; /* -420ps */
++			 txen-skew-ps = <0>; /* -420ps */
++			 txc-skew-ps  = <1860>; /* 960ps */
++
++			 rxd0-skew-ps = <720>; /*  300ps */
++			 rxd1-skew-ps = <720>; /*  300ps */
++			 rxd2-skew-ps = <720>; /*  300ps */
++			 rxd3-skew-ps = <720>; /*  300ps */
++			 rxdv-skew-ps = <720>; /*  300ps */
++			 rxc-skew-ps  = <0>;   /* -900ps */
+ 		};
+ 	};
+ };
+@@ -125,18 +117,27 @@
+ };
+ 
+ &osc1 {
+-	clock-frequency = <25000000>;
++	clock-frequency = <125000000>;
+ };
+ 
+ &uart0 {
+ 	status = "okay";
+ };
+ 
++&uart1 {
++	status = "disabled";
++};
++
+ &usb0 {
+ 	status = "okay";
+ 	disable-over-current;
+ };
+ 
++&usb1 {
++	status = "disabled";
++	disable-over-current;
++};
++
+ &watchdog0 {
+ 	status = "okay";
+ };
+@@ -144,37 +145,142 @@
+ &i2c1 {
+ 	status = "okay";
+ 	clock-frequency = <100000>;
+-	i2c-sda-falling-time-ns = <890>;  /* hcnt */
+-	i2c-scl-falling-time-ns = <890>;  /* lcnt */
++	i2c-sda-hold-time-ns = <100>;
++	i2c-sda-falling-time-ns = <300>;  /* hcnt */
++	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
++
++	bp_pwr@74 {
++		compatible = "nxp,pca9539";
++		reg = <0x74>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
++	bp_bg@75 {
++		compatible = "nxp,pca9539";
++		reg = <0x75>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
++	bp_gle@76 {
++		compatible = "nxp,pca9539";
++		reg = <0x76>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
++	/*eeprom0@50 {
++		compatible = "atmel,24c08";
++		reg = <0x50>;
++		pagesize = <0x10>;
++		address-width = <0x8>;
++	};*/
+ 
+-	pinctrl-names = "default", "gpio";
+-	pinctrl-0 = <&i2c1_pmx_func>;
+-	pinctrl-1 = <&i2c1_pmx_func_gpio>;
+-
+-	scl-gpios = <&portb 6 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+-	sda-gpios = <&portb 7 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
++};
+ 
+-	adc@14 {
+-		compatible = "lltc,ltc2497";
+-		reg = <0x14>;
+-		vref-supply = <&ref_033v>;
++&i2c3 {
++	status = "okay";
++	clock-frequency = <100000>;
++	i2c-sda-hold-time-ns = <100>;
++	i2c-sda-falling-time-ns = <300>;  /* hcnt */
++	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
++
++	dig_pca@74 {
++		compatible = "nxp,pca9539";
++		reg = <0x74>;
++		gpio-controller;
++		#gpio-cells = <2>;
+ 	};
+ 
+-	temp@4c {
+-		compatible = "maxim,max1619";
+-		reg = <0x4c>;
++	rtc@68 {
++		compatible = "dallas,ds1308";
++		reg = <0x68>;
+ 	};
+ 
+-	eeprom@51 {
+-		compatible = "atmel,24c32";
+-		reg = <0x51>;
+-		pagesize = <32>;
++	ads1015@4b {
++		compatible = "ti,ads1015";
++		reg = <0x4b>;
++		#address-cells = <0x1>;
++		#size-cells = <0x0>;
++		status = "okay";
++
++		channel@4 {
++			reg = <0x4>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
++
++		channel@5 {
++			reg = <0x5>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
++
++		channel@6 {
++			reg = <0x6>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
++
++		channel@7 {
++			reg = <0x7>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
+ 	};
++	eeprom0@50 {
++		compatible = "atmel,24c08";
++		reg = <0x50>;
++		pagesize = <0x10>;
++		address-width = <0x8>;
++	};
++};
+ 
+-	rtc@68 {
+-		compatible = "dallas,ds1339";
+-		reg = <0x68>;
++&i2c4 {
++	status = "okay";
++	clock-frequency = <100000>;
++	i2c-sda-hold-time-ns = <100>;
++	i2c-sda-falling-time-ns = <300>;  /* hcnt */
++	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
++
++	ads1015@49 {
++		compatible = "ti,ads1015";
++		reg = <0x49>;
++		#address-cells = <0x1>;
++		#size-cells = <0x0>;
++		status = "okay";
++
++		channel@4 {
++			reg = <0x4>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
++
++		channel@5 {
++			reg = <0x5>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
++
++		channel@6 {
++			reg = <0x6>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
++
++		channel@7 {
++			reg = <0x7>;
++			ti,gain = <0x1>;
++			ti,datarate = <0x4>;
++		};
+ 	};
++	/*pwr_pca@70 {
++		compatible = "nxp,pca9538";
++		reg = <0x70>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};*/
+ };
+ 
+ &qspi {
+@@ -182,9 +288,11 @@
+ 	flash@0 {
+ 		compatible = "micron,mt25qu02g", "jedec,spi-nor";
+ 		reg = <0>;
+-		spi-max-frequency = <100000000>;
++		spi-max-frequency = <50000000>;
+ 
+ 		m25p,fast-read;
++		cdns,page-size = <256>;
++		cdns,block-size = <16>;
+ 		cdns,read-delay = <1>;
+ 		cdns,tshsl-ns = <50>;
+ 		cdns,tsd2d-ns = <50>;
+@@ -199,12 +307,7 @@
+ 
+ 			qspi_boot: partition@0 {
+ 				label = "Boot and fpga data";
+-				reg = <0x0 0x04200000>;
+-			};
+-
+-			root: partition@4200000 {
+-				label = "Root Filesystem - UBIFS";
+-				reg = <0x04200000 0x0BE00000>;
++				reg = <0x0 0x04000000>;
+ 			};
+ 		};
+ 	};
