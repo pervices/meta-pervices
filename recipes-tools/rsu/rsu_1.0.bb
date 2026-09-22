@@ -22,7 +22,7 @@ inherit autotools
 EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${TOOLCHAIN_OPTIONS}"'
 EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
 
-do_install_append () {
+do_install:append () {
     install -d ${D}/etc
     install -m 755 ${S}/etc/qspi.rc ${D}/etc/librsu.rc
     install -m 755 -d ${D}${includedir}

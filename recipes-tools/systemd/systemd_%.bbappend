@@ -3,7 +3,7 @@ SRCREV = "3a74d4fc90cb322a4784a3515bef7118c8f8c5ba"
 SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=main"
 
 # Need to copy over original recipe file srcs since we just essentially wiped SRC_URI
-SRC_URI += " \
+SRC_URI:append = " \
            file://touchscreen.rules \
            file://00-create-volatile.conf \
            file://init \
@@ -32,12 +32,10 @@ SRC_URI += " \
            file://validate-user.patch \
            file://Ensure-kdbus-isn-t-used-3501.patch \
 "
-SRC_URI_append_libc-uclibc = "\
+SRC_URI:append:libc-uclibc = "\
            file://0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch \
 "
-SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
-
-do_install_append() {
+do_install:append() {
 	sed -i 's:#Storage=auto:Storage=volatile:g' ${D}${sysconfdir}/systemd/journald.conf
 	sed -i 's:#RateLimitIntervalSec:RateLimitIntervalSec:g' ${D}${sysconfdir}/systemd/journald.conf
 	sed -i 's:#RateLimitBurst=1000:RateLimitBurst=10000:g' ${D}${sysconfdir}/systemd/journald.conf

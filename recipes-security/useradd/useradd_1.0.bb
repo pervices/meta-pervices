@@ -45,7 +45,7 @@ do_install () {
 	chown -R client ${D}/home/client/
 	chgrp -R cli-grp0 ${D}/home/client/
 }
-do_install_append () {
+do_install:append () {
 	install -d -m 0750 ${D}${sysconfdir}/sudoers.d
 	echo "dev0 ALL=(ALL) ALL" > ${D}${sysconfdir}/sudoers.d/dev0
 }

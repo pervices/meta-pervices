@@ -20,18 +20,18 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
            "
 
-SRC_URI_append_class-target = " \
+SRC_URI:append:class-target = " \
            file://login_defs_pam.sed \
            file://shadow-update-pam-conf.patch \
            "
 
-SRC_URI_append_class-native = " \
+SRC_URI:append:class-native = " \
            file://disable-syslog.patch \
            file://allow-for-setting-password-in-clear-text.patch \
            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
            file://0001-useradd.c-create-parent-directories-when-necessary.patch \
            "
-SRC_URI_append_class-nativesdk = " \
+SRC_URI:append:class-nativesdk = " \
            file://disable-syslog.patch \
            "
 
@@ -118,7 +118,7 @@ do_install() {
 	sed -i 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
 }
 
-do_install_append() {
+do_install:append() {
 	# Ensure that the image has as a /var/spool/mail dir so shadow can
 	# put mailboxes there if the user reconfigures shadow to its
 	# defaults (see sed below).
