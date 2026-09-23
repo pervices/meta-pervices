@@ -12,8 +12,6 @@ inherit extrausers
 IMAGE_INSTALL:append = "\
 	at \
 	autoconf \
-	base-files \
-	base-passwd \
 	bash \
 	busybox \
 	cmake \
