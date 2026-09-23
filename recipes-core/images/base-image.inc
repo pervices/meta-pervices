@@ -99,8 +99,6 @@ IMAGE_INSTALL:append = "\
 	tcpdump \
 	tzdata \
 	udev \
-	useradd \
-	useradd-client \
 	usbutils \
 	util-linux \
 	vim \
