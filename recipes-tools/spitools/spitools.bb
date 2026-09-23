@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c16666ae6c159876a0ba63099614381"
 
 S = "${WORKDIR}/git"
 
-SRC_URI = "https://github.com/cpb-/spi-tools.git;protocol=git"
+SRC_URI = "https://github.com/cpb-/spi-tools;protocol=https"
 
 SRCREV = "cc6a41fdcec60610703ba6db488c621c64952898"
 

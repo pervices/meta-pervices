@@ -16,7 +16,7 @@ inherit deploy
 LINUXDEPLOYDIR = "${WORKDIR}/deploy-${PN}"
 DTBDEPLOYDIR = "${DEPLOY_DIR_IMAGE}/devicetree"
 
-do_deploy[depends] += "hw-ref-design:do_deploy device-tree:do_deploy"
+do_deploy[depends] += "device-tree:do_deploy"
 
 do_deploy:append() {
 	# Stage required binaries for kernel.itb

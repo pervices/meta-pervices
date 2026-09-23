@@ -18,7 +18,6 @@ IMAGE_INSTALL:append = "\
 	busybox \
 	cmake \
 	coreutils \
-	webserver \
 	cronie \
 	cups \
 	diffutils \
@@ -62,7 +61,6 @@ IMAGE_INSTALL:append = "\
 	libusb-compat \
 	libxml2 \
 	logrotate \
-	lshw \
 	make \
 	memtester \
 	man \
@@ -84,8 +82,6 @@ IMAGE_INSTALL:append = "\
 	parted \
 	pciutils \
 	perl \
-	polkit \
-	portmap \
 	python-core \
 	resolvconf \
 	rsu \
