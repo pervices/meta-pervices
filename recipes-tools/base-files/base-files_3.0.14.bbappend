@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}-${PV}:"
 SRC_URI:append = "file://hostname-crimson \
             file://hostname-cyan \
             file://hostname-chestnut \
