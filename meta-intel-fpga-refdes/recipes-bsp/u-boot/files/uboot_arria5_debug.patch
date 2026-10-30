@@ -1,0 +1,40 @@
+Index: git/arch/arm/mach-socfpga/include/mach/sdram_gen5.h
+===================================================================
+--- git.orig/arch/arm/mach-socfpga/include/mach/sdram_gen5.h
++++ git/arch/arm/mach-socfpga/include/mach/sdram_gen5.h
+@@ -7,6 +7,8 @@
+ 
+ #ifndef __ASSEMBLY__
+ 
++#define LOG_DEBUG
++
+ const struct socfpga_sdram_config *socfpga_get_sdram_config(void);
+ 
+ void socfpga_get_seq_ac_init(const u32 **init, unsigned int *nelem);
+Index: git/drivers/ddr/altera/sequencer.c
+===================================================================
+--- git.orig/drivers/ddr/altera/sequencer.c
++++ git/drivers/ddr/altera/sequencer.c
+@@ -46,7 +46,8 @@ static const struct socfpga_sdr_ctrl *sd
+  * the value to use based on the dynamically-chosen calibration mode
+  */
+ 
+-#define DLEVEL 0
++//#define DLEVEL 0
++#define DLEVEL 1
+ #define STATIC_IN_RTL_SIM 0
+ #define STATIC_SKIP_DELAY_LOOPS 0
+ 
+Index: git/include/configs/socfpga_common.h
+===================================================================
+--- git.orig/include/configs/socfpga_common.h
++++ git/include/configs/socfpga_common.h
+@@ -7,6 +7,8 @@
+ 
+ #include <linux/stringify.h>
+ 
++#define DEBUG
++
+ /*
+  * Memory configurations
+  */

@@ -1,0 +1,164 @@
+From 8a75535fe9799f3716404fb93318b79388ebe6e2 Mon Sep 17 00:00:00 2001
+From: "Chew, Chiau Ee" <chiau.ee.chew@intel.com>
+Date: Thu, 27 May 2021 18:21:14 +0800
+Subject: [PATCH] dts/arm: enable FPGA PR DTBs for Arria10
+
+This is to enable fpga_static_region and persona0/1 DTBs
+for Arria10 FPGA Partial Reconfiguration with Linux.
+
+Upstream-Status: Pending
+
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ arch/arm/boot/dts/intel/socfpga/Makefile      |  5 ++-
+ .../dts/intel/socfpga/fpga_static_region.dts  | 43 +++++++++++++++++++
+ arch/arm/boot/dts/intel/socfpga/persona0.dts  | 33 ++++++++++++++
+ arch/arm/boot/dts/intel/socfpga/persona1.dts  | 33 ++++++++++++++
+ 4 files changed, 113 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/intel/socfpga/fpga_static_region.dts
+ create mode 100644 arch/arm/boot/dts/intel/socfpga/persona0.dts
+ create mode 100644 arch/arm/boot/dts/intel/socfpga/persona1.dts
+
+diff --git a/arch/arm/boot/dts/intel/socfpga/Makefile b/arch/arm/boot/dts/intel/socfpga/Makefile
+index c467828aeb4b..4856e270785f 100644
+--- a/arch/arm/boot/dts/intel/socfpga/Makefile
++++ b/arch/arm/boot/dts/intel/socfpga/Makefile
+@@ -14,4 +14,7 @@ dtb-$(CONFIG_ARCH_INTEL_SOCFPGA) += \
+ 	socfpga_cyclone5_socrates.dtb \
+ 	socfpga_cyclone5_sodia.dtb \
+ 	socfpga_cyclone5_vining_fpga.dtb \
+-	socfpga_vt.dtb
++	socfpga_vt.dtb \
++	fpga_static_region.dtb \
++	persona0.dtb \
++	persona1.dtb
+diff --git a/arch/arm/boot/dts/intel/socfpga/fpga_static_region.dts b/arch/arm/boot/dts/intel/socfpga/fpga_static_region.dts
+new file mode 100644
+index 000000000000..225c7851e094
+--- /dev/null
++++ b/arch/arm/boot/dts/intel/socfpga/fpga_static_region.dts
+@@ -0,0 +1,43 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@0 {
++		target-path = "/soc/base_fpga_region";
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		__overlay__ {
++			ranges = <0x00000000 0xff200000 0x00001000>;
++
++			external-fpga-config;
++
++			clocks = <&clk_0 &clk_0 &clk_0 &clk_0>;
++			clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2sdram0_clock", "f2sdram2_clock";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			clk_0: clk_0 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "clk_0-clk";
++			}; //end clk_0 (clk_0)
++
++			fpga_pr_region0 {
++				compatible = "fpga-region";
++				fpga-bridges = <&freeze_controller_0>;
++				ranges;
++				#address-cells = <1>;
++				#size-cells = <1>;
++			};
++
++			freeze_controller_0: freeze_controller@450 {
++				compatible = "altr,freeze_controller-16.1", "altr,freeze-bridge-controller";
++				reg = <0x00000450 0x00000010>;
++				interrupt-parent = <&intc>;
++				/*interrupts = <0 21 4>;*/
++				/*clocks = <&clk_0>;*/
++			}; //end freeze_controller@0x00000450 (freeze_controller_0)
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/intel/socfpga/persona0.dts b/arch/arm/boot/dts/intel/socfpga/persona0.dts
+new file mode 100644
+index 000000000000..e9ce4313453e
+--- /dev/null
++++ b/arch/arm/boot/dts/intel/socfpga/persona0.dts
+@@ -0,0 +1,33 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@1 {
++		target-path = "/soc/base_fpga_region/fpga_pr_region0";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		__overlay__ {
++			partial-fpga-config;
++			firmware-name = "persona0.rbf";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			region-unfreeze-timeout-us = <4>;
++			region-freeze-timeout-us = <4>;
++
++			pr_region_0_pr_clk_100: pr_region_0_pr_clk_100 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "pr_region_0_pr_clk_100-clk";
++			}; //end pr_region_0_pr_clk_100 (pr_region_0_pr_clk_100)
++
++			pr_region_0_pr_sysid_qsys_0: sysid@0x00000800 {
++				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
++				reg = <0x00000800 0x00000008>;
++				/*clocks = <&pr_region_0_pr_clk_100>;*/
++				id = <3405707982>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			}; //end sysid@0x100000800 (pr_region_0_pr_sysid_qsys_0)
++		};
++	};
++};
+diff --git a/arch/arm/boot/dts/intel/socfpga/persona1.dts b/arch/arm/boot/dts/intel/socfpga/persona1.dts
+new file mode 100644
+index 000000000000..a892396690d7
+--- /dev/null
++++ b/arch/arm/boot/dts/intel/socfpga/persona1.dts
+@@ -0,0 +1,33 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@1 {
++		target-path = "/soc/base_fpga_region/fpga_pr_region0";
++		#address-cells = <1>;
++		#size-cells = <1>;
++		__overlay__ {
++			partial-fpga-config;
++			firmware-name = "persona1.rbf";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			region-unfreeze-timeout-us = <4>;
++			region-freeze-timeout-us = <4>;
++
++			pr_region_0_pr_clk_100: pr_region_0_pr_clk_100 {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <100000000>;	/* 100.00 MHz */
++				clock-output-names = "pr_region_0_pr_clk_100-clk";
++			}; //end pr_region_0_pr_clk_100 (pr_region_0_pr_clk_100)
++
++			pr_region_0_pr_sysid_qsys_0: sysid@0x00000900 {
++				compatible = "altr,sysid-16.1", "altr,sysid-1.0";
++				reg = <0x00000900 0x00000008>;
++				/*clocks = <&pr_region_0_pr_clk_100>;*/
++				id = <3405707982>;	/* embeddedsw.dts.params.id type NUMBER */
++				timestamp = <0>;	/* embeddedsw.dts.params.timestamp type NUMBER */
++			}; //end sysid@0x100000700 (pr_region_0_pr_sysid_qsys_0)
++		};
++	};
++};
+-- 
+2.49.GIT
+
