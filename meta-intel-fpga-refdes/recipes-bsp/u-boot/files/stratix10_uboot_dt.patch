@@ -16,28 +16,21 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
  	soc@0 {
  		#address-cells = <1>;
  		#size-cells = <1>;
-@@ -82,9 +89,17 @@
- 		ranges = <0 0 0 0xffffffff>;
- 		bootph-all;
+@@ -87,16 +94,42 @@
+ 			reg = <0xffd10000 0x1000>;
+ 		};
  
--		clkmgr: clkmgr@ffd10000 {
--			compatible = "altr,clk-mgr";
--			reg = <0xffd10000 0x1000>;
-+		// clkmgr: clkmgr@ffd10000 {
-+		// 	compatible = "altr,clk-mgr";
-+		// 	reg = <0xffd10000 0x1000>;
-+		// };
-+
 +		rst: rstmgr@ffd11000 {
 +			#reset-cells = <1>;
 +			compatible = "altr,rst-mgr";
 +			reg = <0xffd11000 0x100>;
 +			altr,modrst-offset = <0x20>;
-+			// bootph-all;
- 		};
- 
++			bootph-all;
++		};
++
  		gmac0: ethernet@ff800000 {
-@@ -93,10 +108,28 @@
+ 			compatible = "altr,socfpga-stmmac", "snps,dwmac-3.74a", "snps,dwmac";
+ 			reg = <0xff800000 0x2000>;
  			interrupts = <0 90 4>;
  			interrupt-names = "macirq";
  			mac-address = [00 00 00 00 00 00];
@@ -45,9 +38,8 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 +			// resets = <&rst EMAC0_RESET>, <&rst EMAC0_OCP_RESET>;
 +			resets = <&rst EMAC0_RESET>;
  			reset-names = "stmmaceth";
--			altr,sysmgr-syscon = <&sysmgr 0x44 0>;
+ 			altr,sysmgr-syscon = <&sysmgr 0x44 0>;
 -			status = "disabled";
-+			// altr,sysmgr-syscon = <&sysmgr 0x44 0>;
 +			phy-mode = "rgmii";
 +			phy-addr = <0xffffffff>; /* probe for phy addr */
 +			max-speed = <1000>;
@@ -135,7 +127,7 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 +			drvsel = <3>;
 +			smplsel = <0>;
 +			status = "okay";
-+			// resets = <&rst SDMMC_RESET>, <&rst SDMMC_OCP_RESET>;
++			resets = <&rst SDMMC_RESET>, <&rst SDMMC_OCP_RESET>;
 +			bootph-all;
 +			vmmc-supply = <&regulator_3_3v>;
 +			vqmmc-supply = <&regulator_3_3v>;
@@ -147,9 +139,9 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 +			interrupts = <0 108 4>;
 +			reg-shift = <2>;
 +			reg-io-width = <4>;
-+			// resets = <&rst UART0_RESET>;
-+			// clock-frequency = <100000000>;
-+			// bootph-all;
++			resets = <&rst UART0_RESET>;
++			clock-frequency = <100000000>;
++			bootph-all;
 +			status = "okay";
 +		};
 +
@@ -175,8 +167,8 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 +			interrupts = <0 93 4>;
 +			phys = <&usbphy0>;
 +			phy-names = "usb2-phy";
-+			// resets = <&rst USB0_RESET>, <&rst USB0_OCP_RESET>;
-+			// reset-names = "dwc2", "dwc2-ecc";
++			resets = <&rst USB0_RESET>, <&rst USB0_OCP_RESET>;
++			reset-names = "dwc2", "dwc2-ecc";
 +			status = "okay";
 +		};
 +
@@ -203,8 +195,8 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 +			compatible = "snps,designware-i2c";
 +			reg = <0xffc02a00 0x100>;
 +			interrupts = <0 105 4>;
-+			// resets = <&rst I2C2_RESET>;
-+			// reset-names = "i2c";
++			resets = <&rst I2C2_RESET>;
++			reset-names = "i2c";
 +			status = "okay";
 +		};
 +
@@ -213,25 +205,22 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
  			#size-cells = <0>;
  			compatible = "snps,dw-apb-gpio";
  			reg = <0xffc03200 0x100>;
--			resets = <&rst GPIO0_RESET>;
+ 			resets = <&rst GPIO0_RESET>;
 -			status = "disabled";
-+			// resets = <&rst GPIO0_RESET>;
 +			status = "okay";
  
  			porta: gpio-controller@0 {
  				compatible = "snps,dw-apb-gpio-port";
-@@ -149,8 +288,8 @@
- 			#size-cells = <0>;
+@@ -150,7 +289,7 @@
  			compatible = "snps,dw-apb-gpio";
  			reg = <0xffc03300 0x100>;
--			resets = <&rst GPIO1_RESET>;
+ 			resets = <&rst GPIO1_RESET>;
 -			status = "disabled";
-+			// resets = <&rst GPIO1_RESET>;
 +			status = "okay";
  
  			portb: gpio-controller@0 {
  				compatible = "snps,dw-apb-gpio-port";
-@@ -165,119 +304,10 @@
+@@ -165,120 +304,11 @@
  			};
  		};
  
@@ -338,8 +327,11 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 -			reg = <0xffd11000 0x1000>;
 -			altr,modrst-offset = <0x20>;
 -			bootph-all;
--		};
--
++		sysmgr: sysmgr@ffd12000 {
++			compatible = "altr,sys-mgr", "syscon";
++			reg = <0xffd12000 0x1000>;
+ 		};
+ 
 -		sdr: sdr@f8000400 {
 -			 compatible = "altr,sdr-ctl-s10";
 -			 reg = <0xf8000400 0x80>,
@@ -348,13 +340,10 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 -			 resets = <&rst DDRSCH_RESET>;
 -			 bootph-all;
 -		 };
-+		// sysmgr: sysmgr@ffd12000 {
-+		// 	compatible = "altr,sys-mgr", "syscon";
-+		// 	reg = <0xffd12000 0x1000>;
-+		// };
- 
+-
  		spi0: spi@ffda4000 {
  			compatible = "intel,stratix10-spi",
+ 				     "snps,dw-apb-ssi-4.00a", "snps,dw-apb-ssi";
 @@ -286,11 +316,12 @@
  			#size-cells = <0>;
  			reg = <0xffda4000 0x1000>;
@@ -371,7 +360,7 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
  		};
  
  		spi1: spi@ffda5000 {
-@@ -300,131 +331,157 @@
+@@ -300,100 +331,126 @@
  			#size-cells = <0>;
  			reg = <0xffda5000 0x1000>;
  			interrupts = <0 100 4>;
@@ -414,94 +403,6 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 -			compatible = "snps,dw-apb-timer";
 -			interrupts = <0 115 4>;
 -			reg = <0xffd00000 0x100>;
--		};
--
--		timer3: timer3@ffd00100 {
--			compatible = "snps,dw-apb-timer";
--			interrupts = <0 116 4>;
--			reg = <0xffd00100 0x100>;
--		};
--
--		uart0: serial0@ffc02000 {
--			compatible = "snps,dw-apb-uart";
--			reg = <0xffc02000 0x100>;
--			interrupts = <0 108 4>;
--			reg-shift = <2>;
--			reg-io-width = <4>;
--			resets = <&rst UART0_RESET>;
--			clock-frequency = <100000000>;
--			bootph-all;
--			status = "disabled";
--		};
--
--		uart1: serial1@ffc02100 {
--			compatible = "snps,dw-apb-uart";
--			reg = <0xffc02100 0x100>;
--			interrupts = <0 109 4>;
--			reg-shift = <2>;
--			reg-io-width = <4>;
--			resets = <&rst UART1_RESET>;
--			status = "disabled";
--		};
--
--		usbphy0: usbphy@0 {
--			#phy-cells = <0>;
--			compatible = "usb-nop-xceiv";
--			status = "okay";
--		};
--
--		usb0: usb@ffb00000 {
--			compatible = "snps,dwc2";
--			reg = <0xffb00000 0x40000>;
--			interrupts = <0 93 4>;
--			phys = <&usbphy0>;
--			phy-names = "usb2-phy";
--			resets = <&rst USB0_RESET>, <&rst USB0_OCP_RESET>;
--			reset-names = "dwc2", "dwc2-ecc";
--			status = "disabled";
--		};
--
--		usb1: usb@ffb40000 {
--			compatible = "snps,dwc2";
--			reg = <0xffb40000 0x40000>;
--			interrupts = <0 94 4>;
--			phys = <&usbphy0>;
--			phy-names = "usb2-phy";
--			resets = <&rst USB1_RESET>, <&rst USB1_OCP_RESET>;
--			reset-names = "dwc2", "dwc2-ecc";
--			status = "disabled";
--		};
--
--		watchdog0: watchdog@ffd00200 {
--			compatible = "snps,dw-wdt";
--			reg = <0xffd00200 0x100>;
--			interrupts = <0 117 4>;
--			resets = <&rst WATCHDOG0_RESET>;
--			status = "disabled";
--		};
--
--		watchdog1: watchdog@ffd00300 {
--			compatible = "snps,dw-wdt";
--			reg = <0xffd00300 0x100>;
--			interrupts = <0 118 4>;
--			resets = <&rst WATCHDOG1_RESET>;
--			status = "disabled";
--		};
--
--		watchdog2: watchdog@ffd00400 {
--			compatible = "snps,dw-wdt";
--			reg = <0xffd00400 0x100>;
--			interrupts = <0 125 4>;
--			resets = <&rst WATCHDOG2_RESET>;
--			status = "disabled";
--		};
--
--		watchdog3: watchdog@ffd00500 {
--			compatible = "snps,dw-wdt";
--			reg = <0xffd00500 0x100>;
--			interrupts = <0 126 4>;
--			resets = <&rst WATCHDOG3_RESET>;
--			status = "disabled";
 -		};
 +		// i2c0: i2c@ffc02800 {
 +		// 	#address-cells = <1>;
@@ -563,16 +464,70 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 +		// 	compatible = "mmio-sram";
 +		// 	reg = <0xffe00000 0x100000>;
 +		// };
-+
-+		// sdr: sdr@f8000400 {
-+		// 	 compatible = "altr,sdr-ctl-s10";
-+		// 	 reg = <0xf8000400 0x80>,
-+		// 	       <0xf8010000 0x190>,
-+		// 	       <0xf8011000 0x500>;
-+		// 	 resets = <&rst DDRSCH_RESET>;
-+		// 	 bootph-all;
-+		//  };
-+
+ 
+-		timer3: timer3@ffd00100 {
+-			compatible = "snps,dw-apb-timer";
+-			interrupts = <0 116 4>;
+-			reg = <0xffd00100 0x100>;
+-		};
+-
+-		uart0: serial0@ffc02000 {
+-			compatible = "snps,dw-apb-uart";
+-			reg = <0xffc02000 0x100>;
+-			interrupts = <0 108 4>;
+-			reg-shift = <2>;
+-			reg-io-width = <4>;
+-			resets = <&rst UART0_RESET>;
+-			clock-frequency = <100000000>;
+-			bootph-all;
+-			status = "disabled";
+-		};
+-
+-		uart1: serial1@ffc02100 {
+-			compatible = "snps,dw-apb-uart";
+-			reg = <0xffc02100 0x100>;
+-			interrupts = <0 109 4>;
+-			reg-shift = <2>;
+-			reg-io-width = <4>;
+-			resets = <&rst UART1_RESET>;
+-			status = "disabled";
+-		};
+-
+-		usbphy0: usbphy@0 {
+-			#phy-cells = <0>;
+-			compatible = "usb-nop-xceiv";
+-			status = "okay";
+-		};
+-
+-		usb0: usb@ffb00000 {
+-			compatible = "snps,dwc2";
+-			reg = <0xffb00000 0x40000>;
+-			interrupts = <0 93 4>;
+-			phys = <&usbphy0>;
+-			phy-names = "usb2-phy";
+-			resets = <&rst USB0_RESET>, <&rst USB0_OCP_RESET>;
+-			reset-names = "dwc2", "dwc2-ecc";
+-			status = "disabled";
+-		};
++		sdr: sdr@f8000400 {
++			 compatible = "altr,sdr-ctl-s10";
++			 reg = <0xf8000400 0x80>,
++			       <0xf8010000 0x190>,
++			       <0xf8011000 0x500>;
++			 resets = <&rst DDRSCH_RESET>;
++			 bootph-all;
++		 };
+ 
+-		usb1: usb@ffb40000 {
+-			compatible = "snps,dwc2";
+-			reg = <0xffb40000 0x40000>;
+-			interrupts = <0 94 4>;
+-			phys = <&usbphy0>;
+-			phy-names = "usb2-phy";
+-			resets = <&rst USB1_RESET>, <&rst USB1_OCP_RESET>;
+-			reset-names = "dwc2", "dwc2-ecc";
+-			status = "disabled";
+-		};
 +		// /* Local timer */
 +		// timer {
 +		// 	compatible = "arm,armv8-timer";
@@ -616,15 +571,36 @@ Index: git/arch/arm/dts/socfpga_stratix10.dtsi
 +		// 	reset-names = "dwc2", "dwc2-ecc";
 +		// 	status = "disabled";
 +		// };
-+
-+		// watchdog0: watchdog@ffd00200 {
-+		// 	compatible = "snps,dw-wdt";
-+		// 	reg = <0xffd00200 0x100>;
-+		// 	interrupts = <0 117 4>;
-+		// 	resets = <&rst WATCHDOG0_RESET>;
-+		// 	status = "disabled";
-+		// };
-+
+ 
+ 		watchdog0: watchdog@ffd00200 {
+ 			compatible = "snps,dw-wdt";
+@@ -403,28 +460,28 @@
+ 			status = "disabled";
+ 		};
+ 
+-		watchdog1: watchdog@ffd00300 {
+-			compatible = "snps,dw-wdt";
+-			reg = <0xffd00300 0x100>;
+-			interrupts = <0 118 4>;
+-			resets = <&rst WATCHDOG1_RESET>;
+-			status = "disabled";
+-		};
+-
+-		watchdog2: watchdog@ffd00400 {
+-			compatible = "snps,dw-wdt";
+-			reg = <0xffd00400 0x100>;
+-			interrupts = <0 125 4>;
+-			resets = <&rst WATCHDOG2_RESET>;
+-			status = "disabled";
+-		};
+-
+-		watchdog3: watchdog@ffd00500 {
+-			compatible = "snps,dw-wdt";
+-			reg = <0xffd00500 0x100>;
+-			interrupts = <0 126 4>;
+-			resets = <&rst WATCHDOG3_RESET>;
+-			status = "disabled";
+-		};
 +		// watchdog1: watchdog@ffd00300 {
 +		// 	compatible = "snps,dw-wdt";
 +		// 	reg = <0xffd00300 0x100>;
@@ -654,12 +630,10 @@ Index: git/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
 ===================================================================
 --- git.orig/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
 +++ git/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
-@@ -5,60 +5,67 @@
-  * Copyright (C) 2019-2022 Intel Corporation <www.intel.com>
+@@ -6,23 +6,30 @@
   */
  
--#include "socfpga_stratix10-u-boot.dtsi"
-+// #include "socfpga_stratix10-u-boot.dtsi"
+ #include "socfpga_stratix10-u-boot.dtsi"
 +#include "socfpga_soc64_fit-u-boot.dtsi"
  
  /{
@@ -693,11 +667,10 @@ Index: git/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
  		};
  	};
  };
+@@ -31,25 +38,25 @@
+ 	bootph-all;
+ };
  
--&clkmgr {
--	bootph-all;
--};
--
 -&nand {
 -	status = "okay";
 -	nand-bus-width = <16>;
@@ -717,19 +690,6 @@ Index: git/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
 -	bootph-all;
 -	/delete-property/ cdns,read-delay;
 -};
--
--&sysmgr {
--	bootph-all;
--};
--
--&watchdog0 {
--	status = "okay";
--	bootph-all;
--};
-+// &clkmgr {
-+// 	bootph-all;
-+// };
-+
 +// &nand {
 +// 	status = "disabled";
 +// 	nand-bus-width = <16>;
@@ -749,23 +709,14 @@ Index: git/arch/arm/dts/socfpga_stratix10_socdk-u-boot.dtsi
 +// 	bootph-all;
 +// 	/delete-property/ cdns,read-delay;
 +// };
-+
-+// &sysmgr {
-+// 	bootph-all;
-+// };
-+
-+// &watchdog0 {
-+// 	status = "okay";
-+// 	bootph-all;
-+// };
  
- &fdt_0_blob {
- 	filename = "arch/arm/dts/socfpga_stratix10_socdk.dtb";
+ &sysmgr {
+ 	bootph-all;
 Index: git/arch/arm/dts/socfpga_stratix10_socdk.dts
 ===================================================================
 --- git.orig/arch/arm/dts/socfpga_stratix10_socdk.dts
 +++ git/arch/arm/dts/socfpga_stratix10_socdk.dts
-@@ -10,94 +10,63 @@
+@@ -10,94 +10,62 @@
  
  	aliases {
  		ethernet0 = &gmac0;
@@ -892,61 +843,43 @@ Index: git/arch/arm/dts/socfpga_stratix10_socdk.dts
  		#size-cells = <1>;
 -		compatible = "n25q00a";
 +		bootph-all;
-+		// compatible = "micron,mt25qu02g","jedec,spi-nor";
-+		compatible = "mt25qu02g";
++		compatible = "micron,mt25qu02g", "jedec,spi-nor";
  		reg = <0>;
 -		spi-max-frequency = <50000000>;
 +		spi-max-frequency = <25000000>;
  
  		m25p,fast-read;
  		cdns,page-size = <256>;
-@@ -108,32 +77,31 @@
+@@ -108,6 +76,8 @@
  		cdns,tchsh-ns = <4>;
  		cdns,tslch-ns = <4>;
  
--		partitions {
--			compatible = "fixed-partitions";
--			#address-cells = <1>;
--			#size-cells = <1>;
--
--			qspi_boot: partition@0 {
--				label = "Boot and fpga data";
++		spi-rx-bus-width = <4>;
++
+ 		partitions {
+ 			compatible = "fixed-partitions";
+ 			#address-cells = <1>;
+@@ -115,12 +85,7 @@
+ 
+ 			qspi_boot: partition@0 {
+ 				label = "Boot and fpga data";
 -				reg = <0x0 0x04200000>;
 -			};
 -
 -			root: partition@4200000 {
 -				label = "root";
 -				reg = <0x04200000 0x0BE00000>;
--			};
--		};
-+		// partitions {
-+		// 	compatible = "fixed-partitions";
-+		// 	#address-cells = <1>;
-+		// 	#size-cells = <1>;
-+
-+		// 	qspi_boot: partition@0 {
-+		// 		label = "Boot and fpga data";
-+		// 		reg = <0x0 0x010000000>;
-+		// 	};
-+		// };
++				reg = <0x0 0x010000000>;
+ 			};
+ 		};
  	};
+@@ -130,9 +95,13 @@
+ 	status = "okay";
  };
  
--&uart0 {
--	status = "okay";
--};
--
 -&usb0 {
 -	status = "okay";
 -};
--
--&watchdog0 {
--	status = "okay";
--};
-+// &uart0 {
-+// 	status = "okay";
-+// };
-+
 +// &spi0 {
 +// 	status = "okay";
 +// };
@@ -954,10 +887,9 @@ Index: git/arch/arm/dts/socfpga_stratix10_socdk.dts
 +// &usb0 {
 +// 	status = "okay";
 +// };
-+
-+// &watchdog0 {
-+// 	status = "okay";
-+// };
+ 
+ &watchdog0 {
+ 	status = "okay";
 Index: git/arch/arm/dts/socfpga_stratix10-u-boot.dtsi
 ===================================================================
 --- git.orig/arch/arm/dts/socfpga_stratix10-u-boot.dtsi
@@ -1510,3 +1442,18 @@ Index: git/arch/arm/dts/socfpga_stratix10_socdk_emmc.dts
 +// 		status = "disabled";
 +// 	};
 +// };
+Index: git/drivers/spi/cadence_qspi_apb.c
+===================================================================
+--- git.orig/drivers/spi/cadence_qspi_apb.c
++++ git/drivers/spi/cadence_qspi_apb.c
+@@ -346,6 +346,10 @@ void cadence_qspi_apb_controller_init(st
+ 
+ 	/* Indirect mode configurations */
+ 	writel(priv->fifo_depth / 2, priv->regbase + CQSPI_REG_SRAMPARTITION);
++	/* Clear the indirect completion status to prevent persistent DONE state */
++	//printf("CLEARING INDIRECT DONE STATUS...\n");
++	writel(CQSPI_REG_INDIRECTRD_DONE, priv->regbase + CQSPI_REG_INDIRECTRD);
++	//printf("INDIRECT DONE STATUS: %p\n", readl(priv->regbase + CQSPI_REG_INDIRECTRD));
+ 
+ 	/* Disable all interrupts */
+ 	writel(0, priv->regbase + CQSPI_REG_IRQMASK);
