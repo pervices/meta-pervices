@@ -1,0 +1,48 @@
+/*
+* Add this piece of dtsi fragment as #include "socfpga_stratix10_ghrd.dtsi"
+* in the file socfpga_stratix10_socdk.dts. Compile it in the kernel along with
+* socfpga_stratix10.dtsi.
+*/
+
+/{
+	soc@0 {
+
+		base_fpga_region {
+			#address-cells = <0x1>;
+			#size-cells = <0x1>;
+
+			compatible = "fpga-region";
+			fpga-mgr = <&fpga_mgr>;
+		};
+
+		s10_hps_bridges: bridge@80000000 {
+			compatible = "altr,bridge-19.1", "simple-bus";
+			reg =   <0x80000000 0x00008000>;
+			reg-names = "axi_h2f";
+			//clocks = <&iopll_0 1 &clk_0 &dp_0_video_pll 3 &iopll_0 0>;
+			//clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2sdram0_clock", "f2sdram2_clock";
+			#address-cells = <2>;
+			#size-cells = <1>;
+			#clock-cells = <0>;
+			ranges = <0x00000000 0x00000000 0x80006000 0x00000040>,
+				 <0x00000000 0x00000040 0x80006040 0x00000008>;
+
+			gmii_to_sgmii: phy@0x000000040 {
+				compatible = "altr,gmii-to-sgmii-2.0";
+				reg = <0x00000000 0x00000000 0x00000040>,
+					  <0x00000000 0x00000040 0x00000008>;
+				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
+				//clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
+				//clocks = <&sgmii_1_clk_0 &clkmgr STRATIX10_EMAC1_CLK &sgmii_1_clk_125 &sgmii_1_clk_125>;
+				//clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
+			}; //end phy@0x100000040 (gmii_to_sgmii)
+
+		};
+
+		socfpga_axi_setup: stmmac-axi-config {
+			snps,wr_osr_lmt = <0x0000000f>; /* appended from boardinfo */
+			snps,rd_osr_lmt = <0x0000000f>; /* appended from boardinfo */
+			snps,blen = <0 0 0 0 16 0 0>;   /* appended from boardinfo */
+		}; //end stmmac-axi-config (socfpga_axi_setup)
+	};
+};
