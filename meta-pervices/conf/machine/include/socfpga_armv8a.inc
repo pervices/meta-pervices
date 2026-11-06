@@ -19,4 +19,3 @@ UBOOT_ELF ?= "u-boot"
 
 IMAGE_FSTYPES ?= "cpio ext3 tar.gz"
 do_image_wic[depends] += "mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot virtual/bootloader:do_deploy virtual/kernel:do_deploy"
-

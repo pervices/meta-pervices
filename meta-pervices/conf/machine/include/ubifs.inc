@@ -7,4 +7,3 @@ UBINIZE_ARGS_nand ?= "--peb-size 128KiB --min-io-size 2048 --sub-page-size 2048"
 MULTIUBI_BUILD += "nor"
 MKUBIFS_ARGS_nor ?= "-F -e 65408 -m 1 -c 8000"
 UBINIZE_ARGS_nor ?= "-p 65536 -m 1 -s 1"
-
