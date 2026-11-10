@@ -1,0 +1,17 @@
+echo "Trying to boot Linux from device ${target}";
+
+if test ${target} = "mmc0"; then
+	if test -e ${devtype} ${devnum}:${distro_bootpart} /${bootfile}; then
+		echo "Found kernel in mmc0";
+        # Load kernel DT into memory
+		mmc rescan;
+		fatload ${devtype} ${devnum}:${distro_bootpart} ${loadaddr} ${bootfile};
+		setenv bootargs "earlycon panic=-1 root=${mmcroot} rw rootwait";
+        # Update linux DT with QSPI clock value and QSPI SPT0 offset
+        run linux_qspi_enable;
+        run rsu_status;
+        # Boot from mmc0
+		bootm ${loadaddr}#board-${board_id};
+		exit;
+	fi
+fi

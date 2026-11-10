@@ -9,19 +9,19 @@ DEPENDS = "u-boot-mkimage-native dtc-native"
 inherit deploy nopackages
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-# SRC_URI = "file://uboot.txt file://uboot_script.its"
+SRC_URI = "file://uboot.txt file://uboot_script.its"
 
 do_configure[noexec] = "1"
 do_install[noexec] = "1"
 
 do_compile() {
-	# mkimage -f "${UNPACKDIR}/uboot_script.its" -k "${UBOOT_SIGN_KEYDIR}" -r ${UNPACKDIR}/boot.scr.uimg
+	mkimage -f "${UNPACKDIR}/uboot_script.its" -r ${UNPACKDIR}/boot.scr.uimg
 }
 
 do_deploy() {
-	# install -d ${DEPLOYDIR}
-	# install -m 0755 ${UNPACKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
-	# install -m 0644 ${UNPACKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
+	install -d ${DEPLOYDIR}
+	install -m 0755 ${UNPACKDIR}/uboot.txt ${DEPLOYDIR}/u-boot.txt
+	install -m 0644 ${UNPACKDIR}/boot.scr.uimg ${DEPLOYDIR}/boot.scr.uimg
 }
 
 addtask do_deploy after do_compile before do_build
