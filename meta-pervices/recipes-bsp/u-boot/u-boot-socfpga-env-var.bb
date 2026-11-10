@@ -11,18 +11,16 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI = "file://u-boot-env.txt"
 
-S = "${UNPACKDIR}"
-
 do_install[noexec] = "1"
 
 do_compile() {
-	mkenvimage -s 0x2000 -o "${UNPACKDIR}/uboot.env" ${UNPACKDIR}/u-boot-env-subst.txt
+	mkenvimage -s 0x2000 -o "${WORKDIR}/uboot.env" ${UNPACKDIR}/u-boot-env-subst.txt
 }
 
 do_deploy() {
 	install -d ${DEPLOYDIR}
-	install -m 0755 ${UNPACKDIR}/u-boot-env.txt ${DEPLOYDIR}/u-boot-env.txt
-	install -m 0644 ${UNPACKDIR}/uboot.env ${DEPLOYDIR}/uboot.env
+	install -m 0755 ${WORKDIR}/u-boot-env.txt ${DEPLOYDIR}/u-boot-env.txt
+	install -m 0644 ${WORKDIR}/uboot.env ${DEPLOYDIR}/uboot.env
 }
 
 addtask do_deploy after do_compile before do_build
