@@ -31,4 +31,3 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts/configs:"
 INSANE_SKIP:${PN}-src = "buildpaths"
 
 SRC_URI:append = " file://gpio_sys.scc file://usb_adapter.scc "
-SRC_URI:append:stratix10_htile = " file://rsu.scc"

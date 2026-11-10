@@ -1,10 +1,13 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-DEPENDS:append = " arm-trusted-firmware bash u-boot-tools-native"
+DEPENDS:append:chestnut = " arm-trusted-firmware bash u-boot-tools-native"
+DEPENDS:append:cyan = " arm-trusted-firmware bash u-boot-tools-native"
+
 
 inherit deploy
 
-SRC_URI:append = " file://stratix10.cfg file://stratix10_uboot_dt.patch"
+SRC_URI:append:chestnut = " file://stratix10.cfg file://stratix10_uboot.patch"
+SRC_URI:append:cyan = " file://stratix10.cfg file://stratix10_uboot.patch"
 
 do_compile[deptask] = "do_deploy"
 

@@ -10,7 +10,7 @@ inherit deploy
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 ATF_PROT ?= "https"
-ATF_BRANCH ?= "socfpga_v2.3"
+ATF_BRANCH ?= "socfpga_v2.15"
 ATF_REPO ?= "git://github.com/altera-fpga/arm-trusted-firmware.git"
 
 SRC_URI = "${ATF_REPO};protocol=${ATF_PROT};branch=${ATF_BRANCH}"
@@ -19,7 +19,10 @@ S = "${WORKDIR}/git"
 
 SRCREV ?= "${AUTOREV}"
 
-ATFPLAT ?= "stratix10"
+COMPATIBLE_MACHINE = "(stratix10_htile|chestnut|cyan)"
+ATFPLAT ?= "${MACHINE}"
+ATFPLAT:chestnut = "stratix10"
+ATFPLAT:cyan = "stratix10"
 
 CFLAGS = "-Wno-error=array-bounds"
 

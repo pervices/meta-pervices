@@ -5,8 +5,13 @@ DEPENDS = "coreutils-native bc-native bison-native dtc-native flex-native"
 DEPENDS:append = " python3-setuptools-native swig-native u-boot-mkimage-native"
 DEPENDS:append = " u-boot-tools virtual/kernel"
 
-DEPENDS:append = " arm-trusted-firmware bash"
-COMPILE_PREPEND_FILES = " bl31.bin "
+# Only use ATF if supported by the device
+DEPENDS:append:chestnut = " arm-trusted-firmware bash"
+DEPENDS:append:cyan = " arm-trusted-firmware bash"
+
+COMPILE_PREPEND_FILES:chestnut = " bl31.bin "
+COMPILE_PREPEND_FILES:cyan = " bl31.bin "
+
 DEPLOY_APPEND_FILES = ""
 
 LICENSE = "GPL-2.0-or-later"
