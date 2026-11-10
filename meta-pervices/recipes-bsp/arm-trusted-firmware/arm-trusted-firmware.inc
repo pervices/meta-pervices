@@ -36,13 +36,13 @@ ALLOW_EMPTY:${PN} = "1"
 do_configure[noexec] = "1"
 
 do_compile() {
-	oe_runmake -C ${S} bl31
+    oe_runmake -C ${S} bl31
 }
 
 do_deploy() {
-	install -d ${DEPLOYDIR}
-	install -m 0644 ${S}/build/${ATFPLAT}/release/bl31.bin ${DEPLOYDIR}/bl31.bin-${MACHINE}-${PV}-${PR}
-	ln -sf bl31.bin-${MACHINE}-${PV}-${PR} ${DEPLOYDIR}/bl31.bin
+    install -d ${DEPLOYDIR}
+    install -m 0644 ${S}/build/${ATFPLAT}/release/bl31.bin ${DEPLOYDIR}/bl31.bin-${MACHINE}-${PV}-${PR}
+    ln -sf bl31.bin-${MACHINE}-${PV}-${PR} ${DEPLOYDIR}/bl31.bin
 }
 
 addtask deploy after do_compile
