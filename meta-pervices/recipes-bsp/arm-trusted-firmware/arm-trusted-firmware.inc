@@ -15,9 +15,11 @@ ATF_REPO ?= "git://github.com/altera-fpga/arm-trusted-firmware.git"
 
 SRC_URI = "${ATF_REPO};protocol=${ATF_PROT};branch=${ATF_BRANCH}"
 
+S = "${WORKDIR}/git"
+
 SRCREV ?= "${AUTOREV}"
 
-ATFPLAT ?= "stratix10"
+ATFPLAT ?= "stratix10_htile"
 
 CFLAGS = "-Wno-error=array-bounds"
 
