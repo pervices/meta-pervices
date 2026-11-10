@@ -16,6 +16,7 @@ INSANE_SKIP:${PN}-src = "buildpaths"
 do_deploy:append() {
 	# linux.dtb
 	cp ${LINUXDEPLOYDIR}/${LINUX_DTB_FILE} ${B}
+    cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}
 
 	# Image
 	cp ${LINUXDEPLOYDIR}/Image ${B}
