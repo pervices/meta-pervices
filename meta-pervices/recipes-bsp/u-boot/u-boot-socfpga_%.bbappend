@@ -20,10 +20,12 @@ do_compile:prepend() {
 }
 
 do_deploy:append() {
-	cp ${B}/${UBOOT_CONFIG}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
-	cp ${B}/${UBOOT_CONFIG}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
-	cp ${B}/${UBOOT_CONFIG}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
-	cp ${B}/${UBOOT_CONFIG}/spl/u-boot-spl ${DEPLOYDIR}/u-boot-spl
-	cp ${B}/${UBOOT_CONFIG}/u-boot ${DEPLOYDIR}/u-boot
-	cp ${B}/${UBOOT_CONFIG}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
+	config_name = d.getVarFlag("UBOOT_CONFIG", "${UBOOT_CONFIG}")
+
+	cp ${B}/${config_name}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
+	cp ${B}/${config_name}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
+	cp ${B}/${config_name}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
+	cp ${B}/${config_name}/spl/u-boot-spl ${DEPLOYDIR}/u-boot-spl
+	cp ${B}/${config_name}/u-boot ${DEPLOYDIR}/u-boot
+	cp ${B}/${config_name}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
 }
