@@ -1,8 +1,6 @@
 DESCRIPTION = "Linux Kernel for Altera SoCFPGA"
 LICENSE = "GPL-2.0-only"
 
-FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts:"
-
 KERNEL_REPO ?= "git://github.com/altera-fpga/linux-socfpga.git"
 KERNEL_PROT ?= "https"
 
@@ -34,26 +32,3 @@ INSANE_SKIP:${PN}-src = "buildpaths"
 
 SRC_URI:append = " file://gpio_sys.scc file://usb_adapter.scc "
 SRC_URI:append:stratix10_htile = " file://rsu.scc"
-SRC_URI:append:stratix10_htile = " file://fit_kernel_stratix10_htile.its file://stratix10.patch"
-
-do_deploy:append() {
-    # linux.dtb
-    cp ${DTBDEPLOYDIR}/socfpga_stratix10_socdk.dtb ${B}
-
-    cp ${WORKDIR}/fit_kernel_${MACHINE}.its ${B}
-
-    cp ${LINUXDEPLOYDIR}/Image ${B}
-
-    if [ -e ${B}/Image.lzma ]; then
-        rm ${B}/Image.lzma
-    fi
-
-    xz --format=lzma ${B}/Image
-    # Generate kernel.itb
-    mkimage -f ${B}/fit_kernel_${MACHINE}.its ${B}/kernel.itb
-    # Deploy kernel.its, kernel.itb and Image.lzma
-    install -m 744 ${B}/fit_kernel_${MACHINE}.its ${DEPLOYDIR}
-    install -m 744 ${B}/kernel.itb ${DEPLOYDIR}
-    install -m 744 ${B}/Image.lzma ${DEPLOYDIR}
-    install -m 744 ${B}/socfpga_stratix10_socdk.dtb ${DEPLOYDIR}
-}
