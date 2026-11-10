@@ -16,9 +16,6 @@ S = "${UNPACKDIR}"
 do_install[noexec] = "1"
 
 do_compile() {
-	# Substitute MACHINE_STRIP placeholder in u-boot-env.txt
-	sed -e "s/@@MACHINE_STRIP@@/${MACHINE_STRIP}/g" \
-	    ${UNPACKDIR}/u-boot-env.txt > ${UNPACKDIR}/u-boot-env-subst.txt
 	mkenvimage -s 0x2000 -o "${UNPACKDIR}/uboot.env" ${UNPACKDIR}/u-boot-env-subst.txt
 }
 
