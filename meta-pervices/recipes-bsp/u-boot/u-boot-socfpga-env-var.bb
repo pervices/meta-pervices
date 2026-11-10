@@ -14,7 +14,7 @@ SRC_URI = "file://u-boot-env.txt"
 do_install[noexec] = "1"
 
 do_compile() {
-	mkenvimage -s 0x2000 -o "${WORKDIR}/uboot.env" ${UNPACKDIR}/u-boot-env-subst.txt
+	mkenvimage -s 0x2000 -o "${WORKDIR}/uboot.env" ${WORKDIR}/u-boot-env.txt
 }
 
 do_deploy() {
