@@ -20,7 +20,7 @@ do_compile:prepend() {
 }
 
 do_deploy:append() {
-	config_name = d.getVarFlag("UBOOT_CONFIG", "${UBOOT_CONFIG}")
+	config_name="${@d.getVarFlag("UBOOT_CONFIG", "${UBOOT_CONFIG}", True)}""
 
 	cp ${B}/${config_name}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
 	cp ${B}/${config_name}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
