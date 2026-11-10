@@ -23,6 +23,7 @@ UBOOT_BRANCH ?= "${UBOOT_VERSION_PREFIX}${UBOOT_VERSION}"
 SRCREV ?= "${AUTOREV}"
 PV:append = "+git${SRCPV}"
 
+S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
 RPROVIDES:${PN} = "u-boot"
