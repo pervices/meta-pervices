@@ -20,17 +20,10 @@ do_compile:prepend() {
 }
 
 do_deploy:append() {
-	# Find the actual build config directory (includes machine name in Whinlatter)
-	config_dir=$(ls -d ${B}/*${UBOOT_DEFCONFIG}* 2>/dev/null | head -1)
-	if [ -z "$config_dir" ]; then
-		config_dir="${B}/${UBOOT_DEFCONFIG}"
-	fi
-	config_name=$(basename $config_dir)
-
-	cp ${B}/${config_name}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
-	cp ${B}/${config_name}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
-	cp ${B}/${config_name}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
-	cp ${B}/${config_name}/spl/u-boot-spl ${DEPLOYDIR}/u-boot-spl
-	cp ${B}/${config_name}/u-boot ${DEPLOYDIR}/u-boot
-	cp ${B}/${config_name}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
+	cp ${B}/${UBOOT_DEFCONFIG}/spl/u-boot-spl-dtb.bin ${DEPLOYDIR}/u-boot-spl-dtb.bin
+	cp ${B}/${UBOOT_DEFCONFIG}/spl/u-boot-spl.dtb ${DEPLOYDIR}/u-boot-spl.dtb
+	cp ${B}/${UBOOT_DEFCONFIG}/spl/u-boot-spl.map ${DEPLOYDIR}/u-boot-spl.map
+	cp ${B}/${UBOOT_DEFCONFIG}/spl/u-boot-spl ${DEPLOYDIR}/u-boot-spl
+	cp ${B}/${UBOOT_DEFCONFIG}/u-boot ${DEPLOYDIR}/u-boot
+	cp ${B}/${UBOOT_DEFCONFIG}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
 }
