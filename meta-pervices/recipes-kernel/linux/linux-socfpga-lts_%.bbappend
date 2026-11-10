@@ -17,10 +17,6 @@ do_deploy:append() {
 	# linux.dtb
 	cp ${LINUXDEPLOYDIR}/${LINUX_DTB_FILE} ${B}
 
-    sed -e "s#SOCFPGA_SOCDK_DTB_FILE#${LINUX_DTB_FILE}#g" \
-        ${UNPACKDIR}/fit_kernel_stratix10_htile.its \
-        > ${B}/fit_kernel_stratix10_htile.its
-
 	# Image
 	cp ${LINUXDEPLOYDIR}/Image ${B}
 	# Compress Image to lzma format
