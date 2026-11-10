@@ -11,8 +11,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 # SRC_URI = "file://uboot.txt file://uboot_script.its"
 
-S = "${UNPACKDIR}"
-
 do_configure[noexec] = "1"
 do_install[noexec] = "1"
 
