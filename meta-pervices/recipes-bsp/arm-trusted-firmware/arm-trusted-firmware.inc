@@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
 
 SRCREV ?= "${AUTOREV}"
 
-ATFPLAT ?= "stratix10_htile"
+ATFPLAT ?= "stratix10"
 
 CFLAGS = "-Wno-error=array-bounds"
 
