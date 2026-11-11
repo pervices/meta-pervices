@@ -7,7 +7,7 @@
 /dts-v1/;
 
 / {
-	description = "FIT image with kernel and DTB;
+	description = "FIT image with kernel and DTB";
 	#address-cells = <1>;
 
 	images {
