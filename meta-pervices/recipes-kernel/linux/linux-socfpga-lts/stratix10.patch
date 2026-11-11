@@ -1,8 +1,63 @@
-Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+Index: linux-socfpga-lts/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
 ===================================================================
---- kernel-source.orig/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
-+++ kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
-@@ -20,24 +20,6 @@
+--- linux-socfpga-lts.orig/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
++++ linux-socfpga-lts/arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi
+@@ -154,7 +154,6 @@
+ 		f2s_free_clk: f2s-free-clk {
+ 			#clock-cells = <0>;
+ 			compatible = "fixed-clock";
+-			status = "disabled";
+ 		};
+ 
+ 		osc1: osc1 {
+@@ -386,32 +385,19 @@
+ 				     <0 88 4>,
+ 				     <0 89 4>;
+ 			#dma-cells = <1>;
++			#dma-channels = <8>;
++			#dma-requests = <32>;
+ 			clocks = <&clkmgr STRATIX10_L4_MAIN_CLK>;
+ 			clock-names = "apb_pclk";
+ 			resets = <&rst DMA_RESET>, <&rst DMA_OCP_RESET>;
+ 			reset-names = "dma", "dma-ocp";
+ 		};
+ 
+-		pinctrl0: pinctrl@ffd13000 {
+-			compatible = "pinctrl-single";
+-			reg = <0xffd13000 0xA0>;
+-			#pinctrl-cells = <1>;
+-			pinctrl-single,register-width = <32>;
+-			pinctrl-single,function-mask = <0x0000000f>;
+-		};
+-
+-		pinctrl1: pinctrl@ffd13100 {
+-			compatible = "pinctrl-single";
+-			reg = <0xffd13100 0x20>;
+-			#pinctrl-cells = <1>;
+-			pinctrl-single,register-width = <32>;
+-			pinctrl-single,function-mask = <0x0000000f>;
+-		};
+-
+ 		rst: rstmgr@ffd11000 {
+ 			#reset-cells = <1>;
+ 			compatible = "altr,stratix10-rst-mgr", "altr,rst-mgr";
+ 			reg = <0xffd11000 0x1000>;
++			altr,modrst-offset = <0x20>;
+ 		};
+ 
+ 		smmu: iommu@fa000000 {
+Index: linux-socfpga-lts/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+===================================================================
+--- linux-socfpga-lts.orig/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
++++ linux-socfpga-lts/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
+@@ -13,31 +13,12 @@
+ 		serial0 = &uart0;
+ 		ethernet0 = &gmac0;
+ 		ethernet1 = &gmac1;
+-		ethernet2 = &gmac2;
+ 	};
+ 
+ 	chosen {
  		stdout-path = "serial0:115200n8";
  	};
  
@@ -27,55 +82,109 @@ Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
  	memory@80000000 {
  		device_type = "memory";
  		/* We expect the bootloader to fill in the reg */
-@@ -81,6 +63,10 @@
+@@ -52,33 +33,39 @@
+ 	};
+ 
+ 	soc@0 {
+-		eccmgr {
+-			sdmmca-ecc@ff8c8c00 {
+-				compatible = "altr,socfpga-s10-sdmmc-ecc",
+-					     "altr,socfpga-sdmmc-ecc";
+-				reg = <0xff8c8c00 0x100>;
+-				altr,ecc-parent = <&mmc>;
+-				interrupts = <14 4>,
+-					     <15 4>;
+-			};
++		s10_hps_bridges: bridge@80000000 {
++			compatible = "altr,bridge-18.1","simple-bus";	
++			reg =   <0x80000000 0x00008000>;
++			reg-names = "axi_h2f";
++			//clocks = <&iopll_0 1 &clk_0 &dp_0_video_pll 3 &iopll_0 0>;
++			//clock-names = "h2f_axi_clock", "h2f_lw_axi_clock", "f2sdram0_clock", "f2sdram2_clock";
++			#address-cells = <2>;
++			#size-cells = <1>;
++			#clock-cells = <0>;
++			ranges = <0x00000000 0x00000000 0x80006000 0x00000040>,
++				 <0x00000000 0x00000040 0x80006040 0x00000008>;
++
++			gmii_to_sgmii: phy@0x000000040 {
++				compatible = "altr,gmii-to-sgmii-2.0";
++				reg = <0x00000000 0x00000000 0x00000040>,
++				      <0x00000000 0x00000040 0x00000008>;
++				reg-names = "eth_tse_control_port", "gmii_to_sgmii_adapter_avalon_slave";
++				//clocks = <&sgmii_1_clk_0 &gmac1 1 &sgmii_1_clk_125 &sgmii_1_clk_125>;
++				//clocks = <&sgmii_1_clk_0 &clkmgr STRATIX10_EMAC1_CLK &sgmii_1_clk_125 &sgmii_1_clk_125>;
++				//clock-names = "clock_in", "emac_gtx_clk", "tse_pcs_ref_clk_clock_connection", "tse_rx_cdr_refclk";
++			}; //end phy@0x100000040 (gmii_to_sgmii)	
+ 		};
+-	};
+-};
+ 
+-&pinctrl0 {
+-	i2c1_pmx_func: i2c1-pmx-func-pins {
+-		pinctrl-single,pins = <
+-			0x78   0x4   /* I2C1_SDA (IO6-B) PIN30SEL) */
+-			0x7c   0x4   /* I2C1_SCL (IO7-B) PIN31SEL */
+-		>;
++		socfpga_axi_setup: stmmac-axi-config {
++			snps,wr_osr_lmt = <0x0000000f>; /* appended from boardinfo */
++			snps,rd_osr_lmt = <0x0000000f>; /* appended from boardinfo */
++			snps,blen = <0 0 0 0 16 0 0>;   /* appended from boardinfo */
++		}; //end stmmac-axi-config (socfpga_axi_setup)
+ 	};
++};
+ 
+-	i2c1_pmx_func_gpio: i2c1-pmx-func-gpio-pins {
+-		pinctrl-single,pins = <
+-			0x78   0x8   /* I2C1_SDA (IO6-B) PIN30SEL) */
+-			0x7c   0x8   /* I2C1_SCL (IO7-B) PIN31SEL */
+-		>;
+-	};
++&gpio0 {
++	status = "okay";
+ };
+ 
+ &gpio1 {
+@@ -89,6 +76,7 @@
+ 	status = "okay";
+ 	phy-mode = "rgmii";
+ 	phy-handle = <&phy0>;
++	altr,sysmgr-syscon = <&sysmgr 0x00000044 0>;
+ 
+ 	max-frame-size = <9000>;
+ 
+@@ -115,6 +103,30 @@
  	};
  };
  
-+&gpio0 {
++&gmac1 {
++	compatible = "altr,socfpga-stmmac", "snps,dwmac-3.74a", "snps,dwmac";
++	reg = <0xff802000 0x2000>;
++	interrupts = <0 91 4>;
++	interrupt-names = "macirq";
++	mac-address = [00 00 00 00 00 00];
++	resets = <&rst EMAC1_RESET>, <&rst EMAC1_OCP_RESET>;
++	reset-names = "stmmaceth", "stmmaceth-ocp";
++	clocks = <&clkmgr STRATIX10_EMAC1_CLK>;
++	clock-names = "stmmaceth";
++	tx-fifo-depth = <16384>;
++	rx-fifo-depth = <16384>;
++	snps,multicast-filter-bins = <256>;
++	altr,sysmgr-syscon = <&sysmgr 0x48 0>;
++	snps,perfect-filter-entries = <128>;
++	altr,gmii-to-sgmii-converter = <&gmii_to_sgmii>;
++	altr,gmii_to_sgmii_converter = <&gmii_to_sgmii>;
++	phy-mode = "sgmii";
++	address-bits = <48>;
++	max-frame-size = <9000>;
++	snps,axi-config = <&socfpga_axi_setup>;
 +	status = "okay";
 +};
 +
- &gpio1 {
+ &mmc {
  	status = "okay";
- };
-@@ -99,18 +85,24 @@
- 		phy0: ethernet-phy@0 {
- 			reg = <4>;
- 
--			txd0-skew-ps = <0>; /* -420ps */
--			txd1-skew-ps = <0>; /* -420ps */
--			txd2-skew-ps = <0>; /* -420ps */
--			txd3-skew-ps = <0>; /* -420ps */
--			rxd0-skew-ps = <420>; /* 0ps */
--			rxd1-skew-ps = <420>; /* 0ps */
--			rxd2-skew-ps = <420>; /* 0ps */
--			rxd3-skew-ps = <420>; /* 0ps */
--			txen-skew-ps = <0>; /* -420ps */
--			txc-skew-ps = <900>; /* 0ps */
--			rxdv-skew-ps = <420>; /* 0ps */
--			rxc-skew-ps = <1680>; /* 780ps */
-+			/*
-+			 * All skews are offset since hardware skew values for the ksz9031
-+			 * range from a negative skew to a positive skew.
-+			 * See the micrel-ksz90x1.txt Documentation file for details.
-+			 */
-+			 txd0-skew-ps = <0>; /* -420ps */
-+			 txd1-skew-ps = <0>; /* -420ps */
-+			 txd2-skew-ps = <0>; /* -420ps */
-+			 txd3-skew-ps = <0>; /* -420ps */
-+			 txen-skew-ps = <0>; /* -420ps */
-+			 txc-skew-ps  = <1860>; /* 960ps */
-+
-+			 rxd0-skew-ps = <720>; /*  300ps */
-+			 rxd1-skew-ps = <720>; /*  300ps */
-+			 rxd2-skew-ps = <720>; /*  300ps */
-+			 rxd3-skew-ps = <720>; /*  300ps */
-+			 rxdv-skew-ps = <720>; /*  300ps */
-+			 rxc-skew-ps  = <0>;   /* -900ps */
- 		};
- 	};
- };
-@@ -125,18 +117,27 @@
+ 	cap-sd-highspeed;
+@@ -125,18 +137,27 @@
  };
  
  &osc1 {
@@ -104,7 +213,7 @@ Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
  &watchdog0 {
  	status = "okay";
  };
-@@ -144,37 +145,142 @@
+@@ -144,36 +165,128 @@
  &i2c1 {
  	status = "okay";
  	clock-frequency = <100000>;
@@ -112,7 +221,7 @@ Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
 -	i2c-scl-falling-time-ns = <890>;  /* lcnt */
 +	i2c-sda-hold-time-ns = <100>;
 +	i2c-sda-falling-time-ns = <300>;  /* hcnt */
-+	i2c-sdl-falling-time-ns = <300>;  /* lcnt */
++	i2c-scl-falling-time-ns = <300>;  /* lcnt */
 +
 +	bp_pwr@74 {
 +		compatible = "nxp,pca9539";
@@ -133,14 +242,7 @@ Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
 +		reg = <0x76>;
 +		gpio-controller;
 +		#gpio-cells = <2>;
-+	};
-+
-+	/*eeprom0@50 {
-+		compatible = "atmel,24c08";
-+		reg = <0x50>;
-+		pagesize = <0x10>;
-+		address-width = <0x8>;
-+	};*/
++	};	
  
 -	pinctrl-names = "default", "gpio";
 -	pinctrl-0 = <&i2c1_pmx_func>;
@@ -260,16 +362,9 @@ Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
 +			ti,datarate = <0x4>;
 +		};
  	};
-+	/*pwr_pca@70 {
-+		compatible = "nxp,pca9538";
-+		reg = <0x70>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};*/
  };
  
- &qspi {
-@@ -182,9 +288,11 @@
+@@ -182,7 +295,7 @@
  	flash@0 {
  		compatible = "micron,mt25qu02g", "jedec,spi-nor";
  		reg = <0>;
@@ -277,12 +372,8 @@ Index: kernel-source/arch/arm64/boot/dts/altera/socfpga_stratix10_socdk.dts
 +		spi-max-frequency = <50000000>;
  
  		m25p,fast-read;
-+		cdns,page-size = <256>;
-+		cdns,block-size = <16>;
  		cdns,read-delay = <1>;
- 		cdns,tshsl-ns = <50>;
- 		cdns,tsd2d-ns = <50>;
-@@ -199,12 +307,7 @@
+@@ -199,12 +312,7 @@
  
  			qspi_boot: partition@0 {
  				label = "Boot and fpga data";
