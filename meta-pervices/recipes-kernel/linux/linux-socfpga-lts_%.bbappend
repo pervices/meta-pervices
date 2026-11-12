@@ -10,8 +10,8 @@ SRC_URI:append:chestnut = " file://fit_kernel_stratix10_htile.its file://stratix
 SRC_URI:append:cyan = " file://fit_kernel_stratix10_htile.its file://stratix10.patch"
 
 # Enable kernel modules and config options
-SRC_URI:append:chestnut = " file://rsu.scc"
-SRC_URI:append:cyan = " file://rsu.scc"
+SRC_URI:append:chestnut = " file://rsu.scc file://pv.scc"
+SRC_URI:append:cyan = " file://rsu.scc file://pv.scc"
 
 inherit deploy
 
