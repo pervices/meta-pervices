@@ -2,14 +2,6 @@ DESCRIPTION = "Base image for Per Vices SDR platforms"
 LICENSE = "MIT"
 IMAGE_FEATURES:append = " dev-pkgs tools-sdk"
 EXTRA_IMAGE_FEATURES:append = " package-management"
-TOOLCHAIN_HOST_TASK:append = "\
-    nativesdk-python-cheetah \
-    nativesdk-python-netserver \
-    nativesdk-python-pprint \
-    nativesdk-python-pickle \
-    nativesdk-python-shell \
-    nativesdk-orc nativesdk-swig \
-    "
 inherit core-image
 inherit extrausers
 
