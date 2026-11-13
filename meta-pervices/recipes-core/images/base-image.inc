@@ -29,12 +29,7 @@ IMAGE_INSTALL:append = "\
     zlib \
     "
 
-IMAGE_INSTALL:append:chestnut = "\
-    unilibrsu-client \
-    unilibrsu-lib \
-    "
-
-IMAGE_INSTALL:append:cyan = "\
+IMAGE_INSTALL:append:stratix10 = "\
     unilibrsu-client \
     unilibrsu-lib \
     "

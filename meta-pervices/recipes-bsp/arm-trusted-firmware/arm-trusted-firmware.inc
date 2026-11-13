@@ -21,8 +21,7 @@ SRCREV ?= "${AUTOREV}"
 
 COMPATIBLE_MACHINE = "(stratix10_htile|chestnut|cyan)"
 ATFPLAT ?= "${MACHINE}"
-ATFPLAT:chestnut = "stratix10"
-ATFPLAT:cyan = "stratix10"
+ATFPLAT:stratix10 = "stratix10"
 
 CFLAGS = "-Wno-error=array-bounds"
 

@@ -6,8 +6,7 @@ DEPENDS:append:cyan = " arm-trusted-firmware bash u-boot-tools-native"
 
 inherit deploy
 
-SRC_URI:append:chestnut = " file://stratix10.cfg file://stratix10_uboot.patch"
-SRC_URI:append:cyan = " file://stratix10.cfg file://stratix10_uboot.patch"
+SRC_URI:append:stratix10 = " file://stratix10.cfg file://stratix10_uboot.patch"
 
 do_compile[deptask] = "do_deploy"
 

@@ -6,12 +6,10 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-socfpga-lts/configs:"
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
 # Customized device tree
-SRC_URI:append:chestnut = " file://fit_kernel_stratix10_htile.its file://stratix10.patch"
-SRC_URI:append:cyan = " file://fit_kernel_stratix10_htile.its file://stratix10.patch"
+SRC_URI:append:stratix10 = " file://fit_kernel_stratix10_htile.its file://stratix10.patch"
 
 # Enable kernel modules and config options
-SRC_URI:append:chestnut = " file://rsu.scc file://pv.scc"
-SRC_URI:append:cyan = " file://rsu.scc file://pv.scc"
+SRC_URI:append:stratix10 = " file://rsu.scc file://pv.scc"
 
 inherit deploy
 
@@ -23,7 +21,7 @@ INSANE_SKIP:${PN}-src = "buildpaths"
 COMPATIBLE_MACHINE = "(chestnut|cyan|stratix10_htile)"
 
 do_deploy:append() {
-    if [[ "${MACHINE}" == "chestnut" ]] || [[ "${MACHINE}" == "cyan" ]] || [[ "${MACHINE}" == "stratix10_htile" ]]; then
+    if [ "${MACHINEOVERRIDES}" = *"stratix10"* ]; then
         soc_name="stratix10_htile"
     fi
     # linux.dtb

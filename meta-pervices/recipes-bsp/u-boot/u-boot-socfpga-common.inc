@@ -6,11 +6,9 @@ DEPENDS:append = " python3-setuptools-native swig-native u-boot-mkimage-native"
 DEPENDS:append = " u-boot-tools virtual/kernel"
 
 # Only use ATF if supported by the device
-DEPENDS:append:chestnut = " arm-trusted-firmware bash"
-DEPENDS:append:cyan = " arm-trusted-firmware bash"
+DEPENDS:append:stratix10 = " arm-trusted-firmware bash"
 
-COMPILE_PREPEND_FILES:chestnut = " bl31.bin "
-COMPILE_PREPEND_FILES:cyan = " bl31.bin "
+COMPILE_PREPEND_FILES:stratix10 = " bl31.bin "
 
 DEPLOY_APPEND_FILES = ""
 
