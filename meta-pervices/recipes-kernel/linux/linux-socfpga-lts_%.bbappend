@@ -21,7 +21,7 @@ INSANE_SKIP:${PN}-src = "buildpaths"
 COMPATIBLE_MACHINE = "(chestnut|cyan|stratix10_htile)"
 
 do_deploy:append() {
-    if [ "${MACHINEOVERRIDES}" = *"stratix10"* ]; then
+    if [[ "${MACHINEOVERRIDES}" == *"stratix10"* ]]; then
         soc_name="stratix10_htile"
     fi
     # linux.dtb

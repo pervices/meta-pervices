@@ -17,5 +17,5 @@ inherit cmake
 EXTRA_OECMAKE += "-DPLATFORM=linux-aarch64"
 
 do_install(){
-    cmake --install ${B} --prefix=${D} --component uniLibRSU_client_Runtime
+    cmake --install ${B} --prefix=${D} --component uniLibRSU_client_Runtime_GSRD
 }
